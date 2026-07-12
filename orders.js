@@ -40,7 +40,9 @@ function createOrderId(customer) {
 
 
     if (!name) {
+
         name = "ΧΩΡΙΣ-ΠΕΛΑΤΗ";
+
     }
 
 
@@ -61,7 +63,6 @@ function createOrderId(customer) {
 
 
 // Οριστικοποίηση παραγγελίας
-// Θα ενεργοποιηθεί στο επόμενο στάδιο
 
 function finalizeOrder(index) {
 
@@ -74,7 +75,9 @@ function finalizeOrder(index) {
 
 
     if (!drafts[index]) {
+
         return;
+
     }
 
 
@@ -92,6 +95,11 @@ function finalizeOrder(index) {
 
 
     showDrafts();
+
+
+    alert(
+        "Η παραγγελία οριστικοποιήθηκε"
+    );
 
 }
 
@@ -112,7 +120,9 @@ function lockOrder(index) {
 
 
     if (!drafts[index]) {
+
         return;
+
     }
 
 
@@ -129,6 +139,11 @@ function lockOrder(index) {
 
 
     showDrafts();
+
+
+    alert(
+        "Η παραγγελία κλειδώθηκε"
+    );
 
 }
 
@@ -149,7 +164,9 @@ function unlockOrder(index) {
 
 
     if (!drafts[index]) {
+
         return;
+
     }
 
 
@@ -166,5 +183,10 @@ function unlockOrder(index) {
 
 
     showDrafts();
+
+
+    alert(
+        "Η παραγγελία ξεκλειδώθηκε"
+    );
 
 }

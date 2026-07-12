@@ -252,7 +252,7 @@ if (order.notes && order.notes.trim() !== "") {
 
 }
 
-
+return doc;
 
 }
 
@@ -261,16 +261,12 @@ if (order.notes && order.notes.trim() !== "") {
 
 function downloadPDF(order) {
 
+    let doc = createPDF(order);
 
-    createPDF(order);
-
-
-    let fileName =
+    doc.save(
         "Παραγγελία-" +
         order.number +
-        ".pdf";
-
-
-    doc.save(fileName);
+        ".pdf"
+    );
 
 }

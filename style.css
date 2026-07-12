@@ -104,3 +104,11 @@ h2 {
     font-size: 22px;
     font-weight: bold;
 }
+
+#draftList button {
+    width: auto;
+    display: inline-block;
+    margin: 5px 2px;
+    padding: 8px 12px;
+    font-size: 14px;
+}

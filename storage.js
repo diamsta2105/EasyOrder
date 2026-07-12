@@ -5,6 +5,8 @@ let editingOrderIndex = null;
 
 
 
+
+
 // Αποθήκευση πρόχειρης ή αλλαγών
 
 function saveDraft() {
@@ -200,6 +202,13 @@ function showDrafts() {
 
 
 
+        let lockText =
+            order.locked
+            ? "🔒 Κλειδωμένη"
+            : "🔓 Ξεκλείδωτη";
+
+
+
         item.innerHTML = `
 
 <b>${order.id}</b><br>
@@ -211,11 +220,30 @@ ${order.customer}<br>
 ${order.total}<br>
 
 Κατάσταση:
-${order.status}<br><br>
+${order.status}<br>
+
+${lockText}
+
+<br><br>
 
 
 <button onclick="openOrder(${index})">
 ✏️ Άνοιγμα
+</button>
+
+
+<button onclick="finalizeOrder(${index})">
+✅ Οριστικοποίηση
+</button>
+
+
+<button onclick="lockOrder(${index})">
+🔒 Κλείδωμα
+</button>
+
+
+<button onclick="unlockOrder(${index})">
+🔓 Ξεκλείδωμα
 </button>
 
 
@@ -411,5 +439,6 @@ function deleteOrder(index) {
 
 
     showDrafts();
+
 
 }

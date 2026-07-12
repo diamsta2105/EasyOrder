@@ -2,12 +2,14 @@
 <html lang="el">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Easy Order</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>Easy Order</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 
@@ -15,15 +17,20 @@
 
 
 <header>
-    <h1>FÖRCH</h1>
-    <p>Easy Order</p>
+
+<h1>FÖRCH</h1>
+
+<p>Easy Order</p>
+
 </header>
+
 
 
 
 <section>
 
 <h2>Στοιχεία Παραγγελίας</h2>
+
 
 <label>Ημερομηνία</label>
 <input type="date" id="date">
@@ -42,42 +49,55 @@
 
 
 
+
 <section>
+
 
 <h2>Προϊόντα</h2>
 
 
 <table>
 
+
 <thead>
 
 <tr>
+
 <th>Κωδικός</th>
 <th>Περιγραφή</th>
 <th>Ποσ.</th>
 <th>Αρχική</th>
 <th>Έκπτωση</th>
 <th>Τελική</th>
+
 </tr>
 
 </thead>
 
 
+
 <tbody id="products">
+
 
 
 <tr>
 
+
 <td>
+
 <input 
 type="text"
 class="code"
 placeholder="Κωδικός"
 onblur="findProduct(this)">
+
 </td>
 
 
+
+
 <td>
+
 
 <input 
 type="text"
@@ -85,45 +105,63 @@ class="description"
 placeholder="Περιγραφή"
 oninput="searchDescription(this)">
 
+
 <div class="suggestions"></div>
+
 
 </td>
 
 
+
+
 <td>
-<input 
+
+<input
 type="number"
 class="quantity"
 value="1"
 oninput="calculateRow(this.closest('tr'))">
+
 </td>
 
 
+
+
 <td>
-<input 
+
+<input
 type="number"
 class="price"
 placeholder="0.00"
 oninput="calculateRow(this.closest('tr'))">
+
 </td>
 
 
+
+
 <td>
-<input 
+
+<input
 type="number"
 class="discount"
 placeholder="%"
 oninput="calculateRow(this.closest('tr'))">
+
 </td>
+
+
 
 
 <td>
-<input 
+
+<input
 type="number"
 class="finalPrice"
-placeholder="0.00"
 readonly>
+
 </td>
+
 
 
 </tr>
@@ -141,8 +179,8 @@ readonly>
 </button>
 
 
-
 </section>
+
 
 
 
@@ -150,15 +188,20 @@ readonly>
 
 <section>
 
-<h2>Σύνολο Παραγγελίας</h2>
 
-<p>
-Τελικό ποσό:
-<strong id="total">0,00 €</strong>
-</p>
+<h2>Σύνολο</h2>
+
+
+<h3 id="total">
+
+0,00 €
+
+</h3>
+
 
 
 </section>
+
 
 
 
@@ -166,28 +209,43 @@ readonly>
 
 <section>
 
-<h2>Σύνολο Ημέρας</h2>
 
-<p>
-Παραγγελίες σήμερα:
-<strong id="dayOrders">0</strong>
-</p>
+<h2>Αποθήκευση</h2>
 
-<p>
-Τζίρος σήμερα:
-<strong id="dayTotal">0,00 €</strong>
-</p>
+
+
+<button onclick="saveDraft()">
+
+💾 Αποθήκευση πρόχειρης
+
+</button>
+
+
+
+<button onclick="showDrafts()">
+
+📂 Πρόχειρες παραγγελίες
+
+</button>
+
+
+
+<div id="draftList"></div>
+
 
 
 </section>
+
 
 
 
 
 <script src="data.js"></script>
+
 <script src="app.js"></script>
 
 
 </body>
+
 
 </html>

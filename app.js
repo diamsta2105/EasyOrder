@@ -1,11 +1,12 @@
 // Αυτόματη ημερομηνία
-window.onload = function() {
+
+window.onload = function () {
 
     let today = new Date();
 
     let year = today.getFullYear();
-    let month = String(today.getMonth() + 1).padStart(2, '0');
-    let day = String(today.getDate()).padStart(2, '0');
+    let month = String(today.getMonth() + 1).padStart(2, "0");
+    let day = String(today.getDate()).padStart(2, "0");
 
     document.getElementById("date").value =
         year + "-" + month + "-" + day;
@@ -13,50 +14,186 @@ window.onload = function() {
 };
 
 
-// Προσθήκη νέας γραμμής προϊόντος
-function addProduct() {
 
-    let table = document.getElementById("products");
 
-    let row = table.insertRow();
+// Αναζήτηση προϊόντος με κωδικό
 
-    row.innerHTML = `
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="number" value="1"></td>
-        <td><input type="number"></td>
-        <td><input type="number"></td>
-        <td><input type="number"></td>
-    `;
+function findProduct(element) {
+
+    let code = element.value.trim();
+
+    let product = productsDatabase.find(
+        item => item.code === code
+    );
+
+
+    if (product) {
+
+        let row = element.closest("tr");
+
+
+        row.querySelector(".description").value =
+            product.description;
+
+
+        row.querySelector(".price").value =
+            product.price;
+
+
+        row.querySelector(".discount").value =
+            product.discount;
+
+
+        calculateRow(row);
+
+    }
 
 }
 
 
-// Υπολογισμός συνόλου
+
+
+// Υπολογισμός γραμμής προϊόντος
+
+function calculateRow(row) {
+
+
+    let quantity =
+        Number(row.querySelector(".quantity").value) || 0;
+
+
+    let price =
+        Number(row.querySelector(".price").value) || 0;
+
+
+    let discount =
+        Number(row.querySelector(".discount").value) || 0;
+
+
+
+    let final =
+        quantity * price * (1 - discount / 100);
+
+
+
+    row.querySelector(".finalPrice").value =
+        final.toFixed(2);
+
+
+
+    calculateTotal();
+
+}
+
+
+
+
+
+// Συνολικό ποσό παραγγελίας
+
 function calculateTotal() {
+
 
     let total = 0;
 
-    let rows = document.querySelectorAll("#products tr");
+
+    let rows =
+        document.querySelectorAll("#products tr");
+
 
 
     rows.forEach(function(row) {
 
-        let quantity = row.cells[2]?.querySelector("input")?.value || 0;
-        let price = row.cells[3]?.querySelector("input")?.value || 0;
-        let discount = row.cells[4]?.querySelector("input")?.value || 0;
+
+        let value =
+            Number(
+                row.querySelector(".finalPrice")?.value
+            ) || 0;
 
 
-        let finalPrice =
-            quantity * price * (1 - discount / 100);
+        total += value;
 
-
-        total += finalPrice;
 
     });
 
 
+
     document.getElementById("total").innerText =
         total.toFixed(2) + " €";
+
+}
+
+
+
+
+
+// Προσθήκη νέας γραμμής προϊόντος
+
+function addProduct() {
+
+
+    let table =
+        document.getElementById("products");
+
+
+    let row =
+        table.insertRow();
+
+
+
+    row.innerHTML = `
+
+<td>
+<input 
+type="text"
+class="code"
+placeholder="Κωδικός"
+onblur="findProduct(this)">
+</td>
+
+
+<td>
+<input 
+type="text"
+class="description"
+placeholder="Περιγραφή">
+</td>
+
+
+<td>
+<input 
+type="number"
+class="quantity"
+value="1"
+oninput="calculateRow(this.closest('tr'))">
+</td>
+
+
+<td>
+<input 
+type="number"
+class="price"
+placeholder="0.00"
+oninput="calculateRow(this.closest('tr'))">
+</td>
+
+
+<td>
+<input 
+type="number"
+class="discount"
+placeholder="%"
+oninput="calculateRow(this.closest('tr'))">
+</td>
+
+
+<td>
+<input 
+type="number"
+class="finalPrice"
+readonly>
+</td>
+
+`;
 
 }

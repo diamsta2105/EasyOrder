@@ -1,94 +1,150 @@
 <!DOCTYPE html>
 <html lang="el">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FÖRCH Order</title>
+
+    <title>Easy Order</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 
 <body>
 
+
 <header>
     <h1>FÖRCH</h1>
-    <p>Παραγγελία Πωλητή</p>
+    <p>Παραγγελιοληψία Πωλητή</p>
 </header>
 
+
+
 <section>
-    <label>Ημερομηνία:</label>
-    <input type="date" id="date">
 
-    <label>Περιοχή:</label>
-    <input type="text" id="area" placeholder="Περιοχή">
+<h2>Στοιχεία Παραγγελίας</h2>
 
-    <label>Πελάτης:</label>
-    <input type="text" id="customer" placeholder="Επωνυμία πελάτη">
+<label>Ημερομηνία</label>
+<input type="date" id="date">
+
+
+<label>Περιοχή</label>
+<input type="text" id="area" placeholder="Περιοχή">
+
+
+<label>Πελάτης</label>
+<input type="text" id="customer" placeholder="Επωνυμία πελάτη">
+
+
 </section>
+
+
 
 
 <section>
 
 <h2>Προϊόντα</h2>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>Κωδικός</th>
-            <th>Περιγραφή</th>
-            <th>Ποσότητα</th>
-            <th>Τιμή</th>
-            <th>Έκπτωση</th>
-            <th>Τελική</th>
-        </tr>
-    </thead>
 
-    <tbody id="products">
-        <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="number" value="1"></td>
-            <td><input type="number"></td>
-            <td><input type="number"></td>
-            <td><input type="number"></td>
-        </tr>
-    </tbody>
+<table>
+
+<thead>
+
+<tr>
+<th>Κωδικός</th>
+<th>Περιγραφή</th>
+<th>Ποσ.</th>
+<th>Αρχική Τιμή</th>
+<th>Έκπτωση</th>
+<th>Τελική Τιμή</th>
+</tr>
+
+</thead>
+
+
+<tbody id="products">
+
+<tr>
+
+<td><input type="text" placeholder="Κωδικός"></td>
+
+<td><input type="text" placeholder="Περιγραφή"></td>
+
+<td><input type="number" value="1"></td>
+
+<td><input type="number" placeholder="0.00"></td>
+
+<td><input type="number" placeholder="%"></td>
+
+<td><input type="number" placeholder="0.00"></td>
+
+</tr>
+
+
+</tbody>
+
 
 </table>
 
-<button>
-Προσθήκη προϊόντος
+
+<button onclick="addProduct()">
++ Προσθήκη προϊόντος
 </button>
 
+
 </section>
+
+
 
 
 <section>
 
 <h2>Σύνολο Παραγγελίας</h2>
 
+
 <p>
 Τελικό ποσό:
-<span id="total">0,00 €</span>
+<strong id="total">
+0,00 €
+</strong>
 </p>
 
+
 </section>
+
+
 
 
 <section>
 
 <h2>Σύνολο Ημέρας</h2>
 
+
 <p>
 Παραγγελίες σήμερα:
-<span>0</span>
+<strong id="dayOrders">
+0
+</strong>
 </p>
+
 
 <p>
 Τζίρος σήμερα:
-<span>0,00 €</span>
+<strong id="dayTotal">
+0,00 €
+</strong>
 </p>
+
 
 </section>
 
 
+
+
+<script src="app.js"></script>
+
+
 </body>
+
 </html>

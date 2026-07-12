@@ -25,7 +25,6 @@
 
 <h2>Στοιχεία Παραγγελίας</h2>
 
-
 <label>Ημερομηνία</label>
 <input type="date" id="date">
 
@@ -79,10 +78,15 @@ onblur="findProduct(this)">
 
 
 <td>
+
 <input 
 type="text"
 class="description"
-placeholder="Περιγραφή">
+placeholder="Περιγραφή"
+oninput="searchDescription(this)">
+
+<div class="suggestions"></div>
+
 </td>
 
 
@@ -148,12 +152,9 @@ readonly>
 
 <h2>Σύνολο Παραγγελίας</h2>
 
-
 <p>
 Τελικό ποσό:
-<strong id="total">
-0,00 €
-</strong>
+<strong id="total">0,00 €</strong>
 </p>
 
 
@@ -167,20 +168,14 @@ readonly>
 
 <h2>Σύνολο Ημέρας</h2>
 
-
 <p>
 Παραγγελίες σήμερα:
-<strong id="dayOrders">
-0
-</strong>
+<strong id="dayOrders">0</strong>
 </p>
-
 
 <p>
 Τζίρος σήμερα:
-<strong id="dayTotal">
-0,00 €
-</strong>
+<strong id="dayTotal">0,00 €</strong>
 </p>
 
 

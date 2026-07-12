@@ -1,167 +1,276 @@
-// Easy Order - PDF Management
+// pdf.js
+
+function createPDF(order) {
+
+    const { jsPDF } = window.jspdf;
 
 
-function createPDF(index) {
+    let doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+    });
 
 
-    let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
+    let pageWidth = doc.internal.pageSize.getWidth();
 
 
+    // Ελληνική γραμματοσειρά
+    doc.addFont(
+        "NotoSans-Regular.ttf",
+        "NotoSans",
+        "normal"
+    );
 
-    let order =
-        drafts[index];
-
-
-
-    if (!order) {
-
-        return;
-
-    }
-
+    doc.setFont(
+        "NotoSans"
+    );
 
 
-    const { jsPDF } =
-        window.jspdf;
+    let y = 15;
 
 
+    // Κεφαλίδα
 
-    let doc =
-        new jsPDF();
+    doc.setFontSize(14);
 
+    doc.text(
+        "FÖRCH",
+        15,
+        y
+    );
+
+
+    doc.text(
+        "Easy Order",
+        pageWidth - 45,
+        y
+    );
+
+
+    y += 10;
 
 
     doc.setFontSize(18);
 
     doc.text(
-        "FÖRCH - Easy Order",
-        20,
-        20
+        "ΔΕΛΤΙΟ ΠΑΡΑΓΓΕΛΙΑΣ",
+        pageWidth / 2,
+        y,
+        {
+            align: "center"
+        }
     );
 
 
+    y += 12;
 
-    doc.setFontSize(12);
 
+    doc.setFontSize(10);
+    // Στοιχεία παραγγελίας
 
     doc.text(
-        "Παραγγελία: " + order.id,
-        20,
-        35
+        "Αριθμός:",
+        15,
+        y
     );
 
-
     doc.text(
-        "Πελάτης: " + order.customer,
-        20,
-        45
-    );
-
-
-    doc.text(
-        "Περιοχή: " + order.area,
-        20,
-        55
-    );
-
-
-    doc.text(
-        "Ημερομηνία: " + order.date,
-        20,
-        65
-    );
-
-
-
-    let y = 85;
-
-
-
-    doc.text(
-        "Κωδικός",
-        20,
+        String(order.number),
+        45,
         y
     );
 
 
+    y += 6;
+
+
     doc.text(
-        "Περιγραφή",
-        50,
+        "Ημερομηνία:",
+        15,
+        y
+    );
+
+    doc.text(
+        order.date,
+        45,
         y
     );
 
 
+    y += 6;
+
+
     doc.text(
-        "Ποσ.",
-        120,
+        "Πελάτης:",
+        15,
+        y
+    );
+
+    doc.text(
+        order.customer,
+        45,
         y
     );
 
 
+    y += 6;
+
+
     doc.text(
-        "Τελική",
-        150,
+        "Περιοχή:",
+        15,
         y
     );
 
+    doc.text(
+        order.area,
+        45,
+        y
+    );
 
 
     y += 10;
 
 
 
+    // Πίνακας προϊόντων
+
+    let columns = [
+        "Κωδικός",
+        "Περιγραφή",
+        "Ποσ.",
+        "Τιμή",
+        "Έκπτωση",
+        "Σύνολο"
+    ];
+
+
+    let rows = [];
+
+
     order.products.forEach(product => {
 
+        rows.push([
 
-        doc.text(
             product.code,
-            20,
-            y
-        );
 
-
-        doc.text(
             product.description,
-            50,
-            y
-        );
 
+            product.quantity,
 
-        doc.text(
-            String(product.quantity),
-            120,
-            y
-        );
+            product.price,
 
+            product.discount + "%",
 
-        doc.text(
-            product.finalPrice + " €",
-            150,
-            y
-        );
+            product.finalPrice
 
-
-        y += 10;
-
+        ]);
 
     });
 
 
 
+    doc.autoTable({
+
+        startY: y,
+
+        head: [columns],
+
+        body: rows,
+
+        styles: {
+            font: "NotoSans",
+            fontSize: 8
+        },
+
+        headStyles: {
+            font: "NotoSans"
+        }
+
+    });
+
+
+    y =
+    doc.lastAutoTable.finalY + 10;
+// Σύνολο παραγγελίας
+
+doc.setFontSize(12);
+
+doc.text(
+    "Σύνολο:",
+    15,
+    y
+);
+
+
+doc.text(
+    order.total,
+    45,
+    y
+);
+
+
+y += 10;
+
+
+
+// Παρατηρήσεις (μόνο αν υπάρχουν)
+
+if (order.notes && order.notes.trim() !== "") {
+
+
+    doc.setFontSize(11);
+
+
     doc.text(
-        "Σύνολο: " + order.total,
-        20,
-        y + 10
+        "Παρατηρήσεις:",
+        15,
+        y
     );
 
 
+    y += 6;
 
-    doc.save(
-        order.id + ".pdf"
+
+    doc.setFontSize(10);
+
+
+    let notes =
+        doc.splitTextToSize(
+            order.notes,
+            170
+        );
+
+
+    doc.text(
+        notes,
+        15,
+        y
     );
 
+
+}
+
+
+
+}
+
+
+// Δημιουργία αρχείου PDF
+
+function downloadPDF(order) {
+
+
+    createPDF(order);
+
+
+    let fileName =
+        "Παραγγελία-" +
+        order.number +
+        ".pdf";
+
+
+    doc.save(fileName);
 
 }

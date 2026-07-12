@@ -44,7 +44,7 @@ function findProduct(element) {
 
 
         row.querySelector(".discount").value =
-            product.discount || 0;
+    "";
 
 
         calculateRow(row);
@@ -122,9 +122,8 @@ function searchDescription(element) {
                 Number(product.price).toFixed(2);
 
 
-
             row.querySelector(".discount").value =
-                product.discount || 0;
+    "";
 
 
 

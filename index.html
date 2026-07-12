@@ -38,7 +38,6 @@
 <input type="text" id="customer" placeholder="Επωνυμία πελάτη">
 
 
-
 </section>
 
 
@@ -72,7 +71,7 @@
 
 <td>
 <input 
-type="text" 
+type="text"
 class="code"
 placeholder="Κωδικός"
 onblur="findProduct(this)">
@@ -92,7 +91,7 @@ placeholder="Περιγραφή">
 type="number"
 class="quantity"
 value="1"
-oninput="calculateTotal()">
+oninput="calculateRow(this.closest('tr'))">
 </td>
 
 
@@ -101,7 +100,7 @@ oninput="calculateTotal()">
 type="number"
 class="price"
 placeholder="0.00"
-oninput="calculateTotal()">
+oninput="calculateRow(this.closest('tr'))">
 </td>
 
 
@@ -110,7 +109,7 @@ oninput="calculateTotal()">
 type="number"
 class="discount"
 placeholder="%"
-oninput="calculateTotal()">
+oninput="calculateRow(this.closest('tr'))">
 </td>
 
 
@@ -186,7 +185,6 @@ readonly>
 
 
 </section>
-
 
 
 

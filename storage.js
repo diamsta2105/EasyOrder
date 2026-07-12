@@ -195,6 +195,7 @@ function showDrafts() {
             document.createElement("div");
 
 
+
         item.style.border = "1px solid #ccc";
         item.style.padding = "10px";
         item.style.marginTop = "10px";
@@ -244,6 +245,11 @@ ${lockText}
 
 <button onclick="unlockOrder(${index})">
 🔓 Ξεκλείδωμα
+</button>
+
+
+<button onclick="createPDF(${index})">
+📄 Δημιουργία PDF
 </button>
 
 
@@ -330,13 +336,11 @@ function openOrder(index) {
         row.innerHTML = `
 
 <td>
-
 <input 
 type="text"
 class="code"
 value="${product.code}"
 onblur="findProduct(this)">
-
 </td>
 
 

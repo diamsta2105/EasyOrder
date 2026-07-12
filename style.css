@@ -112,3 +112,14 @@ h2 {
     padding: 8px 12px;
     font-size: 14px;
 }
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    resize: vertical;
+}

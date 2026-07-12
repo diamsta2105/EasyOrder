@@ -1,7 +1,11 @@
 // Easy Order - Storage Management
 
 
-// Αποθήκευση πρόχειρης παραγγελίας
+let editingOrderIndex = null;
+
+
+
+// Αποθήκευση πρόχειρης ή αλλαγών
 
 function saveDraft() {
 
@@ -19,7 +23,7 @@ function saveDraft() {
 
 
         number:
-        currentOrderNumber++,
+        currentOrderNumber,
 
 
         date:
@@ -81,7 +85,6 @@ function saveDraft() {
             finalPrice:
             row.querySelector(".finalPrice").value
 
-
         });
 
 
@@ -96,7 +99,56 @@ function saveDraft() {
 
 
 
-    drafts.push(order);
+    if (editingOrderIndex !== null) {
+
+
+        order.number =
+            drafts[editingOrderIndex].number;
+
+
+        order.id =
+            drafts[editingOrderIndex].id;
+
+
+        order.status =
+            drafts[editingOrderIndex].status;
+
+
+        order.locked =
+            drafts[editingOrderIndex].locked;
+
+
+        drafts[editingOrderIndex] =
+            order;
+
+
+        alert(
+            "Οι αλλαγές αποθηκεύτηκαν"
+        );
+
+
+    } else {
+
+
+        order.number =
+            currentOrderNumber++;
+
+
+        drafts.push(order);
+
+
+
+        localStorage.setItem(
+            "currentOrderNumber",
+            currentOrderNumber
+        );
+
+
+        alert(
+            "Η πρόχειρη παραγγελία αποθηκεύτηκε"
+        );
+
+    }
 
 
 
@@ -105,18 +157,6 @@ function saveDraft() {
         JSON.stringify(drafts)
     );
 
-
-
-    localStorage.setItem(
-        "currentOrderNumber",
-        currentOrderNumber
-    );
-
-
-
-    alert(
-        "Η πρόχειρη παραγγελία αποθηκεύτηκε"
-    );
 
 }
 
@@ -157,6 +197,7 @@ function showDrafts() {
         item.style.padding = "10px";
         item.style.marginTop = "10px";
         item.style.borderRadius = "8px";
+
 
 
         item.innerHTML = `
@@ -200,7 +241,7 @@ ${order.status}<br><br>
 
 
 
-// Άνοιγμα αποθηκευμένης παραγγελίας
+// Άνοιγμα παραγγελίας
 
 function openOrder(index) {
 
@@ -220,6 +261,10 @@ function openOrder(index) {
     if (!order) {
         return;
     }
+
+
+
+    editingOrderIndex = index;
 
 
 
@@ -333,6 +378,7 @@ readonly>
 
     calculateTotal();
 
+
 }
 
 
@@ -365,6 +411,5 @@ function deleteOrder(index) {
 
 
     showDrafts();
-
 
 }

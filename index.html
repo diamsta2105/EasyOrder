@@ -16,7 +16,7 @@
 
 <header>
     <h1>FÖRCH</h1>
-    <p>Παραγγελιοληψία Πωλητή</p>
+    <p>Easy Order</p>
 </header>
 
 
@@ -24,6 +24,7 @@
 <section>
 
 <h2>Στοιχεία Παραγγελίας</h2>
+
 
 <label>Ημερομηνία</label>
 <input type="date" id="date">
@@ -35,6 +36,7 @@
 
 <label>Πελάτης</label>
 <input type="text" id="customer" placeholder="Επωνυμία πελάτη">
+
 
 
 </section>
@@ -55,9 +57,9 @@
 <th>Κωδικός</th>
 <th>Περιγραφή</th>
 <th>Ποσ.</th>
-<th>Αρχική Τιμή</th>
+<th>Αρχική</th>
 <th>Έκπτωση</th>
-<th>Τελική Τιμή</th>
+<th>Τελική</th>
 </tr>
 
 </thead>
@@ -65,19 +67,61 @@
 
 <tbody id="products">
 
+
 <tr>
 
-<td><input type="text" placeholder="Κωδικός"></td>
+<td>
+<input 
+type="text" 
+class="code"
+placeholder="Κωδικός"
+onblur="findProduct(this)">
+</td>
 
-<td><input type="text" placeholder="Περιγραφή"></td>
 
-<td><input type="number" value="1"></td>
+<td>
+<input 
+type="text"
+class="description"
+placeholder="Περιγραφή">
+</td>
 
-<td><input type="number" placeholder="0.00"></td>
 
-<td><input type="number" placeholder="%"></td>
+<td>
+<input 
+type="number"
+class="quantity"
+value="1"
+oninput="calculateTotal()">
+</td>
 
-<td><input type="number" placeholder="0.00"></td>
+
+<td>
+<input 
+type="number"
+class="price"
+placeholder="0.00"
+oninput="calculateTotal()">
+</td>
+
+
+<td>
+<input 
+type="number"
+class="discount"
+placeholder="%"
+oninput="calculateTotal()">
+</td>
+
+
+<td>
+<input 
+type="number"
+class="finalPrice"
+placeholder="0.00"
+readonly>
+</td>
+
 
 </tr>
 
@@ -88,12 +132,15 @@
 </table>
 
 
+
 <button onclick="addProduct()">
 + Προσθήκη προϊόντος
 </button>
 
 
+
 </section>
+
 
 
 
@@ -112,6 +159,7 @@
 
 
 </section>
+
 
 
 
@@ -142,6 +190,8 @@
 
 
 
+
+<script src="data.js"></script>
 <script src="app.js"></script>
 
 

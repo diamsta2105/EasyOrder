@@ -39,6 +39,9 @@ function saveDraft() {
         customer:
         customer,
 
+        notes:
+document.getElementById("notes").value,
+    
 
         total:
         document.getElementById("total").innerText,
@@ -314,6 +317,9 @@ function openOrder(index) {
 
     document.getElementById("customer").value =
         order.customer;
+
+    document.getElementById("notes").value =
+    order.notes || "";
 
 
 

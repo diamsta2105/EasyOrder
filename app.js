@@ -1,42 +1,123 @@
-let currentOrderNumber = 1;
+let currentOrderNumber =
+    Number(localStorage.getItem("currentOrderNumber")) || 1;
+// Δημιουργία κωδικού παραγγελίας
+function createOrderId(customer) {
+let today = new Date();
+
+let year = today.getFullYear();
+
+let day = String(today.getDate()).padStart(2, "0");
+
+let month = String(today.getMonth() + 1).padStart(2, "0");
 
 
+let name = customer
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, "-");
+
+
+return year + "-" + day + month + "-" + name;
+
+}
 // Ημερομηνία
-
 window.onload = function () {
+let today = new Date();
 
-    let today = new Date();
+let year = today.getFullYear();
+let month = String(today.getMonth() + 1).padStart(2, "0");
+let day = String(today.getDate()).padStart(2, "0");
 
-    let year = today.getFullYear();
-    let month = String(today.getMonth() + 1).padStart(2, "0");
-    let day = String(today.getDate()).padStart(2, "0");
-
-    document.getElementById("date").value =
-        year + "-" + month + "-" + day;
+document.getElementById("date").value =
+    year + "-" + month + "-" + day;
 
 };
-
-
-
-
 // Αναζήτηση με κωδικό
-
 function findProduct(element) {
+let code = element.value.trim();
 
-    let code = element.value.trim();
+let product = productsDatabase.find(
+    item => item.code === code
+);
 
-    let product = productsDatabase.find(
-        item => item.code === code
+
+if (product) {
+
+    let row = element.closest("tr");
+
+
+    row.querySelector(".description").value =
+        product.description;
+
+
+    row.querySelector(".price").value =
+        Number(product.price).toFixed(2);
+
+
+    row.querySelector(".discount").value =
+        product.discount || "";
+
+
+    calculateRow(row);
+
+}
+
+}
+// Αναζήτηση με περιγραφή
+function searchDescription(element) {
+let text = element.value.toLowerCase();
+
+
+let box =
+    element.parentElement.querySelector(".suggestions");
+
+
+box.innerHTML = "";
+
+
+if (text.length < 2) {
+    return;
+}
+
+
+
+let results =
+    productsDatabase.filter(product =>
+        product.description
+        .toLowerCase()
+        .includes(text)
     );
 
 
-    if (product) {
 
-        let row = element.closest("tr");
+results.forEach(product => {
 
 
-        row.querySelector(".description").value =
+    let option =
+        document.createElement("div");
+
+
+    option.innerText =
+        product.description;
+
+
+
+    option.onclick = function () {
+
+
+        let row =
+            element.closest("tr");
+
+
+
+        element.value =
             product.description;
+
+
+
+        row.querySelector(".code").value =
+            product.code;
+
 
 
         row.querySelector(".price").value =
@@ -44,109 +125,25 @@ function findProduct(element) {
 
 
         row.querySelector(".discount").value =
-    "";
+            product.discount || "";
+
+
+
+        box.innerHTML = "";
 
 
         calculateRow(row);
 
-    }
+    };
+
+
+
+    box.appendChild(option);
+
+
+});
 
 }
-
-
-
-
-
-
-// Αναζήτηση με περιγραφή
-
-function searchDescription(element) {
-
-
-    let text = element.value.toLowerCase();
-
-
-    let box =
-        element.parentElement.querySelector(".suggestions");
-
-
-    box.innerHTML = "";
-
-
-    if (text.length < 2) {
-        return;
-    }
-
-
-
-    let results =
-        productsDatabase.filter(product =>
-            product.description
-            .toLowerCase()
-            .includes(text)
-        );
-
-
-
-    results.forEach(product => {
-
-
-        let option =
-            document.createElement("div");
-
-
-        option.innerText =
-            product.description;
-
-
-
-        option.onclick = function () {
-
-
-            let row =
-                element.closest("tr");
-
-
-
-            element.value =
-                product.description;
-
-
-
-            row.querySelector(".code").value =
-                product.code;
-
-
-
-            row.querySelector(".price").value =
-                Number(product.price).toFixed(2);
-
-
-            row.querySelector(".discount").value =
-    "";
-
-
-
-            box.innerHTML = "";
-
-
-            calculateRow(row);
-
-        };
-
-
-
-        box.appendChild(option);
-
-
-    });
-
-}
-
-
-
-
-
 
 
 // Υπολογισμός γραμμής
@@ -309,15 +306,26 @@ readonly>
 
 
 
-// Αποθήκευση πρόχειρης
+
+// Αποθήκευση πρόχειρης παραγγελίας
 
 function saveDraft() {
+
+
+    let customer =
+        document.getElementById("customer").value;
+
 
 
     let order = {
 
 
-        number: currentOrderNumber++,
+        id:
+        createOrderId(customer),
+
+
+        number:
+        currentOrderNumber++,
 
 
         date:
@@ -329,7 +337,7 @@ function saveDraft() {
 
 
         customer:
-        document.getElementById("customer").value,
+        customer,
 
 
         total:
@@ -338,6 +346,10 @@ function saveDraft() {
 
         status:
         "Πρόχειρη",
+
+
+        locked:
+        false,
 
 
         products: []
@@ -369,7 +381,11 @@ function saveDraft() {
 
 
             discount:
-            row.querySelector(".discount").value
+            row.querySelector(".discount").value,
+
+
+            finalPrice:
+            row.querySelector(".finalPrice").value
 
 
         });
@@ -396,18 +412,21 @@ function saveDraft() {
     );
 
 
+    localStorage.setItem(
+        "currentOrderNumber",
+        currentOrderNumber
+    );
 
-    alert("Η πρόχειρη παραγγελία αποθηκεύτηκε");
+
+
+    alert(
+        "Η πρόχειρη παραγγελία αποθηκεύτηκε"
+    );
 
 }
 
 
-
-
-
-
-
-// Εμφάνιση πρόχειρων
+// Εμφάνιση παραγγελιών
 
 function showDrafts() {
 
@@ -427,19 +446,43 @@ function showDrafts() {
 
 
 
-    drafts.forEach(order => {
+    drafts.forEach((order, index) => {
 
 
         let item =
         document.createElement("div");
 
 
-        item.innerText =
-        "Νο " + order.number +
-        " - " +
-        order.customer +
-        " - " +
-        order.total;
+        item.style.border = "1px solid #ccc";
+        item.style.padding = "10px";
+        item.style.marginTop = "10px";
+        item.style.borderRadius = "8px";
+
+
+        item.innerHTML = `
+
+<b>${order.id}</b><br>
+
+Πελάτης:
+${order.customer}<br>
+
+Σύνολο:
+${order.total}<br>
+
+Κατάσταση:
+${order.status}<br><br>
+
+
+<button onclick="openOrder(${index})">
+✏️ Άνοιγμα
+</button>
+
+
+<button onclick="deleteOrder(${index})">
+🗑 Διαγραφή
+</button>
+
+`;
 
 
 
@@ -447,6 +490,183 @@ function showDrafts() {
 
 
     });
+
+
+}
+
+
+
+
+
+
+
+// Άνοιγμα αποθηκευμένης παραγγελίας
+
+function openOrder(index) {
+
+
+    let drafts =
+        JSON.parse(
+            localStorage.getItem("draftOrders")
+        ) || [];
+
+
+
+    let order =
+        drafts[index];
+
+
+
+    if (!order) {
+        return;
+    }
+
+
+
+    document.getElementById("date").value =
+        order.date;
+
+
+
+    document.getElementById("area").value =
+        order.area;
+
+
+
+    document.getElementById("customer").value =
+        order.customer;
+
+
+
+    let table =
+        document.getElementById("products");
+
+
+    table.innerHTML = "";
+
+
+
+    order.products.forEach(product => {
+
+
+        let row =
+            table.insertRow();
+
+
+
+        row.innerHTML = `
+
+<td>
+
+<input 
+type="text"
+class="code"
+value="${product.code}"
+onblur="findProduct(this)">
+
+</td>
+
+
+<td>
+
+<input
+type="text"
+class="description"
+value="${product.description}"
+oninput="searchDescription(this)">
+
+<div class="suggestions"></div>
+
+</td>
+
+
+<td>
+
+<input
+type="number"
+class="quantity"
+value="${product.quantity}"
+oninput="calculateRow(this.closest('tr'))">
+
+</td>
+
+
+<td>
+
+<input
+type="number"
+class="price"
+value="${product.price}"
+oninput="calculateRow(this.closest('tr'))">
+
+</td>
+
+
+<td>
+
+<input
+type="number"
+class="discount"
+value="${product.discount}"
+oninput="calculateRow(this.closest('tr'))">
+
+</td>
+
+
+<td>
+
+<input
+type="number"
+class="finalPrice"
+value="${product.finalPrice}"
+readonly>
+
+</td>
+
+`;
+
+
+
+    });
+
+
+
+    calculateTotal();
+
+
+
+}
+
+
+
+
+
+
+
+// Διαγραφή παραγγελίας
+
+function deleteOrder(index) {
+
+
+    let drafts =
+        JSON.parse(
+            localStorage.getItem("draftOrders")
+        ) || [];
+
+
+
+    drafts.splice(index, 1);
+
+
+
+    localStorage.setItem(
+        "draftOrders",
+        JSON.stringify(drafts)
+    );
+
+
+
+    showDrafts();
 
 
 }

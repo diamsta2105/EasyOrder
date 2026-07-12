@@ -1,6 +1,7 @@
 let currentOrderNumber = 1;
 
 
+// Ημερομηνία
 
 window.onload = function () {
 
@@ -10,14 +11,10 @@ window.onload = function () {
     let month = String(today.getMonth() + 1).padStart(2, "0");
     let day = String(today.getDate()).padStart(2, "0");
 
-
     document.getElementById("date").value =
         year + "-" + month + "-" + day;
 
-
 };
-
-
 
 
 
@@ -26,18 +23,14 @@ window.onload = function () {
 
 function findProduct(element) {
 
-
     let code = element.value.trim();
-
 
     let product = productsDatabase.find(
         item => item.code === code
     );
 
 
-
     if (product) {
-
 
         let row = element.closest("tr");
 
@@ -47,12 +40,11 @@ function findProduct(element) {
 
 
         row.querySelector(".price").value =
-            product.price;
+            Number(product.price).toFixed(2);
 
 
         row.querySelector(".discount").value =
-            product.discount;
-
+            product.discount || 0;
 
 
         calculateRow(row);
@@ -66,7 +58,7 @@ function findProduct(element) {
 
 
 
-// Αναζήτηση περιγραφής
+// Αναζήτηση με περιγραφή
 
 function searchDescription(element) {
 
@@ -81,7 +73,9 @@ function searchDescription(element) {
     box.innerHTML = "";
 
 
-    if (text.length < 2) return;
+    if (text.length < 2) {
+        return;
+    }
 
 
 
@@ -125,17 +119,16 @@ function searchDescription(element) {
 
 
             row.querySelector(".price").value =
-                product.price;
+                Number(product.price).toFixed(2);
 
 
 
             row.querySelector(".discount").value =
-                product.discount;
+                product.discount || 0;
 
 
 
             box.innerHTML = "";
-
 
 
             calculateRow(row);
@@ -157,7 +150,7 @@ function searchDescription(element) {
 
 
 
-// Υπολογισμός προϊόντος
+// Υπολογισμός γραμμής
 
 function calculateRow(row) {
 
@@ -194,13 +187,13 @@ function calculateRow(row) {
 
 
 
-// Σύνολο
+
+// Σύνολο παραγγελίας
 
 function calculateTotal() {
 
 
     let total = 0;
-
 
 
     document.querySelectorAll("#products tr")
@@ -218,7 +211,6 @@ function calculateTotal() {
 
     document.getElementById("total").innerText =
         total.toFixed(2) + " €";
-
 
 }
 
@@ -244,30 +236,26 @@ function addProduct() {
 
     row.innerHTML = `
 
-
 <td>
-
 <input 
+type="text"
 class="code"
 placeholder="Κωδικός"
 onblur="findProduct(this)">
-
 </td>
 
 
 <td>
 
 <input 
+type="text"
 class="description"
 placeholder="Περιγραφή"
 oninput="searchDescription(this)">
 
-
 <div class="suggestions"></div>
 
-
 </td>
-
 
 
 <td>
@@ -281,7 +269,6 @@ oninput="calculateRow(this.closest('tr'))">
 </td>
 
 
-
 <td>
 
 <input 
@@ -291,7 +278,6 @@ placeholder="0.00"
 oninput="calculateRow(this.closest('tr'))">
 
 </td>
-
 
 
 <td>
@@ -305,15 +291,14 @@ oninput="calculateRow(this.closest('tr'))">
 </td>
 
 
-
 <td>
 
 <input 
+type="number"
 class="finalPrice"
 readonly>
 
 </td>
-
 
 `;
 
@@ -325,8 +310,7 @@ readonly>
 
 
 
-
-// Αποθήκευση πρόχειρης παραγγελίας
+// Αποθήκευση πρόχειρης
 
 function saveDraft() {
 
@@ -334,8 +318,7 @@ function saveDraft() {
     let order = {
 
 
-        number:
-        currentOrderNumber++,
+        number: currentOrderNumber++,
 
 
         date:
@@ -354,12 +337,13 @@ function saveDraft() {
         document.getElementById("total").innerText,
 
 
+        status:
+        "Πρόχειρη",
+
+
         products: []
 
-
     };
-
-
 
 
 
@@ -368,7 +352,6 @@ function saveDraft() {
 
 
         order.products.push({
-
 
             code:
             row.querySelector(".code").value,
@@ -397,8 +380,6 @@ function saveDraft() {
 
 
 
-
-
     let drafts =
         JSON.parse(
             localStorage.getItem("draftOrders")
@@ -417,13 +398,9 @@ function saveDraft() {
 
 
 
-    alert(
-        "Η πρόχειρη παραγγελία αποθηκεύτηκε"
-    );
-
+    alert("Η πρόχειρη παραγγελία αποθηκεύτηκε");
 
 }
-
 
 
 

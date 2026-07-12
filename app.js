@@ -16,7 +16,7 @@ window.onload = function () {
 
 
 
-// Αναζήτηση προϊόντος με κωδικό
+// Αναζήτηση προϊόντος
 
 function findProduct(element) {
 
@@ -49,6 +49,7 @@ function findProduct(element) {
     }
 
 }
+
 
 
 
@@ -89,7 +90,7 @@ function calculateRow(row) {
 
 
 
-// Συνολικό ποσό παραγγελίας
+// Συνολικό ποσό
 
 function calculateTotal() {
 
@@ -107,7 +108,7 @@ function calculateTotal() {
 
         let value =
             Number(
-                row.querySelector(".finalPrice")?.value
+                row.querySelector(".finalPrice").value
             ) || 0;
 
 
@@ -127,7 +128,7 @@ function calculateTotal() {
 
 
 
-// Προσθήκη νέας γραμμής προϊόντος
+// Προσθήκη προϊόντος
 
 function addProduct() {
 
@@ -196,4 +197,4 @@ readonly>
 
 `;
 
-}
+        }

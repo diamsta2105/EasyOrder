@@ -1,3 +1,7 @@
+let currentOrderNumber = 1;
+
+
+
 window.onload = function () {
 
     let today = new Date();
@@ -6,10 +10,14 @@ window.onload = function () {
     let month = String(today.getMonth() + 1).padStart(2, "0");
     let day = String(today.getDate()).padStart(2, "0");
 
+
     document.getElementById("date").value =
         year + "-" + month + "-" + day;
 
+
 };
+
+
 
 
 
@@ -18,25 +26,33 @@ window.onload = function () {
 
 function findProduct(element) {
 
+
     let code = element.value.trim();
+
 
     let product = productsDatabase.find(
         item => item.code === code
     );
 
 
+
     if (product) {
 
+
         let row = element.closest("tr");
+
 
         row.querySelector(".description").value =
             product.description;
 
+
         row.querySelector(".price").value =
             product.price;
 
+
         row.querySelector(".discount").value =
             product.discount;
+
 
 
         calculateRow(row);
@@ -49,7 +65,8 @@ function findProduct(element) {
 
 
 
-// Αναζήτηση με περιγραφή
+
+// Αναζήτηση περιγραφής
 
 function searchDescription(element) {
 
@@ -64,9 +81,7 @@ function searchDescription(element) {
     box.innerHTML = "";
 
 
-    if (text.length < 2) {
-        return;
-    }
+    if (text.length < 2) return;
 
 
 
@@ -98,23 +113,29 @@ function searchDescription(element) {
                 element.closest("tr");
 
 
+
             element.value =
                 product.description;
+
 
 
             row.querySelector(".code").value =
                 product.code;
 
 
+
             row.querySelector(".price").value =
                 product.price;
+
 
 
             row.querySelector(".discount").value =
                 product.discount;
 
 
+
             box.innerHTML = "";
+
 
 
             calculateRow(row);
@@ -128,14 +149,15 @@ function searchDescription(element) {
 
     });
 
-
 }
 
 
 
 
 
-// Υπολογισμός γραμμής
+
+
+// Υπολογισμός προϊόντος
 
 function calculateRow(row) {
 
@@ -171,7 +193,8 @@ function calculateRow(row) {
 
 
 
-// Σύνολο παραγγελίας
+
+// Σύνολο
 
 function calculateTotal() {
 
@@ -179,12 +202,12 @@ function calculateTotal() {
     let total = 0;
 
 
+
     document.querySelectorAll("#products tr")
     .forEach(row => {
 
 
-        total +=
-        Number(
+        total += Number(
             row.querySelector(".finalPrice").value
         ) || 0;
 
@@ -196,13 +219,16 @@ function calculateTotal() {
     document.getElementById("total").innerText =
         total.toFixed(2) + " €";
 
+
 }
 
 
 
 
 
-// Προσθήκη νέου προϊόντος
+
+
+// Προσθήκη προϊόντος
 
 function addProduct() {
 
@@ -218,62 +244,233 @@ function addProduct() {
 
     row.innerHTML = `
 
+
 <td>
+
 <input 
-type="text"
 class="code"
 placeholder="Κωδικός"
 onblur="findProduct(this)">
+
 </td>
 
 
 <td>
 
 <input 
-type="text"
 class="description"
 placeholder="Περιγραφή"
 oninput="searchDescription(this)">
 
+
 <div class="suggestions"></div>
+
 
 </td>
 
 
+
 <td>
+
 <input 
 type="number"
 class="quantity"
 value="1"
 oninput="calculateRow(this.closest('tr'))">
+
 </td>
 
 
+
 <td>
+
 <input 
 type="number"
 class="price"
 placeholder="0.00"
 oninput="calculateRow(this.closest('tr'))">
+
 </td>
 
 
+
 <td>
+
 <input 
 type="number"
 class="discount"
 placeholder="%"
 oninput="calculateRow(this.closest('tr'))">
+
 </td>
+
 
 
 <td>
+
 <input 
-type="number"
 class="finalPrice"
 readonly>
+
 </td>
 
+
 `;
+
+}
+
+
+
+
+
+
+
+
+// Αποθήκευση πρόχειρης παραγγελίας
+
+function saveDraft() {
+
+
+    let order = {
+
+
+        number:
+        currentOrderNumber++,
+
+
+        date:
+        document.getElementById("date").value,
+
+
+        area:
+        document.getElementById("area").value,
+
+
+        customer:
+        document.getElementById("customer").value,
+
+
+        total:
+        document.getElementById("total").innerText,
+
+
+        products: []
+
+
+    };
+
+
+
+
+
+    document.querySelectorAll("#products tr")
+    .forEach(row => {
+
+
+        order.products.push({
+
+
+            code:
+            row.querySelector(".code").value,
+
+
+            description:
+            row.querySelector(".description").value,
+
+
+            quantity:
+            row.querySelector(".quantity").value,
+
+
+            price:
+            row.querySelector(".price").value,
+
+
+            discount:
+            row.querySelector(".discount").value
+
+
+        });
+
+
+    });
+
+
+
+
+
+    let drafts =
+        JSON.parse(
+            localStorage.getItem("draftOrders")
+        ) || [];
+
+
+
+    drafts.push(order);
+
+
+
+    localStorage.setItem(
+        "draftOrders",
+        JSON.stringify(drafts)
+    );
+
+
+
+    alert(
+        "Η πρόχειρη παραγγελία αποθηκεύτηκε"
+    );
+
+
+}
+
+
+
+
+
+
+
+
+// Εμφάνιση πρόχειρων
+
+function showDrafts() {
+
+
+    let box =
+        document.getElementById("draftList");
+
+
+    let drafts =
+        JSON.parse(
+            localStorage.getItem("draftOrders")
+        ) || [];
+
+
+
+    box.innerHTML = "";
+
+
+
+    drafts.forEach(order => {
+
+
+        let item =
+        document.createElement("div");
+
+
+        item.innerText =
+        "Νο " + order.number +
+        " - " +
+        order.customer +
+        " - " +
+        order.total;
+
+
+
+        box.appendChild(item);
+
+
+    });
+
 
 }

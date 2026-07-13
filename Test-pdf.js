@@ -1,22 +1,6 @@
 // Test-pdf.js
 
-// Συνάρτηση που κατεβάζει τη γραμματοσειρά Roboto από το Google Fonts και τη μετατρέπει σε Base64 αυτόματα
-async function loadGreekFont() {
-    const fontUrl = "https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.ttf"; // Roboto Regular (Greek)
-    const response = await fetch(fontUrl);
-    const arrayBuffer = await response.arrayBuffer();
-    
-    // Μετατροπή σε Base64
-    let binary = "";
-    const bytes = new Uint8Array(arrayBuffer);
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
-}
-
-async function downloadPDF(order) {
+function downloadPDF(order) {
     const { jsPDF } = window.jspdf;
 
     let doc = new jsPDF({
@@ -25,19 +9,8 @@ async function downloadPDF(order) {
         format: "a4"
     });
 
-    try {
-        // Κατεβάζουμε τη γραμματοσειρά "Roboto" στο παρασκήνιο
-        const fontBase64 = await loadGreekFont();
-        
-        // Την προσθέτουμε στο PDF μας
-        doc.addFileToVFS("Roboto-Regular.ttf", fontBase64);
-        doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
-        doc.setFont("Roboto", "normal");
-    } catch (error) {
-        console.error("Σφάλμα κατά τη φόρτωση της γραμματοσειράς:", error);
-        alert("Δεν ήταν δυνατή η φόρτωση της ελληνικής γραμματοσειράς. Ελέγξτε τη σύνδεσή σας.");
-        return;
-    }
+    // Χρησιμοποιούμε τη Roboto που φορτώνεται αυτόματα από το fonts.js
+    doc.setFont("Roboto", "normal");
 
     let pageWidth = doc.internal.pageSize.getWidth();
     let y = 15;
@@ -145,7 +118,7 @@ async function downloadPDF(order) {
     doc.save("Παραγγελία-" + (order.number || "") + ".pdf");
 }
 
-async function downloadPDFFromIndex(index) {
+function downloadPDFFromIndex(index) {
     let drafts = JSON.parse(localStorage.getItem("draftOrders")) || [];
     let order = drafts[index];
 
@@ -154,6 +127,5 @@ async function downloadPDFFromIndex(index) {
         return;
     }
 
-    // Καλούμε την async downloadPDF
-    await downloadPDF(order);
+    downloadPDF(order);
 }

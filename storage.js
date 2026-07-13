@@ -251,7 +251,7 @@ ${lockText}
 </button>
 
 
-<button onclick="createPDF(${index})">
+<button onclick="downloadPDFFromIndex(${index})">
 📄 Δημιουργία PDF
 </button>
 

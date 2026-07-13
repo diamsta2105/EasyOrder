@@ -1,5 +1,12 @@
 // Test-pdf.js
 
+// Αυτόματη και ασφαλής φόρτωση της ελληνικής γραμματοσειράς DejaVuSans
+if (!document.querySelector('script[src*="DejaVuSans-normal.js"]')) {
+    let script = document.createElement('script');
+    script.src = "https://cdn.jsdelivr.net/npm/jspdf-fontcustom@1.0.0/fonts/DejaVuSans-normal.js";
+    document.head.appendChild(script);
+}
+
 function downloadPDF(order) {
     const { jsPDF } = window.jspdf;
 
@@ -9,8 +16,16 @@ function downloadPDF(order) {
         format: "a4"
     });
 
-    // Χρησιμοποιούμε τη Roboto που φορτώνεται αυτόματα από το fonts.js
-    doc.setFont("Roboto", "normal");
+    // Έλεγχος αν έχει φορτώσει η DejaVuSans. 
+    // Αν δεν έχει προλάβει, περιμένουμε 500ms και ξαναπροσπαθούμε αυτόματα!
+    if (!doc.getFontList || !doc.getFontList()["DejaVuSans"]) {
+        console.log("Η γραμματοσειρά DejaVuSans φορτώνει... Επανάληψη σε 500ms.");
+        setTimeout(() => downloadPDF(order), 500);
+        return;
+    }
+
+    // Ενεργοποίηση της DejaVuSans
+    doc.setFont("DejaVuSans", "normal");
 
     let pageWidth = doc.internal.pageSize.getWidth();
     let y = 15;
@@ -78,12 +93,12 @@ function downloadPDF(order) {
         ]],
         body: rows,
         styles: {
-            font: "Roboto", 
+            font: "DejaVuSans", 
             fontSize: 8,
             cellPadding: 2
         },
         headStyles: {
-            font: "Roboto", 
+            font: "DejaVuSans", 
             fontSize: 8
         }
     });

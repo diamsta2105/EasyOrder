@@ -291,3 +291,18 @@ function downloadPDF(order) {
 
 
 }
+
+function downloadPDFFromIndex(index) {
+
+    let orders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+
+    let order = orders[index];
+
+    if (!order) {
+        alert("Δεν βρέθηκε η παραγγελία.");
+        return;
+    }
+
+    downloadPDF(order);
+}

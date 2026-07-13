@@ -5,7 +5,8 @@ function downloadPDF(order) {
     alert("Μπήκα μέσα στη downloadPDF");
     
     const { jsPDF } = window.jspdf;
-
+    
+    alert("Φορτώθηκε το jsPDF");
 
     let doc = new jsPDF({
         orientation: "portrait",

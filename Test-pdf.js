@@ -1,4 +1,11 @@
-// test-pdf.js
+// Test-pdf.js
+
+// Αυτόματη φόρτωση της ελληνικής γραμματοσειράς DejaVuSans
+if (!document.querySelector('script[src*="DejaVuSans-normal.js"]')) {
+    let script = document.createElement('script');
+    script.src = "https://cdn.jsdelivr.net/npm/jspdf-fontcustom@1.0.0/fonts/DejaVuSans-normal.js";
+    document.head.appendChild(script);
+}
 
 function downloadPDF(order) {
     const { jsPDF } = window.jspdf;
@@ -9,14 +16,10 @@ function downloadPDF(order) {
         format: "a4"
     });
 
-    // =========================================================================
-    // ΑΥΤΟΜΑΤΗ ΕΝΣΩΜΑΤΩΣΗ ΕΛΛΗΝΙΚΗΣ ΓΡΑΜΜΑΤΟΣΕΙΡΑΣ (PTSans) ΜΕΣΑ ΣΤΟ ΕΓΓΡΑΦΟ
-    // =========================================================================
-    const ptsansBase64 = 'AAEAAAASAQAABAAwR0RFRgAXABQAAAEcAAAAFkdQTVMPmS7pAAABNAAAAGZHU1VCl2SdaQAAAeAAAAA0T1MvMnM3b7YAAAGYAAAAYlNUQVDpY+mXAAACmAAAAExjbWFwAs0C0QAAAwAAAAI2Y3Z0IAtbAnQAAA7AAAAAIGZwZ213UfV3AAAEmAAAAZZnYXNwAAAAEAAAARgAAAAIZ2x5ZpA9u9MAAAX0AAAAGGhlYWQFFepXAAAA7AAAADZoaGVhA7gDeQAAASQAAAAkaG10eBgAAeUAAAFsAAAADGxvY2EAKgBiAAAF4AAAAAhtYXhwARwAnAAAATgAAAAgbmFtZReMCHoAAA0AAAAA5nBvc3QAAwAAAAAOEAAAACBwcmVwZpby3gAADhQAAAGbeG1wZgAAAAUAAA78AAAAAGVuY29EZf8AAwEAAAAAAAAAAAAAAAAAAAAAAAEAAAAKADAAPgACREZMVAAObGF0bgAsAAQAAAAAABAAAAAA//8AAgAAAAQAAAAA//8AAgABAAAAAQAAAAAAAQAAAAEAAAAAAAQAAAABAAAAAAAGAAAAAQAAAAAABwAAAAEAAAAAAAgAAAABAAAAAAAJAAAAAQAAAAAACgAAAAEAAAAAAAsAAAABAAAAAAAMAAAAAQAAAAAADQAAAAEAAAAAAA4AAAABAAAAAAAQAAAAAQAAAAAAEQAAAAEAAAAAABIAAAABAAAAAAATAAAAAQAAAAAAFAAAAAEAAAAAABUAAAABAAAAAAAWAAAAAQAAAAAAFwAAAAEAAAAAABgAAAABAAAAAAAZAAAAAQAAAAAAHQAAAAEAAAAAAB4AAAABAAAAAAAfAAAAAQAAAAAAIAAAAAEAAAAAACUAAAABAAAAAAAmAAAAAQAAAAAAJwAAAAEAAAAAACgAAAABAAAAAACpAAAAAQAAAAAAfQAAAAEAAAAAAH4AAAABAAAAAAH9AAAAAQAAAAAAfgAAAAEAAAAAAH8AAAABAAAAAAIAAAAAAQAAAAAAAwAAAAEAAAAAAAUAAAABAAAAAAAGAAAAAQAAAAAABwAAAAEAAAAAAAgAAAABAAAAAAAJAAAAAQAAAAAACgAAAAEAAAAAAAsAAAABAAAAAAAMAAAAAQAAAAAADQAAAAEAAAAAAA4AAAABAAAAAAAQAAAAAQAAAAAAEQAAAAEAAAAAABIAAAABAAAAAAATAAAAAQAAAAAAFAAAAAEAAAAAABUAAAABAAAAAAAWAAAAAQAAAAAAFwAAAAEAAAAAABgAAAABAAAAAAAZAAAAAQAAAAAAHQAAAAEAAAAAAB4AAAABAAAAAAAfAAAAAQAAAAAAIAAAAAEAAAAAACUAAAABAAAAAAAmAAAAAQAAAAAAJwAAAAEAAAAAACgAAAABAAAAAACpAAAAAQAAAAAAfQAAAAEAAAAAAH4AAAABAAAAAAH9AAAAAQAAAAAAfgAAAAEAAAAAAH8AAAABAAAAAA==';
-    
-    doc.addFileToVFS('PTSans.ttf', ptsansBase64);
-    doc.addFont('PTSans.ttf', 'PTSans', 'normal');
-    doc.setFont("PTSans", "normal");
+    // Ενεργοποίηση της DejaVuSans αν έχει προλάβει να φορτώσει
+    if (doc.getFontList && doc.getFontList()["DejaVuSans"]) {
+        doc.setFont("DejaVuSans", "normal");
+    }
 
     let pageWidth = doc.internal.pageSize.getWidth();
     let y = 15;
@@ -84,12 +87,12 @@ function downloadPDF(order) {
         ]],
         body: rows,
         styles: {
-            font: "PTSans", 
+            font: "DejaVuSans", 
             fontSize: 8,
             cellPadding: 2
         },
         headStyles: {
-            font: "PTSans", 
+            font: "DejaVuSans", 
             fontSize: 8
         }
     });

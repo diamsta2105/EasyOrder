@@ -276,23 +276,7 @@ function downloadPDF(order) {
 
     }
 
-// Δημιουργία αρχείου PDF
 
-function downloadPDF(order) {
-
-
-    createPDF(order);
-
-
-    let fileName =
-        "Παραγγελία-" +
-        order.number +
-        ".pdf";
-
-
-    doc.save(fileName);
-
-}
 
     // =====================
     // ΑΠΟΘΗΚΕΥΣΗ PDF

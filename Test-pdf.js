@@ -13,7 +13,8 @@ function downloadPDF(order) {
     // ==========================================
     // ΕΝΕΡΓΟΠΟΙΗΣΗ ΕΛΛΗΝΙΚΗΣ ΓΡΑΜΜΑΤΟΣΕΙΡΑΣ
     // ==========================================
-    doc.setFont("Roboto", "normal");
+    doc.setFont("DejaVuSans", "normal");
+    
 
     let pageWidth = doc.internal.pageSize.getWidth();
     let y = 15;
@@ -81,14 +82,15 @@ function downloadPDF(order) {
         ]],
         body: rows,
         styles: {
-            font: "Roboto", // Προσθήκη για τα ελληνικά στον πίνακα
-            fontSize: 8,
-            cellPadding: 2
-        },
-        headStyles: {
-            font: "Roboto", // Προσθήκη για τα ελληνικά στους τίτλους του πίνακα
-            fontSize: 8
-        }
+    font: "DejaVuSans", 
+    fontSize: 8,
+    cellPadding: 2
+},
+headStyles: {
+    font: "DejaVuSans", 
+    fontSize: 8
+}
+        
     });
 
     y = doc.lastAutoTable.finalY + 10;

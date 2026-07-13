@@ -2,11 +2,11 @@
 
 function downloadPDF(order) {
 
-    alert("Μπήκα μέσα στη downloadPDF");
+    
     
     const { jsPDF } = window.jspdf;
     
-    alert("Φορτώθηκε το jsPDF");
+    
 
     let doc = new jsPDF({
         orientation: "portrait",
@@ -171,7 +171,7 @@ function downloadPDF(order) {
 
     });
 
-alert("Πριν το autoTable");
+
 
     doc.autoTable({
 
@@ -207,7 +207,7 @@ alert("Πριν το autoTable");
 
     });
 
-alert("Μετά το autoTable");
+
 
     y =
     doc.lastAutoTable.finalY + 10;
@@ -307,7 +307,6 @@ function downloadPDFFromIndex(index) {
     return;
 }
 
-alert("Βρέθηκε η παραγγελία");
-alert("Πάω στη downloadPDF");
+
 downloadPDF(order);
 }

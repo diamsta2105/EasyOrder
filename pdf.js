@@ -300,9 +300,11 @@ function downloadPDFFromIndex(index) {
     let order = drafts[index];
 
     if (!order) {
-        alert("Δεν βρέθηκε η παραγγελία.");
-        return;
-    }
+    alert("Δεν βρέθηκε η παραγγελία.");
+    return;
+}
 
-    downloadPDF(order);
+alert("Βρέθηκε η παραγγελία");
+
+downloadPDF(order);
 }

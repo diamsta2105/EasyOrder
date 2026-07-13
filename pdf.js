@@ -2,6 +2,8 @@
 
 function downloadPDF(order) {
 
+    alert("Μπήκα μέσα στη downloadPDF");
+    
     const { jsPDF } = window.jspdf;
 
 

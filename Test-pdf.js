@@ -1,12 +1,5 @@
 // Test-pdf.js
 
-// Αυτόματη φόρτωση της ελληνικής γραμματοσειράς DejaVuSans
-if (!document.querySelector('script[src*="DejaVuSans-normal.js"]')) {
-    let script = document.createElement('script');
-    script.src = "https://cdn.jsdelivr.net/npm/jspdf-fontcustom@1.0.0/fonts/DejaVuSans-normal.js";
-    document.head.appendChild(script);
-}
-
 function downloadPDF(order) {
     const { jsPDF } = window.jspdf;
 
@@ -16,10 +9,8 @@ function downloadPDF(order) {
         format: "a4"
     });
 
-    // Ενεργοποίηση της DejaVuSans αν έχει προλάβει να φορτώσει
-    if (doc.getFontList && doc.getFontList()["DejaVuSans"]) {
-        doc.setFont("DejaVuSans", "normal");
-    }
+    // Ορισμός της γραμματοσειράς PTSans από το fonts.js
+    doc.setFont("PTSans", "normal");
 
     let pageWidth = doc.internal.pageSize.getWidth();
     let y = 15;
@@ -87,12 +78,12 @@ function downloadPDF(order) {
         ]],
         body: rows,
         styles: {
-            font: "DejaVuSans", 
+            font: "PTSans", 
             fontSize: 8,
             cellPadding: 2
         },
         headStyles: {
-            font: "DejaVuSans", 
+            font: "PTSans", 
             fontSize: 8
         }
     });

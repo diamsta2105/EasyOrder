@@ -13,7 +13,8 @@ function downloadPDF(order) {
         unit: "mm",
         format: "a4"
     });
-
+    
+doc.setFont("helvetica");
 
     let pageWidth =
         doc.internal.pageSize.getWidth();

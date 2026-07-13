@@ -282,7 +282,8 @@ function downloadPDF(order) {
     // ΑΠΟΘΗΚΕΥΣΗ PDF
     // =====================
 
-
+alert("Πριν το save");
+    
     doc.save(
         "Παραγγελία-" +
         (order.number || "") +

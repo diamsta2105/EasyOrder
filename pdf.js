@@ -171,7 +171,7 @@ function downloadPDF(order) {
 
     });
 
-
+alert("Πριν το autoTable");
 
     doc.autoTable({
 
@@ -207,7 +207,7 @@ function downloadPDF(order) {
 
     });
 
-
+alert("Μετά το autoTable");
 
     y =
     doc.lastAutoTable.finalY + 10;

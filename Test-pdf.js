@@ -7,6 +7,9 @@ if (!document.querySelector('script[src*="DejaVuSans-normal.js"]')) {
     document.head.appendChild(script);
 }
 
+// Μεταβλητή για την αποφυγή ατέρμονου βρόχου (infinite loop)
+let pdfGenerationAttempts = 0;
+
 function downloadPDF(order) {
     try {
         // 1. Έλεγχος αν έχει φορτώσει η βιβλιοθήκη jsPDF
@@ -23,11 +26,15 @@ function downloadPDF(order) {
             return;
         }
 
-        // 3. Έλεγχος αν η εξωτερική γραμματοσειρά DejaVuSans έχει φορτωθεί στο global scope
-        // Τα CDNs συνήθως την κάνουν register στο global API του jsPDF (jsPDF.API.events).
-        // Αν δεν έχει φορτωθεί ακόμα στο παράθυρο, περιμένουμε 300ms.
+        // 3. Ασφαλής έλεγχος φόρτωσης γραμματοσειράς (Μέγιστο 10 προσπάθειες / 3 δευτερόλεπτα)
         if (typeof window.DejaVuSans === 'undefined' && (!jsPDF.API || !jsPDF.API.events)) {
-            console.log("Η γραμματοσειρά DejaVuSans φορτώνει... Επανάληψη σε 300ms.");
+            pdfGenerationAttempts++;
+            if (pdfGenerationAttempts > 10) {
+                pdfGenerationAttempts = 0; // reset
+                alert("Σφάλμα: Δεν ήταν δυνατή η λήψη της ελληνικής γραμματοσειράς DejaVuSans από το δίκτυο. Παρακαλώ ελέγξτε τη σύνδεσή σας.");
+                return;
+            }
+            console.log(`Η γραμματοσειρά DejaVuSans φορτώνει... Προσπάθεια ${pdfGenerationAttempts}/10 σε 300ms.`);
             setTimeout(() => downloadPDF(order), 300);
             return;
         }
@@ -42,12 +49,19 @@ function downloadPDF(order) {
         try {
             doc.setFont("DejaVuSans", "normal");
         } catch (e) {
-            // Αν η setFont αποτύχει επειδή δεν έχει γίνει register στο doc, 
-            // περιμένουμε λίγο ακόμα για να ολοκληρωθεί η εγγραφή της από το script.
+            pdfGenerationAttempts++;
+            if (pdfGenerationAttempts > 10) {
+                pdfGenerationAttempts = 0; // reset
+                alert("Σφάλμα: Η γραμματοσειρά κατέβηκε αλλά απέτυχε η εγκατάστασή της στο έγγραφο PDF.");
+                return;
+            }
             console.log("Αναμονή εγγραφής γραμματοσειράς στο instance... Επανάληψη σε 300ms.");
             setTimeout(() => downloadPDF(order), 300);
             return;
         }
+
+        // Επιτυχής φόρτωση, κάνουμε reset τον μετρητή
+        pdfGenerationAttempts = 0;
 
         let pageWidth = doc.internal.pageSize.getWidth();
         let y = 15;
@@ -55,17 +69,20 @@ function downloadPDF(order) {
         // =====================
         // ΚΕΦΑΛΙΔΑ
         // =====================
-        doc.setFontSize(14);
-        doc.setFont("DejaVuSans", "bold"); // Αν υποστηρίζεται, αλλιώς "normal"
+        
+        // Χρησιμοποιούμε Helvetica για το "FÖRCH" επειδή υποστηρίζει Bold εξ ορισμού και είναι λατινικά
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(16);
         doc.text("FÖRCH", 15, y);
         
+        // Γυρνάμε σε DejaVuSans για τα ελληνικά
         doc.setFont("DejaVuSans", "normal");
         doc.setFontSize(10);
         doc.text("Easy Order", pageWidth - 15, y, { align: "right" });
 
         y += 10;
 
-        doc.setFontSize(16);
+        doc.setFontSize(15);
         doc.text("ΔΕΛΤΙΟ ΠΑΡΑΓΓΕΛΙΑΣ", pageWidth / 2, y, { align: "center" });
 
         // Διαχωριστική γραμμή κάτω από τον τίτλο
@@ -151,15 +168,13 @@ function downloadPDF(order) {
         y = doc.lastAutoTable.finalY + 10;
 
         // =====================
-        // ΣΥΝΟΛΟ & ΠΑΡΑΤΗΡΗΣΕΙΣ (Δίπλα-δίπλα αν χωράνε)
+        // ΣΥΝΟΛΟ & ΠΑΡΑΤΗΡΗΣΕΙΣ
         // =====================
         
-        // 1. Σύνολο (Στοιχισμένο δεξιά στο κάτω μέρος του πίνακα)
         doc.setFontSize(11);
         let totalLabel = "Γενικό Σύνολο:";
         let formattedTotal = order.total || "0,00 €";
         
-        // Αν το total δεν έχει ήδη το σύμβολο του ευρώ, το προσθέτουμε
         if (!formattedTotal.includes("€")) {
             formattedTotal += " €";
         }
@@ -169,9 +184,7 @@ function downloadPDF(order) {
 
         y += 12;
 
-        // 2. Παρατηρήσεις
         if (order.notes && order.notes.trim() !== "") {
-            // Έλεγχος αν οι παρατηρήσεις χωράνε στη σελίδα, αλλιώς δημιουργία νέας
             if (y > doc.internal.pageSize.getHeight() - 30) {
                 doc.addPage();
                 y = 20;
@@ -182,7 +195,7 @@ function downloadPDF(order) {
             
             y += 5;
             doc.setFontSize(9);
-            doc.setTextColor(80, 80, 80); // Πιο απαλό γκρι για τις παρατηρήσεις
+            doc.setTextColor(80, 80, 80);
             
             let notes = doc.splitTextToSize(order.notes, pageWidth - 30);
             doc.text(notes, 15, y);
@@ -213,5 +226,56 @@ function downloadPDFFromIndex(index) {
         downloadPDF(order);
     } catch (error) {
         alert("Σφάλμα κατά την ανάκτηση από τις πρόχειρες: " + error.message);
+    }
+}
+
+/**
+ * 🛠️ ΣΥΝΑΡΤΗΣΗ ΓΕΦΥΡΑΣ (Για το κουμπί απευθείας εκτύπωσης από την οθόνη)
+ * Αυτή η συνάρτηση διαβάζει τα τρέχοντα στοιχεία από το UI 
+ * και δημιουργεί το PDF χωρίς να χρειάζεται να αποθηκευτεί πρώτα στα drafts.
+ */
+function generatePDF() {
+    try {
+        let order = {
+            number: "Draft-" + Math.floor(1000 + Math.random() * 9000), // Τυχαίος αριθμός για το πρόχειρο
+            date: document.getElementById('date').value || "-",
+            customer: document.getElementById('customer').value || "Ανώνυμος Πελάτης",
+            area: document.getElementById('area').value || "-",
+            notes: document.getElementById('notes').value || "",
+            total: document.getElementById('total').textContent || "0,00 €",
+            products: []
+        };
+
+        // Διάβασμα των γραμμών του πίνακα προϊόντων
+        let rows = document.querySelectorAll("#products tr");
+        rows.forEach(row => {
+            let code = row.querySelector(".code")?.value || "";
+            let description = row.querySelector(".description")?.value || "";
+            let quantity = row.querySelector(".quantity")?.value || 0;
+            let price = row.querySelector(".price")?.value || 0;
+            let discount = row.querySelector(".discount")?.value || 0;
+            let finalPrice = row.querySelector(".finalPrice")?.value || 0;
+
+            // Προσθέτουμε το προϊόν μόνο αν έχει κωδικό ή περιγραφή
+            if (code.trim() !== "" || description.trim() !== "") {
+                order.products.push({
+                    code: code,
+                    description: description,
+                    quantity: quantity,
+                    price: price,
+                    discount: discount,
+                    finalPrice: finalPrice
+                });
+            }
+        });
+
+        if (order.products.length === 0) {
+            alert("Παρακαλώ προσθέστε τουλάχιστον ένα προϊόν με κωδικό ή περιγραφή πριν την εξαγωγή.");
+            return;
+        }
+
+        downloadPDF(order);
+    } catch (e) {
+        alert("Σφάλμα κατά τη συλλογή των στοιχείων της φόρμας: " + e.message);
     }
 }

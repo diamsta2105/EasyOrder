@@ -1,15 +1,5 @@
 // Test-pdf.js
 
-// Αυτόματη φόρτωση της ελληνικής γραμματοσειράς DejaVuSans αν δεν υπάρχει ήδη
-if (!document.querySelector('script[src*="DejaVuSans-normal.js"]')) {
-    let script = document.createElement('script');
-    script.src = "https://cdn.jsdelivr.net/npm/jspdf-fontcustom@1.0.0/fonts/DejaVuSans-normal.js";
-    document.head.appendChild(script);
-}
-
-// Μεταβλητή για την αποφυγή ατέρμονου βρόχου (infinite loop)
-let pdfGenerationAttempts = 0;
-
 function downloadPDF(order) {
     try {
         // 1. Έλεγχος αν έχει φορτώσει η βιβλιοθήκη jsPDF
@@ -26,42 +16,19 @@ function downloadPDF(order) {
             return;
         }
 
-        // 3. Ασφαλής έλεγχος φόρτωσης γραμματοσειράς (Μέγιστο 10 προσπάθειες / 3 δευτερόλεπτα)
-        if (typeof window.DejaVuSans === 'undefined' && (!jsPDF.API || !jsPDF.API.events)) {
-            pdfGenerationAttempts++;
-            if (pdfGenerationAttempts > 10) {
-                pdfGenerationAttempts = 0; // reset
-                alert("Σφάλμα: Δεν ήταν δυνατή η λήψη της ελληνικής γραμματοσειράς DejaVuSans από το δίκτυο. Παρακαλώ ελέγξτε τη σύνδεσή σας.");
-                return;
-            }
-            console.log(`Η γραμματοσειρά DejaVuSans φορτώνει... Προσπάθεια ${pdfGenerationAttempts}/10 σε 300ms.`);
-            setTimeout(() => downloadPDF(order), 300);
-            return;
-        }
-
         let doc = new jsPDF({
             orientation: "portrait",
             unit: "mm",
             format: "a4"
         });
 
-        // Προσπάθεια ενεργοποίησης της DejaVuSans
+        // 3. Ενεργοποίηση της ελληνικής γραμματοσειράς Roboto (από το fonts.js)
         try {
-            doc.setFont("DejaVuSans", "normal");
+            doc.setFont("Roboto", "normal");
         } catch (e) {
-            pdfGenerationAttempts++;
-            if (pdfGenerationAttempts > 10) {
-                pdfGenerationAttempts = 0; // reset
-                alert("Σφάλμα: Η γραμματοσειρά κατέβηκε αλλά απέτυχε η εγκατάστασή της στο έγγραφο PDF.");
-                return;
-            }
-            console.log("Αναμονή εγγραφής γραμματοσειράς στο instance... Επανάληψη σε 300ms.");
-            setTimeout(() => downloadPDF(order), 300);
+            alert("Σφάλμα: Δεν βρέθηκε η γραμματοσειρά Roboto. Βεβαιωθείτε ότι το αρχείο fonts.js έχει φορτωθεί σωστά.");
             return;
         }
-
-        // Επιτυχής φόρτωση, κάνουμε reset τον μετρητή
-        pdfGenerationAttempts = 0;
 
         let pageWidth = doc.internal.pageSize.getWidth();
         let y = 15;
@@ -70,13 +37,13 @@ function downloadPDF(order) {
         // ΚΕΦΑΛΙΔΑ
         // =====================
         
-        // Χρησιμοποιούμε Helvetica για το "FÖRCH" επειδή υποστηρίζει Bold εξ ορισμού και είναι λατινικά
+        // Χρησιμοποιούμε Helvetica για το "FÖRCH" (είναι bold και λατινικά)
         doc.setFont("Helvetica", "bold");
         doc.setFontSize(16);
         doc.text("FÖRCH", 15, y);
         
-        // Γυρνάμε σε DejaVuSans για τα ελληνικά
-        doc.setFont("DejaVuSans", "normal");
+        // Επιστροφή στη Roboto για τα ελληνικά
+        doc.setFont("Roboto", "normal");
         doc.setFontSize(10);
         doc.text("Easy Order", pageWidth - 15, y, { align: "right" });
 
@@ -85,7 +52,7 @@ function downloadPDF(order) {
         doc.setFontSize(15);
         doc.text("ΔΕΛΤΙΟ ΠΑΡΑΓΓΕΛΙΑΣ", pageWidth / 2, y, { align: "center" });
 
-        // Διαχωριστική γραμμή κάτω από τον τίτλο
+        // Διαχωριστική γραμμή
         y += 4;
         doc.setDrawColor(200, 200, 200);
         doc.line(15, y, pageWidth - 15, y);
@@ -97,11 +64,11 @@ function downloadPDF(order) {
         // =====================
         doc.setFontSize(10);
 
-        // Αριστερή στήλη στοιχείων
+        // Αριστερή στήλη
         doc.text(`Αριθμός Παραγ.:  ${order.number || "-"}`, 15, y);
         doc.text(`Ημερομηνία:         ${order.date || "-"}`, 15, y + 6);
 
-        // Δεξιά στήλη στοιχείων
+        // Δεξιά στήλη
         doc.text(`Πελάτης:  ${order.customer || "-"}`, 105, y);
         doc.text(`Περιοχή:  ${order.area || "-"}`, 105, y + 6);
 
@@ -114,7 +81,6 @@ function downloadPDF(order) {
 
         if (order.products && Array.isArray(order.products)) {
             order.products.forEach(product => {
-                // Εξασφάλιση σωστής μορφοποίησης αριθμών
                 let qty = product.quantity ? Number(product.quantity).toString() : "0";
                 let price = product.price ? Number(product.price).toFixed(2) + " €" : "0.00 €";
                 let discount = product.discount ? product.discount + "%" : "-";
@@ -144,24 +110,24 @@ function downloadPDF(order) {
             ]],
             body: rows,
             styles: {
-                font: "DejaVuSans", 
+                font: "Roboto", 
                 fontSize: 9,
                 cellPadding: 3,
                 valign: 'middle'
             },
             headStyles: {
-                font: "DejaVuSans", 
+                font: "Roboto", 
                 fontSize: 9,
-                fillColor: [44, 62, 80], // Επαγγελματικό σκούρο μπλε/γκρι χρώμα κεφαλίδας
+                fillColor: [44, 62, 80],
                 textColor: [255, 255, 255]
             },
             columnStyles: {
-                0: { cellWidth: 25 },                         // Κωδικός
-                1: { cellWidth: 'auto' },                     // Περιγραφή
-                2: { cellWidth: 15, halign: 'right' },        // Ποσότητα
-                3: { cellWidth: 25, halign: 'right' },        // Αρχική Τιμή
-                4: { cellWidth: 20, halign: 'center' },       // Έκπτωση
-                5: { cellWidth: 25, halign: 'right' }         // Τελική Τιμή
+                0: { cellWidth: 25 },
+                1: { cellWidth: 'auto' },
+                2: { cellWidth: 15, halign: 'right' },
+                3: { cellWidth: 25, halign: 'right' },
+                4: { cellWidth: 20, halign: 'center' },
+                5: { cellWidth: 25, halign: 'right' }
             }
         });
 
@@ -230,14 +196,12 @@ function downloadPDFFromIndex(index) {
 }
 
 /**
- * 🛠️ ΣΥΝΑΡΤΗΣΗ ΓΕΦΥΡΑΣ (Για το κουμπί απευθείας εκτύπωσης από την οθόνη)
- * Αυτή η συνάρτηση διαβάζει τα τρέχοντα στοιχεία από το UI 
- * και δημιουργεί το PDF χωρίς να χρειάζεται να αποθηκευτεί πρώτα στα drafts.
+ * 🛠️ ΣΥΝΑΡΤΗΣΗ ΓΕΦΥΡΑΣ
  */
 function generatePDF() {
     try {
         let order = {
-            number: "Draft-" + Math.floor(1000 + Math.random() * 9000), // Τυχαίος αριθμός για το πρόχειρο
+            number: "Draft-" + Math.floor(1000 + Math.random() * 9000),
             date: document.getElementById('date').value || "-",
             customer: document.getElementById('customer').value || "Ανώνυμος Πελάτης",
             area: document.getElementById('area').value || "-",
@@ -246,7 +210,6 @@ function generatePDF() {
             products: []
         };
 
-        // Διάβασμα των γραμμών του πίνακα προϊόντων
         let rows = document.querySelectorAll("#products tr");
         rows.forEach(row => {
             let code = row.querySelector(".code")?.value || "";
@@ -256,7 +219,6 @@ function generatePDF() {
             let discount = row.querySelector(".discount")?.value || 0;
             let finalPrice = row.querySelector(".finalPrice")?.value || 0;
 
-            // Προσθέτουμε το προϊόν μόνο αν έχει κωδικό ή περιγραφή
             if (code.trim() !== "" || description.trim() !== "") {
                 order.products.push({
                     code: code,

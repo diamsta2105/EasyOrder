@@ -123,7 +123,6 @@ function downloadPDF(order) {
             },
             columnStyles: {
                 0: { cellWidth: 25 },
-                
                 2: { cellWidth: 15, halign: 'right' },
                 3: { cellWidth: 25, halign: 'right' },
                 4: { cellWidth: 20, halign: 'center' },

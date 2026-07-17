@@ -2,6 +2,9 @@
 
 function downloadPDF(order) {
     try {
+        // Ειδοποίηση για να ξέρουμε ότι το κουμπί ακούει
+        alert("Η δημιουργία του PDF ξεκίνησε!");
+
         // 1. Έλεγχος αν έχει φορτώσει η βιβλιοθήκη jsPDF
         if (!window.jspdf || !window.jspdf.jsPDF) {
             alert("Σφάλμα: Η βιβλιοθήκη jsPDF δεν έχει φορτωθεί ακόμα στο HTML σας!");
@@ -22,11 +25,11 @@ function downloadPDF(order) {
             format: "a4"
         });
 
-        // 3. Ενεργοποίηση της ελληνικής γραμματοσειράς Roboto (από το fonts.js)
+        // 3. Ενεργοποίηση της ελληνικής γραμματοσειράς CustomGreek (από το fonts.js)
         try {
-            doc.setFont("Roboto", "normal");
+            doc.setFont("CustomGreek", "normal");
         } catch (e) {
-            alert("Σφάλμα: Δεν βρέθηκε η γραμματοσειρά Roboto. Βεβαιωθείτε ότι το αρχείο fonts.js έχει φορτωθεί σωστά.");
+            alert("Σφάλμα: Δεν βρέθηκε η γραμματοσειρά CustomGreek. Βεβαιωθείτε ότι το αρχείο fonts.js έχει φορτωθεί σωστά.");
             return;
         }
 
@@ -42,8 +45,8 @@ function downloadPDF(order) {
         doc.setFontSize(16);
         doc.text("FÖRCH", 15, y);
         
-        // Επιστροφή στη Roboto για τα ελληνικά
-        doc.setFont("Roboto", "normal");
+        // Επιστροφή στη CustomGreek για τα ελληνικά
+        doc.setFont("CustomGreek", "normal");
         doc.setFontSize(10);
         doc.text("Easy Order", pageWidth - 15, y, { align: "right" });
 
@@ -65,12 +68,12 @@ function downloadPDF(order) {
         doc.setFontSize(10);
 
         // Αριστερή στήλη
-        doc.text(`Αριθμός Παραγ.:  ${order.number || "-"}`, 15, y);
-        doc.text(`Ημερομηνία:         ${order.date || "-"}`, 15, y + 6);
+        doc.text("Αριθμός Παραγ.:  " + (order.number || "-"), 15, y);
+        doc.text("Ημερομηνία:         " + (order.date || "-"), 15, y + 6);
 
         // Δεξιά στήλη
-        doc.text(`Πελάτης:  ${order.customer || "-"}`, 105, y);
-        doc.text(`Περιοχή:  ${order.area || "-"}`, 105, y + 6);
+        doc.text("Πελάτης:  " + (order.customer || "-"), 105, y);
+        doc.text("Περιοχή:  " + (order.area || "-"), 105, y + 6);
 
         y += 16;
 
@@ -110,13 +113,13 @@ function downloadPDF(order) {
             ]],
             body: rows,
             styles: {
-                font: "Roboto", 
+                font: "CustomGreek", 
                 fontSize: 9,
                 cellPadding: 3,
                 valign: 'middle'
             },
             headStyles: {
-                font: "Roboto", 
+                font: "CustomGreek", 
                 fontSize: 9,
                 fillColor: [44, 62, 80],
                 textColor: [255, 255, 255]

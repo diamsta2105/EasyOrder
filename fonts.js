@@ -1,23 +1,16 @@
 // fonts.js
-// Καταχώρηση της ελληνικής γραμματοσειράς Roboto-Regular στο jsPDF
-
 (function() {
-    // Αυτό τρέχει μόλις φορτωθεί το αρχείο και προσθέτει τη γραμματοσειρά στη βιβλιοθήκη
-    if (typeof window !== 'undefined') {
-        window.addEventListener('DOMContentLoaded', () => {
-            if (window.jspdf && window.jspdf.jsPDF) {
-                const { jsPDF } = window.jspdf;
-                
-                // Κώδικας Base64 της γραμματοσειράς Roboto (συμπιεσμένος για το κινητό)
-                const robotoRegular = "AAEAAAASAQAABAAgR0RFRgAzADMAAAEoAAAAFExCT0RYAAAAAAAABYAAAAAYR1NVQgAGAAUAAAFIAAAADk9TLzIeH9daAAABKAAAAGJjbWFwAA0ADQAAAVgAAAASY3Z0IAAkACQAAAFsAAAADGZwZ20A/wD/AAABgAAAAGdoZWFk/wD/AAAA7AAAADZoaGVhA/8D/wAAASgAAAAkaG10eAsACwAAAVAAAAAIbG9jYQA0ADQAAAE0AAAABm1heHAAFwAXAAABSAAAACBuYW1lAA8ADwAAA0AAAAAIcG9zdAAMAAwAAANgAAAAFndlYmYADgAOAAADeAAAAAYAAAABAAAAAM36F68AAAAA0g8s7AAAAADSDyzsAAEAAAAOAAAAGAAAAAAAAgABAAEAAgABAAQAAAACAAAAAQAAAAAAAQAAAAoAHgAsAAJERkxUAApjeXJsAApsYXRuAAoABAAAAAD__wABAAAAAWNhbXQAAAAAAAQAAAADAAABAQAAMgAyAAAAAQAAAAoAHgAsAAJERkxUAApjeXJsAApsYXRuAAoABAAAAAD__wABAAAAAAABAAAAAwAAAAAAAQAAAAoAHgAsAAJERkxUAApjeXJsAApsYXRuAAoABAAAAAD__wABAAAAAA=="; 
-                
-                jsPDF.API.events.push(['addFonts', function() {
-                    this.addFileToVFS('Roboto-Regular.ttf', robotoRegular);
-                    this.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
-                }]);
-                console.log("Η ελληνική γραμματοσειρά Roboto φορτώθηκε επιτυχώς!");
+    // Ελαφριά ελληνική γραμματοσειρά σε Base64 (Courier-Greek_Custom)
+    const greekFontBase64 = "AAEAAAASAQAABAAwR0RFRgAzADIAAAFMAAAAIEdQT1N00XU0AAABbAAAALZHU1VCf2N/agAAA0wAAACgT1MvMnYLa3MAAAE8AAAAYGNtYXBY6F8UAAACDAAAAGhjYXNwAAAAEAAAASgAAAAIZ2x5ZmSOfksAAALsAAALHGhlYWQLXN35AAAA7AAAADZoaGVhB7gD3QAAASQAAAAkaG10eD8QAeAAAAF8AAAAWGxvY2EG2gZ6AAAC3AAAACxtYXhwAFoAPwAAAUgAAAAgbmFtZR3S3UoAAAZEAAABhnBvc3T/bQBkAAAIFAAAACAAAwGDAZAABQAEApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADpAwHg/+D/4AHgACAAAAABAAAAAAAAAAAAAAAgAAAAAAACAAAAAwAAABQAAwABAAAAFAAEAEgAAAAKAAgAAgACAAEAIOkD//3//wAAAAAAIOkD//3//wAB/+MXAwADAAEAAAAAAAAAAAAAAAEAAyAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAgAAQAnAAAAAQAIAAEAJwAAAAEADAAAAAAAfgBYAHgAYgBOAEIAAD8ofwB/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CD8IQA=";
+
+    if (typeof window !== "undefined" && window.jspdf) {
+        const { jsPDF } = window.jspdf;
+        jsPDF.API.events.push([
+            'addFonts',
+            function() {
+                this.addFileToVFS('CustomGreek.ttf', greekFontBase64);
+                this.addFont('CustomGreek.ttf', 'CustomGreek', 'normal');
             }
-        });
+        ]);
     }
 })();
-

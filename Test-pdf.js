@@ -1,5 +1,64 @@
-// Test-pdf.js
+// ==========================================
+// Test-pdf.js - Διορθωμένος Κώδικας PDF
+// ==========================================
 
+// 1. Συνάρτηση που καλείται από το κουμπί στο HTML
+function generatePDF() {
+    try {
+        // Συλλογή βασικών στοιχείων παραγγελίας
+        const dateVal = document.getElementById("date")?.value || "";
+        const customerVal = document.getElementById("customer")?.value || "";
+        const areaVal = document.getElementById("area")?.value || "";
+        const notesVal = document.getElementById("notes")?.value || "";
+        const totalVal = document.getElementById("total")?.innerText || "0,00 €";
+
+        // Συλλογή προϊόντων από τον πίνακα
+        const productRows = document.querySelectorAll("#products tr");
+        const productsList = [];
+
+        productRows.forEach(row => {
+            const code = row.querySelector(".code")?.value || "";
+            const description = row.querySelector(".description")?.value || "";
+            const quantity = row.querySelector(".quantity")?.value || "0";
+            const price = row.querySelector(".price")?.value || "0";
+            const discount = row.querySelector(".discount")?.value || "";
+            const finalPrice = row.querySelector(".finalPrice")?.value || "0";
+
+            // Προσθήκη μόνο αν υπάρχει κωδικός ή περιγραφή
+            if (code.trim() !== "" || description.trim() !== "") {
+                productsList.push({
+                    code: code,
+                    description: description,
+                    quantity: quantity,
+                    price: price,
+                    discount: discount,
+                    finalPrice: finalPrice
+                });
+            }
+        });
+
+        // Δημιουργία αντικειμένου παραγγελίας
+        const orderData = {
+            number: "ORD-" + Math.floor(1000 + Math.random() * 9000), // Τυχαίος αριθμός αν δεν υπάρχει
+            date: dateVal,
+            customer: customerVal,
+            area: areaVal,
+            products: productsList,
+            total: totalVal,
+            notes: notesVal
+        };
+
+        // Κλήση της συνάρτησης δημιουργίας PDF
+        downloadPDF(orderData);
+
+    } catch (err) {
+        console.error(err);
+        alert("Σφάλμα κατά τη συλλογή των στοιχείων: " + err.message);
+    }
+}
+
+
+// 2. Κύρια συνάρτηση κατασκευής του PDF
 function downloadPDF(order) {
     try {
         if (!window.jspdf || !window.jspdf.jsPDF) {
@@ -20,7 +79,7 @@ function downloadPDF(order) {
             format: "a4"
         });
 
-        // Συνάρτηση για την ασφαλή εφαρμογή της ελληνικής γραμματοσειράς
+        // Ασφαλής εφαρμογή της ελληνικής γραμματοσειράς
         function applyGreekFont(style = "normal") {
             try {
                 doc.setFont("CustomGreek", style);
@@ -29,11 +88,13 @@ function downloadPDF(order) {
             }
         }
 
-        // Συνάρτηση σχεδίασης της κεφαλίδας του πίνακα (για επαναχρησιμοποίηση σε αλλαγή σελίδας)
+        let pageWidth = doc.internal.pageSize.getWidth();
+
+        // Σχεδίαση κεφαλίδας πίνακα
         function drawTableHeader(currentY) {
             doc.setFillColor(44, 62, 80); // Σκούρο μπλε
             doc.rect(15, currentY, pageWidth - 30, 8, "F");
-            doc.setTextColor(255, 255, 255); // Άσπρα γράμματα
+            doc.setTextColor(255, 255, 255);
             applyGreekFont("normal");
             doc.setFontSize(10);
             
@@ -48,17 +109,16 @@ function downloadPDF(order) {
         }
 
         applyGreekFont("normal");
-        let pageWidth = doc.internal.pageSize.getWidth();
         let y = 15;
 
         // =====================
         // ΚΕΦΑΛΙΔΑ ΕΓΓΡΑΦΟΥ
         // =====================
-        doc.setFont("Helvetica", "bold");
+        // Χρήση CustomGreek αντί Helvetica για αποφυγή σφάλματος με το "Ö"
+        applyGreekFont("normal");
         doc.setFontSize(16);
         doc.text("FÖRCH", 15, y);
         
-        applyGreekFont("normal");
         doc.setFontSize(10);
         doc.text("Easy Order", pageWidth - 15, y, { align: "right" });
 
@@ -74,7 +134,7 @@ function downloadPDF(order) {
         y += 8;
 
         // =====================
-        // ΣΤΟΙΧΕΙΑ ΠΑΡΑΓΓΕΛΙΑΣ
+        // ΣТОΙΧΕΙΑ ΠΑΡΑΓΓΕΛΙΑΣ
         // =====================
         doc.setFontSize(10);
         doc.text("Αριθμός Παραγ.:  " + (order.number || "-"), 15, y);
@@ -91,12 +151,11 @@ function downloadPDF(order) {
         drawTableHeader(y);
         y += 8;
 
-        if (order.products && Array.isArray(order.products)) {
+        if (order.products && Array.isArray(order.products) && order.products.length > 0) {
             order.products.forEach(product => {
-                // Έλεγχος αλλαγής σελίδας (πριν τυπωθεί η γραμμή)
                 if (y > 270) {
                     doc.addPage();
-                    applyGreekFont("normal"); // Επανεπιβολή γραμματοσειράς στη νέα σελίδα
+                    applyGreekFont("normal");
                     y = 20;
                     drawTableHeader(y);
                     y += 8;
@@ -109,9 +168,8 @@ function downloadPDF(order) {
 
                 doc.text(product.code || "", 17, y + 5);
                 
-                // Δυναμικό κόψιμο περιγραφής με βάση το διαθέσιμο πλάτος της στήλης (70mm διαθέσιμα)
                 let desc = product.description || "";
-                let truncatedDesc = doc.splitTextToSize(desc, 70)[0]; 
+                let truncatedDesc = doc.splitTextToSize(desc, 70)[0] || ""; 
                 if (desc !== truncatedDesc && truncatedDesc.length > 3) {
                     truncatedDesc = truncatedDesc.substring(0, truncatedDesc.length - 3) + "...";
                 }
@@ -127,6 +185,10 @@ function downloadPDF(order) {
 
                 y += 7;
             });
+        } else {
+            // Αν δεν καταχωρήθηκε κανένα προϊόν
+            doc.text("Δεν έχουν προστεθεί προϊόντα στην παραγγελία.", 15, y + 5);
+            y += 7;
         }
 
         y += 5;
@@ -150,7 +212,6 @@ function downloadPDF(order) {
         y += 12;
 
         if (order.notes && order.notes.trim() !== "") {
-            // Υπολογισμός των γραμμών των παρατηρήσεων για ακριβή έλεγχο υπερχείλισης
             let notesLines = doc.splitTextToSize(order.notes, pageWidth - 30);
             let requiredSpace = 5 + (notesLines.length * 5);
 
@@ -172,12 +233,10 @@ function downloadPDF(order) {
         // =====================
         // ΑΠΟΘΗΚΕΥΣΗ PDF
         // =====================
-        let fileName = "Παραγγελία-" + (order.number || "Draft") + ".pdf";
+        let fileName = "Παραγγελία-" + (order.customer || "FÖRCH") + ".pdf";
         doc.save(fileName);
 
     } catch (error) {
         alert("Κάτι πήγε στραβά κατά τη δημιουργία του PDF: " + error.message);
     }
 }
-
-// Οι υπόλοιπες συναρτήσεις (downloadPDFFromIndex, generatePDF) παραμένουν ως έχουν...

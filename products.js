@@ -7,7 +7,7 @@ function findProduct(element) {
 
     let code = element.value.trim();
 
-    let product = productsDatabase.find(
+    let product = getAllProducts().find(
         item => item.code === code
     );
 

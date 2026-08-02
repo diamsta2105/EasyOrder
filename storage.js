@@ -754,6 +754,61 @@ function deleteOrder(index) {
 
 }
 
+// Δημιουργία νέας παραγγελίας
+
+function newOrder() {
+
+    // Βγαίνουμε από την επεξεργασία
+    // της προηγούμενης παραγγελίας
+
+    editingOrderIndex = null;
+
+    viewOnlyOrder = false;
+
+
+    // Ξεκλειδώνουμε τη φόρμα
+
+    setFormLocked(false);
+
+
+    // Βάζουμε τη σημερινή ημερομηνία
+
+    document.getElementById("date").value =
+        getTodayDate();
+
+
+    // Καθαρίζουμε τα στοιχεία πελάτη
+
+    document.getElementById("area").value = "";
+
+    document.getElementById("customer").value = "";
+
+
+    // Καθαρίζουμε τις παρατηρήσεις
+
+    document.getElementById("notes").value = "";
+
+
+    // Αφαιρούμε όλες τις γραμμές προϊόντων
+
+    let table =
+        document.getElementById("products");
+
+    table.innerHTML = "";
+
+
+    // Δημιουργούμε μία νέα κενή γραμμή
+
+    addProduct();
+
+
+    // Μηδενίζουμε το σύνολο
+
+    document.getElementById("total").innerText =
+        "0.00 €";
+
+}
+
 function saveProductIfNew(product) {
 
     let savedProducts =

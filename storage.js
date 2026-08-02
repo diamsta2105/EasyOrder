@@ -824,7 +824,8 @@ function newOrder() {
 
     document.getElementById("customer").value = "";
 
-
+    document.getElementById("customerCode").value = "";
+    
     // Καθαρίζουμε τις παρατηρήσεις
 
     document.getElementById("notes").value = "";

@@ -169,7 +169,9 @@ if (
 
         customer:
         customer,
-
+        
+        customerCode:
+        document.getElementById("customerCode").value.trim(),
 
         notes:
         document.getElementById("notes").value,

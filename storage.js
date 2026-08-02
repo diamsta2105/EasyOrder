@@ -194,6 +194,16 @@ function saveDraft() {
 
             });
 
+            saveProductIfNew({
+
+    code: code,
+
+    description: description,
+
+    price: row.querySelector(".price")?.value || "0"
+
+});
+
 
         }
 

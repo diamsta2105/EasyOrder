@@ -567,7 +567,7 @@ oninput="calculateRow(this.closest('tr'))">
 <input
 type="number"
 class="discount"
-value="${product.discount || ""}"
+value="${product.discount ?? ""}"
 oninput="calculateRow(this.closest('tr'))">
 
 </td>

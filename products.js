@@ -283,3 +283,22 @@ readonly>
 `;
 
 }
+
+// Αφαίρεση γραμμής προϊόντος
+
+function removeProduct(button) {
+
+    let row =
+        button.closest("tr");
+
+    if (!row) {
+
+        return;
+
+    }
+
+    row.remove();
+
+    calculateTotal();
+
+}

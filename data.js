@@ -12,7 +12,7 @@ const productsDatabase = [
         code: "32501016",
         description: "Σφιγκτήρας 10-16",
         category: "Σφιγκτήρες",
-        price: 0.00,
+        price: 0.43,
         discount: 0
     }
 
@@ -20,3 +20,18 @@ const productsDatabase = [
 
 
 const customersDatabase = [];
+
+function getAllProducts() {
+
+    let savedProducts =
+        JSON.parse(
+            localStorage.getItem("savedProducts")
+        ) || [];
+
+
+    return [
+        ...productsDatabase,
+        ...savedProducts
+    ];
+
+}

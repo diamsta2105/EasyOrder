@@ -1,192 +1,245 @@
+// ==========================================
 // Easy Order - Orders Management
+// ==========================================
 
-
+// Τρέχων αύξων αριθμός παραγγελίας
 let currentOrderNumber =
-    Number(localStorage.getItem("currentOrderNumber")) || 1;
+Number(
+localStorage.getItem(
+"currentOrderNumber"
+)
+) || 1;
+
+// ==========================================
+// Δημιουργία μοναδικού κωδικού παραγγελίας
+// ==========================================
+
+function createOrderId(customer, orderNumber) {
+
+const today = new Date();
+
+const year =
+    today.getFullYear();
+
+const month =
+    String(
+        today.getMonth() + 1
+    ).padStart(2, "0");
+
+const day =
+    String(
+        today.getDate()
+    ).padStart(2, "0");
 
 
-
-
-
-// Δημιουργία κωδικού παραγγελίας
-
-function createOrderId(customer) {
-
-
-    let today = new Date();
-
-
-    let year =
-        today.getFullYear();
-
-
-    let day =
-        String(today.getDate())
-        .padStart(2, "0");
-
-
-    let month =
-        String(today.getMonth() + 1)
-        .padStart(2, "0");
-
-
-
-    let name =
-        customer
-        .trim()
-        .toUpperCase()
-        .replace(/\s+/g, "-");
-
-
-
-    if (!name) {
-
-        name = "ΧΩΡΙΣ-ΠΕΛΑΤΗ";
-
-    }
-
-
-
-    return (
-        year +
-        "-" +
-        day +
-        month +
-        "-" +
-        name
+// Καθαρισμός ονόματος πελάτη
+let customerName =
+    String(customer || "")
+    .trim()
+    .toUpperCase()
+    .replace(
+        /[^A-ZΑ-ΩΆΈΉΊΌΎΏΪΫ0-9\s-]/g,
+        ""
+    )
+    .replace(
+        /\s+/g,
+        "-"
+    )
+    .replace(
+        /-+/g,
+        "-"
     );
+
+
+if (!customerName) {
+
+    customerName =
+        "ΧΩΡΙΣ-ΠΕΛΑΤΗ";
 
 }
 
 
+// Μορφή:
+// EO-2026-08-02-0001-ΠΕΛΑΤΗΣ
+
+const formattedNumber =
+    String(
+        orderNumber || currentOrderNumber
+    ).padStart(4, "0");
 
 
+return (
+    "EO-" +
+    year +
+    "-" +
+    month +
+    "-" +
+    day +
+    "-" +
+    formattedNumber +
+    "-" +
+    customerName
+);
 
+}
+
+// ==========================================
 // Οριστικοποίηση παραγγελίας
+// ==========================================
 
 function finalizeOrder(index) {
 
-
-    let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
-
-
-
-    if (!drafts[index]) {
-
-        return;
-
-    }
+const drafts =
+    JSON.parse(
+        localStorage.getItem(
+            "draftOrders"
+        )
+    ) || [];
 
 
-
-    drafts[index].status =
-        "Οριστικοποιημένη";
-
-
-
-    localStorage.setItem(
-        "draftOrders",
-        JSON.stringify(drafts)
-    );
-
-
-
-    showDrafts();
-
+if (!drafts[index]) {
 
     alert(
-        "Η παραγγελία οριστικοποιήθηκε"
+        "Η παραγγελία δεν βρέθηκε."
     );
+
+    return;
 
 }
 
 
+const confirmed =
+    confirm(
+        "Θέλετε να οριστικοποιήσετε την παραγγελία; " +
+        "Μετά την οριστικοποίηση θα κλειδωθεί."
+    );
 
 
+if (!confirmed) {
 
+    return;
+
+}
+
+
+drafts[index].status =
+    "Οριστικοποιημένη";
+
+
+// Η οριστικοποίηση κλειδώνει αυτόματα
+drafts[index].locked =
+    true;
+
+
+localStorage.setItem(
+    "draftOrders",
+    JSON.stringify(drafts)
+);
+
+
+showDrafts();
+
+
+alert(
+    "Η παραγγελία οριστικοποιήθηκε και κλειδώθηκε."
+);
+
+}
+
+// ==========================================
 // Κλείδωμα παραγγελίας
+// ==========================================
 
 function lockOrder(index) {
 
-
-    let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
-
-
-
-    if (!drafts[index]) {
-
-        return;
-
-    }
+const drafts =
+    JSON.parse(
+        localStorage.getItem(
+            "draftOrders"
+        )
+    ) || [];
 
 
+if (!drafts[index]) {
 
-    drafts[index].locked = true;
-
-
-
-    localStorage.setItem(
-        "draftOrders",
-        JSON.stringify(drafts)
-    );
-
-
-
-    showDrafts();
-
-
-    alert(
-        "Η παραγγελία κλειδώθηκε"
-    );
+    return;
 
 }
 
 
+drafts[index].locked =
+    true;
 
 
+localStorage.setItem(
+    "draftOrders",
+    JSON.stringify(drafts)
+);
 
+
+showDrafts();
+
+
+alert(
+    "Η παραγγελία κλειδώθηκε."
+);
+
+}
+
+// ==========================================
 // Ξεκλείδωμα παραγγελίας
+// ==========================================
 
 function unlockOrder(index) {
 
-
-    let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
-
-
-
-    if (!drafts[index]) {
-
-        return;
-
-    }
+const drafts =
+    JSON.parse(
+        localStorage.getItem(
+            "draftOrders"
+        )
+    ) || [];
 
 
+if (!drafts[index]) {
 
-    drafts[index].locked = false;
+    return;
+
+}
 
 
-
-    localStorage.setItem(
-        "draftOrders",
-        JSON.stringify(drafts)
+const confirmed =
+    confirm(
+        "Θέλετε να ξεκλειδώσετε την παραγγελία;"
     );
 
 
+if (!confirmed) {
 
-    showDrafts();
+    return;
+
+}
 
 
-    alert(
-        "Η παραγγελία ξεκλειδώθηκε"
-    );
+drafts[index].locked =
+    false;
+
+
+// Αν ξεκλειδωθεί, επιστρέφει σε πρόχειρη
+drafts[index].status =
+    "Πρόχειρη";
+
+
+localStorage.setItem(
+    "draftOrders",
+    JSON.stringify(drafts)
+);
+
+
+showDrafts();
+
+
+alert(
+    "Η παραγγελία ξεκλειδώθηκε."
+);
 
 }

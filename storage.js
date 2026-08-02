@@ -732,3 +732,39 @@ function deleteOrder(index) {
 
 
 }
+
+function saveProductIfNew(product) {
+
+    let savedProducts =
+        JSON.parse(
+            localStorage.getItem("savedProducts")
+        ) || [];
+
+
+    let exists =
+        savedProducts.some(item =>
+            item.code === product.code
+        );
+
+
+    if (!exists) {
+
+        savedProducts.push({
+
+            code: product.code,
+
+            description: product.description,
+
+            price: Number(product.price) || 0
+
+        });
+
+
+        localStorage.setItem(
+            "savedProducts",
+            JSON.stringify(savedProducts)
+        );
+
+    }
+
+}

@@ -19,7 +19,10 @@ const productsDatabase = [
 ];
 
 
-const customersDatabase = [];
+let customersDatabase =
+    JSON.parse(
+        localStorage.getItem("customersDatabase")
+    ) || [];
 
 function getAllProducts() {
 

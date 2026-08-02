@@ -60,7 +60,7 @@ function searchDescription(element) {
 
 
     let results =
-        productsDatabase.filter(product =>
+        getAllProducts().filter(product =>
             product.description
             .toLowerCase()
             .includes(text)

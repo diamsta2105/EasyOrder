@@ -242,8 +242,8 @@ function downloadPDF(order) {
         let fileName = "Παραγγελία-" + (order.customer || "FÖRCH") + ".pdf";
         doc.save(fileName);
 
-    } 
-    catch (error) {
-        alert("Κάτι πήγε στραβά κατά τη δημιουργία του PDF: " + error.message);
+    } catch (error) {
+    console.error(error);
+    alert("Σφάλμα PDF: " + error.message);
     }
 }

@@ -39,10 +39,10 @@ function generatePDF() {
 
         // Δημιουργία αντικειμένου παραγγελίας
         const orderData = {
-            number:
-    document.getElementById("orderNumber")?.value || "-"
-            date: dateVal,
-            customer: customerVal,
+    number:
+        document.getElementById("orderNumber")?.value || "-",
+    date: dateVal,
+    customer: customerVal,
             area: areaVal,
             products: productsList,
             total: totalVal,

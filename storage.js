@@ -61,7 +61,48 @@ function saveDraft() {
     let customer =
     document.getElementById("customer").value.trim();
 
+// Αποθήκευση νέου πελάτη
 
+let customerCode =
+    document.getElementById("customerCode").value.trim();
+
+
+let customerArea =
+    document.getElementById("area").value.trim();
+
+
+if (
+    customerCode !== "" &&
+    customer !== ""
+) {
+
+    let exists =
+        customersDatabase.some(
+            item => item.code === customerCode
+        );
+
+
+    if (!exists) {
+
+        customersDatabase.push({
+
+            code: customerCode,
+
+            name: customer,
+
+            area: customerArea
+
+        });
+
+
+        localStorage.setItem(
+            "customersDatabase",
+            JSON.stringify(customersDatabase)
+        );
+
+    }
+
+}
 
     let drafts =
     JSON.parse(

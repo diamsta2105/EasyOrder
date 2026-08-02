@@ -82,11 +82,7 @@ function downloadPDF(order) {
 
         // Ασφαλής εφαρμογή της ελληνικής γραμματοσειράς
         function applyGreekFont(style = "normal") {
-            try {
-                doc.setFont("CustomGreek", style);
-            } catch (e) {
-                throw new Error("Βεβαιωθείτε ότι το αρχείο fonts.js έχει φορτωθεί σωστά.");
-            }
+    doc.setFont("helvetica", style);
         }
 
         let pageWidth = doc.internal.pageSize.getWidth();

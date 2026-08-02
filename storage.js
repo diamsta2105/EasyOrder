@@ -94,6 +94,8 @@ if (
 
         });
 
+        console.log(customersDatabase);
+
 
         localStorage.setItem(
             "customersDatabase",

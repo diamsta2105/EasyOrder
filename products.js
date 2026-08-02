@@ -280,6 +280,17 @@ readonly>
 
 </td>
 
+<td>
+
+<button
+type="button"
+class="removeProduct"
+onclick="removeProduct(this)">
+
+✕</button>
+
+</td>
+
 `;
 
 }

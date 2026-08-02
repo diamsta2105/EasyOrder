@@ -36,9 +36,7 @@ function findCustomerByCode(element) {
 
 function searchCustomer(element) {
 
-    alert(
-    JSON.stringify(customersDatabase)
-);
+    
 
     let text =
         element.value.toLowerCase();

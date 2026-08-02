@@ -3,6 +3,52 @@
 
 let editingOrderIndex = null;
 
+let viewOnlyOrder = false;
+
+
+
+
+
+// Κλείδωμα / ξεκλείδωμα φόρμας
+
+function setFormLocked(state) {
+
+
+    let fields =
+    document.querySelectorAll(
+        "#date, #area, #customer, #notes, #products input"
+    );
+
+
+
+    fields.forEach(field => {
+
+        field.readOnly = state;
+
+    });
+
+
+
+    // Κλείδωμα κουμπιού προσθήκης προϊόντος
+
+    let addButton =
+    document.querySelector(
+        'button[onclick="addProduct()"]'
+    );
+
+
+
+    if (addButton) {
+
+        addButton.disabled = state;
+
+    }
+
+
+}
+
+
+
 
 
 
@@ -13,7 +59,45 @@ function saveDraft() {
 
 
     let customer =
-        document.getElementById("customer").value;
+    document.getElementById("customer").value.trim();
+
+
+
+    let drafts =
+    JSON.parse(
+        localStorage.getItem("draftOrders")
+    ) || [];
+
+
+
+
+
+    if (editingOrderIndex !== null) {
+
+
+        let oldOrder =
+        drafts[editingOrderIndex];
+
+
+
+        if (oldOrder && oldOrder.locked) {
+
+
+            alert(
+                "Η παραγγελία είναι κλειδωμένη και δεν μπορεί να αλλάξει."
+            );
+
+
+         
+
+            return;
+
+        }
+
+
+    }
+
+
 
 
 
@@ -33,15 +117,16 @@ function saveDraft() {
 
 
         area:
-        document.getElementById("area").value,
+        document.getElementById("area").value.trim(),
 
 
         customer:
         customer,
 
+
         notes:
-document.getElementById("notes").value,
-    
+        document.getElementById("notes").value,
+
 
         total:
         document.getElementById("total").innerText,
@@ -61,105 +146,161 @@ document.getElementById("notes").value,
 
 
 
+
+
     document.querySelectorAll("#products tr")
     .forEach(row => {
 
 
-        order.products.push({
-
-            code:
-            row.querySelector(".code").value,
+        let code =
+        row.querySelector(".code")?.value || "";
 
 
-            description:
-            row.querySelector(".description").value,
+        let description =
+        row.querySelector(".description")?.value || "";
 
 
-            quantity:
-            row.querySelector(".quantity").value,
+
+        if (
+            code.trim() !== "" ||
+            description.trim() !== ""
+        ) {
 
 
-            price:
-            row.querySelector(".price").value,
+            order.products.push({
+
+                code:
+                code,
 
 
-            discount:
-            row.querySelector(".discount").value,
+                description:
+                description,
 
 
-            finalPrice:
-            row.querySelector(".finalPrice").value
+                quantity:
+                row.querySelector(".quantity")?.value || "0",
 
-        });
+
+                price:
+                row.querySelector(".price")?.value || "0",
+
+
+                discount:
+                row.querySelector(".discount")?.value || "",
+
+
+                finalPrice:
+                row.querySelector(".finalPrice")?.value || "0"
+
+            });
+
+
+        }
 
 
     });
 
 
 
-    let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
-
 
 
     if (editingOrderIndex !== null) {
 
 
+        let oldOrder =
+        drafts[editingOrderIndex];
+
+
+
+        if (!oldOrder) {
+
+
+            alert(
+                "Δεν βρέθηκε η παραγγελία."
+            );
+
+
+            editingOrderIndex = null;
+
+
+            return;
+
+        }
+
+
+
         order.number =
-            drafts[editingOrderIndex].number;
+        oldOrder.number;
+
 
 
         order.id =
-            drafts[editingOrderIndex].id;
+        oldOrder.id;
+
 
 
         order.status =
-            drafts[editingOrderIndex].status;
+        oldOrder.status;
+
 
 
         order.locked =
-            drafts[editingOrderIndex].locked;
+        oldOrder.locked;
+
 
 
         drafts[editingOrderIndex] =
-            order;
-
-
-        alert(
-            "Οι αλλαγές αποθηκεύτηκαν"
-        );
-
-
-    } else {
-
-
-        order.number =
-            currentOrderNumber++;
-
-
-        drafts.push(order);
+        order;
 
 
 
         localStorage.setItem(
-            "currentOrderNumber",
-            currentOrderNumber
+            "draftOrders",
+            JSON.stringify(drafts)
         );
+
 
 
         alert(
-            "Η πρόχειρη παραγγελία αποθηκεύτηκε"
+            "Οι αλλαγές αποθηκεύτηκαν."
         );
 
+
+
+        return;
+
+
     }
+
+
+
+
+
+    order.number =
+    currentOrderNumber++;
+
+
+
+    drafts.push(order);
+
+
+
+    localStorage.setItem(
+        "currentOrderNumber",
+        currentOrderNumber
+    );
 
 
 
     localStorage.setItem(
         "draftOrders",
         JSON.stringify(drafts)
+    );
+
+
+
+    alert(
+        "Η πρόχειρη παραγγελία αποθηκεύτηκε."
     );
 
 
@@ -177,13 +318,22 @@ function showDrafts() {
 
 
     let box =
-        document.getElementById("draftList");
+    document.getElementById("draftList");
+
+
+
+    if (!box) {
+
+        return;
+
+    }
+
 
 
     let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
+    JSON.parse(
+        localStorage.getItem("draftOrders")
+    ) || [];
 
 
 
@@ -195,21 +345,31 @@ function showDrafts() {
 
 
         let item =
-            document.createElement("div");
+        document.createElement("div");
 
 
 
-        item.style.border = "1px solid #ccc";
-        item.style.padding = "10px";
-        item.style.marginTop = "10px";
-        item.style.borderRadius = "8px";
+        item.style.border =
+        "1px solid #ccc";
+
+
+        item.style.padding =
+        "10px";
+
+
+        item.style.marginTop =
+        "10px";
+
+
+        item.style.borderRadius =
+        "8px";
 
 
 
         let lockText =
-            order.locked
-            ? "🔒 Κλειδωμένη"
-            : "🔓 Ξεκλείδωτη";
+        order.locked
+        ? "🔒 Κλειδωμένη"
+        : "🔓 Ξεκλείδωτη";
 
 
 
@@ -272,51 +432,62 @@ ${lockText}
 
 }
 
-
-
-
-
-
-
 // Άνοιγμα παραγγελίας
 
 function openOrder(index) {
 
 
     let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
+    JSON.parse(
+        localStorage.getItem("draftOrders")
+    ) || [];
 
 
 
     let order =
-        drafts[index];
+    drafts[index];
 
 
 
     if (!order) {
+
         return;
+
     }
 
 
 
-    editingOrderIndex = index;
+    editingOrderIndex =
+    index;
+
+
+
+    // Πρώτα ξεκλειδώνουμε τη φόρμα
+    // ώστε να μην μείνει από προηγούμενη παραγγελία
+
+    setFormLocked(false);
+
+
+
+    viewOnlyOrder =
+    order.locked || false;
 
 
 
     document.getElementById("date").value =
-        order.date;
+    order.date || "";
 
 
 
     document.getElementById("area").value =
-        order.area;
+    order.area || "";
 
 
 
     document.getElementById("customer").value =
-        order.customer;
+    order.customer || "";
+
+
 
     document.getElementById("notes").value =
     order.notes || "";
@@ -324,29 +495,35 @@ function openOrder(index) {
 
 
     let table =
-        document.getElementById("products");
+    document.getElementById("products");
+
 
 
     table.innerHTML = "";
 
 
 
-    order.products.forEach(product => {
+    if (order.products) {
 
 
-        let row =
+        order.products.forEach(product => {
+
+
+            let row =
             table.insertRow();
 
 
 
-        row.innerHTML = `
+            row.innerHTML = `
 
 <td>
+
 <input 
 type="text"
 class="code"
-value="${product.code}"
+value="${product.code || ""}"
 onblur="findProduct(this)">
+
 </td>
 
 
@@ -355,7 +532,7 @@ onblur="findProduct(this)">
 <input
 type="text"
 class="description"
-value="${product.description}"
+value="${product.description || ""}"
 oninput="searchDescription(this)">
 
 <div class="suggestions"></div>
@@ -368,7 +545,7 @@ oninput="searchDescription(this)">
 <input
 type="number"
 class="quantity"
-value="${product.quantity}"
+value="${product.quantity || 1}"
 oninput="calculateRow(this.closest('tr'))">
 
 </td>
@@ -379,7 +556,7 @@ oninput="calculateRow(this.closest('tr'))">
 <input
 type="number"
 class="price"
-value="${product.price}"
+value="${product.price || ""}"
 oninput="calculateRow(this.closest('tr'))">
 
 </td>
@@ -390,7 +567,7 @@ oninput="calculateRow(this.closest('tr'))">
 <input
 type="number"
 class="discount"
-value="${product.discount}"
+value="${product.discount || ""}"
 oninput="calculateRow(this.closest('tr'))">
 
 </td>
@@ -401,7 +578,7 @@ oninput="calculateRow(this.closest('tr'))">
 <input
 type="number"
 class="finalPrice"
-value="${product.finalPrice}"
+value="${product.finalPrice || "0"}"
 readonly>
 
 </td>
@@ -410,11 +587,74 @@ readonly>
 
 
 
-    });
+        });
+
+
+    }
 
 
 
     calculateTotal();
+
+
+
+    // Εφαρμογή τελικού κλειδώματος αν χρειάζεται
+
+    setFormLocked(viewOnlyOrder);
+
+
+
+    if (viewOnlyOrder) {
+
+
+        alert(
+            "Η παραγγελία είναι κλειδωμένη. Προβολή μόνο."
+        );
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+// Δημιουργία PDF από αποθηκευμένη παραγγελία
+
+function downloadPDFFromIndex(index) {
+
+
+    let drafts =
+    JSON.parse(
+        localStorage.getItem("draftOrders")
+    ) || [];
+
+
+
+    let order =
+    drafts[index];
+
+
+
+    if (!order) {
+
+
+        alert(
+            "Δεν βρέθηκε η παραγγελία."
+        );
+
+
+        return;
+
+    }
+
+
+
+    downloadPDF(order);
 
 
 }
@@ -431,9 +671,49 @@ function deleteOrder(index) {
 
 
     let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
+    JSON.parse(
+        localStorage.getItem("draftOrders")
+    ) || [];
+
+
+
+    let order =
+    drafts[index];
+
+
+
+    if (!order) {
+
+        return;
+
+    }
+
+
+
+    if (order.locked) {
+
+
+        alert(
+            "Η παραγγελία είναι κλειδωμένη και δεν μπορεί να διαγραφεί."
+        );
+
+
+        return;
+
+    }
+
+
+
+    if (
+        !confirm(
+            "Θέλετε σίγουρα να διαγράψετε την παραγγελία;"
+        )
+    ) {
+
+
+        return;
+
+    }
 
 
 

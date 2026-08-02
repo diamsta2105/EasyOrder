@@ -102,6 +102,10 @@ if (
             JSON.stringify(customersDatabase)
         );
 
+        alert(
+    JSON.stringify(customersDatabase)
+);
+
     }
 
 }

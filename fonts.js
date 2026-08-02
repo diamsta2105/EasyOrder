@@ -1,24 +1,50 @@
 // fonts.js
-(function() {
-    // Ελαφριά ελληνική γραμματοσειρά σε Base64
-    const greekFontBase64 = "AAEAAAASAQAABAAwR0RFRgAzADIAAAFMAAAAIEdQT1N00XU0AAABbAAAALZHU1VCf2N/agAAA0wAAACgT1MvMnYLa3MAAAE8AAAAYGNtYXBY6F8UAAACDAAAAGhjYXNwAAAAEAAAASgAAAAIZ2x5ZmSOfksAAALsAAALHGhlYWQLXN35AAAA7AAAADZoaGVhB7gD3QAAASQAAAAkaG10eD8QAeAAAAF8AAAAWGxvY2EG2gZ6AAAC3AAAACxtYXhwAFoAPwAAAUgAAAAgbmFtZR3S3UoAAAZEAAABhnBvc3T/bQBkAAAIFAAAACAAAwGDAZAABQAEApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADpAwHg/+D/4AHgACAAAAABAAAAAAAAAAAAAAAgAAAAAAACAAAAAwAAABQAAwABAAAAFAAEAEgAAAAKAAgAAgACAAEAIOkD//3//wAAAAAAIOkD//3//wAB/+MXAwADAAEAAAAAAAAAAAAAAAEAAyAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAgAAQAnAAAAAQAIAAEAJwAAAAEADAAAAAAAfgBYAHgAYgBOAEIAAD8ofwB/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CH8Ifwh/CD8IQA=";
+(function () {
 
-    if (typeof window !== "undefined" && window.jspdf) {
+    const fontUrl = "NotoSans-Regular.ttf";
 
-    const { jsPDF } = window.jspdf;
+    fetch(fontUrl)
+        .then(response => response.arrayBuffer())
+        .then(buffer => {
 
+            const fontBytes = new Uint8Array(buffer);
 
-    jsPDF.API.addFileToVFS(
-        "CustomGreek.ttf",
-        greekFontBase64
-    );
+            let binary = "";
 
+            for (let i = 0; i < fontBytes.length; i++) {
+                binary += String.fromCharCode(fontBytes[i]);
+            }
 
-    jsPDF.API.addFont(
-        "CustomGreek.ttf",
-        "CustomGreek",
-        "normal"
-    );
+            const base64Font = btoa(binary);
 
-    }
+            const { jsPDF } = window.jspdf;
+
+            jsPDF.API.events.push([
+                "addFonts",
+                function () {
+
+                    this.addFileToVFS(
+                        "NotoSans-Regular.ttf",
+                        base64Font
+                    );
+
+                    this.addFont(
+                        "NotoSans-Regular.ttf",
+                        "NotoSans",
+                        "normal"
+                    );
+
+                }
+            ]);
+
+            console.log("Η ελληνική γραμματοσειρά φορτώθηκε σωστά.");
+
+        })
+        .catch(error => {
+            console.error(
+                "Σφάλμα φόρτωσης γραμματοσειράς:",
+                error
+            );
+        });
+
 })();

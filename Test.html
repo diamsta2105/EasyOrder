@@ -43,14 +43,22 @@
 <input
 type="text"
 id="customerCode"
-placeholder="Κωδικός πελάτη">
+placeholder="Κωδικός πελάτη"
+onblur="findCustomerByCode(this)">
 
 <label>Περιοχή</label>
 <input type="text" id="area" placeholder="Περιοχή">
 
 
 <label>Πελάτης</label>
-<input type="text" id="customer" placeholder="Επωνυμία πελάτη">
+
+<input 
+type="text"
+id="customer"
+placeholder="Επωνυμία πελάτη"
+oninput="searchCustomer(this)">
+  
+<div class="customerSuggestions"></div>
 
   
 

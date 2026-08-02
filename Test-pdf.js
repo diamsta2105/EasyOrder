@@ -39,7 +39,8 @@ function generatePDF() {
 
         // Δημιουργία αντικειμένου παραγγελίας
         const orderData = {
-            number: "ORD-" + Math.floor(1000 + Math.random() * 9000), // Τυχαίος αριθμός αν δεν υπάρχει
+            number:
+    document.getElementById("orderNumber")?.value || "-"
             date: dateVal,
             customer: customerVal,
             area: areaVal,
@@ -163,7 +164,12 @@ function downloadPDF(order) {
 
                 let qty = product.quantity ? Number(product.quantity).toString() : "0";
                 let price = product.price ? Number(product.price).toFixed(2) + " €" : "0.00 €";
-                let discount = product.discount ? product.discount + "%" : "-";
+                let discount =
+    product.discount !== "" &&
+    product.discount !== null &&
+    product.discount !== undefined
+        ? product.discount + "%"
+        : "-";
                 let finalPrice = product.finalPrice ? Number(product.finalPrice).toFixed(2) + " €" : "0.00 €";
 
                 doc.text(product.code || "", 17, y + 5);

@@ -97,6 +97,17 @@ function previewSelectedOrders() {
     </div>
 
 
+    <div class="selectedPreviewButtons">
+
+    <button
+        type="button"
+        class="createSelectedPdfButton"
+        onclick="createSelectedOrdersPDF()">
+
+        📄 Δημιουργία PDF
+
+    </button>
+
     <button
         type="button"
         class="closeSelectedOrdersPreview"
@@ -105,6 +116,8 @@ function previewSelectedOrders() {
         Κλείσιμο προεπισκόπησης
 
     </button>
+
+</div>
 
 </div>
 
@@ -681,6 +694,30 @@ function addSelectedOrdersPreviewStyles() {
         margin-top: 2px;
 
     }
+
+}
+
+.selectedPreviewButtons {
+
+    display: flex;
+
+    gap: 10px;
+
+    max-width: 794px;
+
+    margin: 15px auto;
+
+}
+
+.selectedPreviewButtons button {
+
+    flex: 1;
+
+}
+
+.createSelectedPdfButton {
+
+    background: #0b7a3b;
 
 }
 

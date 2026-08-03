@@ -469,18 +469,15 @@ function addSelectedOrdersPreviewStyles() {
 
 .selectedPreviewOrder {
 
-    border-bottom: 1px solid #bbb;
-
     padding: 8px 0 14px 0;
 
-    margin-bottom: 18px;
+    margin-bottom: 36px;
 
     color: #111;
 
     font-family: Arial, sans-serif;
 
 }
-
 
 .selectedPreviewHeader {
 

@@ -76,11 +76,14 @@ function previewSelectedOrders() {
 
 
     const ordersHTML =
-        selectedOrders
-        .map(order =>
-            createPreviewOrderHTML(order)
+    selectedOrders
+    .map((order, index) =>
+        createPreviewOrderHTML(
+            order,
+            index === 0
         )
-        .join("");
+    )
+    .join("");
 
 
     overlay.innerHTML = `
@@ -123,8 +126,10 @@ function previewSelectedOrders() {
 
 
 // Δημιουργεί την εμφάνιση μίας παραγγελίας
-function createPreviewOrderHTML(order) {
-
+function createPreviewOrderHTML(
+    order,
+    showMainHeader
+) {
     const products =
         Array.isArray(order.products)
             ? order.products
@@ -203,6 +208,10 @@ function createPreviewOrderHTML(order) {
 
 <div class="selectedPreviewOrder">
 
+    ${
+        showMainHeader
+            ? `
+
     <div class="selectedPreviewHeader">
 
         <strong>FÖRCH</strong>
@@ -218,9 +227,12 @@ function createPreviewOrderHTML(order) {
 
     </div>
 
+`
+            : ""
+    }
+
 
     <div class="selectedPreviewInfo">
-
         <div>
             <strong>Ημερομηνία:</strong>
             ${escapePreviewText(

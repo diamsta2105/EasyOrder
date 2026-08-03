@@ -169,6 +169,9 @@ if (
 
         customer:
         customer,
+
+        seller:
+document.getElementById("seller").value,
         
         customerCode:
         document.getElementById("customerCode").value.trim(),

@@ -691,20 +691,7 @@ onclick="finalizeOrder(${index})">
 </button>
 
 
-<button
-onclick="lockOrder(${index})">
 
-🔒 Κλείδωμα
-
-</button>
-
-
-<button
-onclick="unlockOrder(${index})">
-
-🔓 Ξεκλείδωμα
-
-</button>
 
 
 <button

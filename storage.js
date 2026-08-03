@@ -369,6 +369,9 @@ document.getElementById("seller").value,
         "Η πρόχειρη παραγγελία αποθηκεύτηκε."
     );
 
+    editingOrderIndex =
+    drafts.length - 1;
+
 
 }
 

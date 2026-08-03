@@ -157,3 +157,8 @@ textarea {
     cursor: pointer;
 
 }
+
+/* Το μενού των τριών τελειών ξεκινά κλειστό */
+.orderMenu {
+    display: none;
+}

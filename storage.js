@@ -5,7 +5,11 @@ let editingOrderIndex = null;
 
 let viewOnlyOrder = false;
 
+let todaySeller =
+    localStorage.getItem("todaySeller") || "";
 
+let sellerDate =
+    localStorage.getItem("sellerDate") || "";
 
 
 

@@ -377,10 +377,82 @@ document.getElementById("seller").value,
 
 
 
-
 // ==========================================
 // Εμφάνιση πρόχειρων και ολοκληρωμένων
 // ==========================================
+
+let currentOrdersTab = "draft";
+
+
+// Εμφάνιση της επιλεγμένης κατηγορίας
+
+function showOrders(type) {
+
+    currentOrdersTab = type;
+
+
+    let draftBox =
+        document.getElementById("draftList");
+
+
+    let completedBox =
+        document.getElementById("completedList");
+
+
+    if (!draftBox || !completedBox) {
+
+        return;
+
+    }
+
+
+    // Εμφανίζουμε μόνο τη λίστα που επιλέχθηκε
+
+    if (type === "draft") {
+
+        draftBox.style.display = "block";
+
+        completedBox.style.display = "none";
+
+    } else {
+
+        draftBox.style.display = "none";
+
+        completedBox.style.display = "block";
+
+    }
+
+
+    // Αλλάζουμε την εμφάνιση των δύο κουμπιών
+
+    document
+        .querySelectorAll(".orderTab")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+        });
+
+
+    let activeButton =
+        document.querySelector(
+            `.orderTab[onclick="showOrders('${type}')"]`
+        );
+
+
+    if (activeButton) {
+
+        activeButton.classList.add("active");
+
+    }
+
+
+    showDrafts();
+
+}
+
+
+// Δημιουργία των λιστών
 
 function showDrafts() {
 
@@ -406,188 +478,383 @@ function showDrafts() {
         ) || [];
 
 
-    // Καθαρισμός των δύο λιστών
+    // Καθαρισμός λιστών
 
     draftBox.innerHTML = "";
 
     completedBox.innerHTML = "";
 
 
-    // Νεότερη ημερομηνία πρώτη
+    // Χωρισμός παραγγελιών
 
-    let sortedOrders =
-        [...orders].sort(
-            function (a, b) {
-
-                return new Date(b.date) -
-                    new Date(a.date);
-
-            }
+    let draftOrders =
+        orders.filter(
+            order =>
+                order.status !==
+                "Οριστικοποιημένη"
         );
 
 
-    sortedOrders.forEach(
-        function (order) {
+    let completedOrders =
+        orders.filter(
+            order =>
+                order.status ===
+                "Οριστικοποιημένη"
+        );
 
 
-            // Βρίσκουμε τη θέση της παραγγελίας
-            // μέσα στην αρχική λίστα
+    // Νεότερη ημερομηνία πρώτη
+
+    draftOrders.sort(
+        (a, b) =>
+            new Date(b.date) -
+            new Date(a.date)
+    );
+
+
+    completedOrders.sort(
+        (a, b) =>
+            new Date(b.date) -
+            new Date(a.date)
+    );
+
+
+    // Ενημέρωση αριθμών
+
+    let draftCount =
+        document.getElementById(
+            "draftCount"
+        );
+
+
+    let completedCount =
+        document.getElementById(
+            "completedCount"
+        );
+
+
+    if (draftCount) {
+
+        draftCount.innerText =
+            draftOrders.length;
+
+    }
+
+
+    if (completedCount) {
+
+        completedCount.innerText =
+            completedOrders.length;
+
+    }
+
+
+    // ==================================
+    // ΠΡΟΧΕΙΡΕΣ ΠΑΡΑΓΓΕΛΙΕΣ
+    // ==================================
+
+    if (draftOrders.length === 0) {
+
+        draftBox.innerHTML = `
+        
+<p class="emptyOrders">
+Δεν υπάρχουν πρόχειρες παραγγελίες.
+</p>
+
+`;
+
+    } else {
+
+        draftOrders.forEach(order => {
+
 
             let index =
                 orders.indexOf(order);
 
 
-            // ==================================
-            // ΠΡΟΧΕΙΡΕΣ ΠΑΡΑΓΓΕΛΙΕΣ
-            // ==================================
-
-            if (
-                order.status !==
-                "Οριστικοποιημένη"
-            ) {
+            let item =
+                document.createElement("div");
 
 
-                let item =
-                    document.createElement("div");
+            item.className =
+                "orderRow";
 
 
-                item.style.border =
-                    "1px solid #ccc";
+            item.innerHTML = `
 
+<div class="orderInfo">
 
-                item.style.padding =
-                    "10px";
+<span class="orderDate">
+${order.date || "-"}
+</span>
 
+<span class="orderCustomer">
+${order.customer || "-"}
+</span>
 
-                item.style.marginTop =
-                    "10px";
-
-
-                item.style.borderRadius =
-                    "8px";
-
-
-                let lockText =
-                    order.locked
-                    ? "🔒 Κλειδωμένη"
-                    : "🔓 Ξεκλείδωτη";
-
-
-                item.innerHTML = `
-
-<b>${order.id}</b><br>
-
-Ημερομηνία:
-${order.date || "-"}<br>
-
-Πελάτης:
-${order.customer || "-"}<br>
-
-Σύνολο:
-${order.total || "0.00 €"}<br>
-
-Κατάσταση:
-${order.status || "Πρόχειρη"}<br>
-
-${lockText}
-
-<br><br>
-
-<button onclick="openOrder(${index})">
-✏️ Άνοιγμα
-</button>
-
-<button onclick="finalizeOrder(${index})">
-✅ Οριστικοποίηση
-</button>
-
-<button onclick="lockOrder(${index})">
-🔒 Κλείδωμα
-</button>
-
-<button onclick="unlockOrder(${index})">
-🔓 Ξεκλείδωμα
-</button>
-
-<button onclick="downloadPDFFromIndex(${index})">
-📄 Δημιουργία PDF
-</button>
-
-<button onclick="deleteOrder(${index})">
-🗑 Διαγραφή
-</button>
-
-`;
-
-
-                draftBox.appendChild(item);
-
-
-            }
-
-
-            // ==================================
-            // ΟΛΟΚΛΗΡΩΜΕΝΕΣ ΠΑΡΑΓΓΕΛΙΕΣ
-            // ==================================
-
-            else {
-
-
-                let item =
-                    document.createElement("div");
-
-
-                item.style.border =
-                    "1px solid #ccc";
-
-
-                item.style.padding =
-                    "10px";
-
-
-                item.style.marginTop =
-                    "10px";
-
-
-                item.style.borderRadius =
-                    "8px";
-
-
-                item.innerHTML = `
-
-<b>Ημερομηνία:</b>
-${order.date || "-"}<br>
-
-<b>Πελάτης:</b>
-${order.customer || "-"}<br>
-
-<b>Καθαρή αξία:</b>
+<span class="orderTotal">
 ${order.total || "0.00 €"}
+</span>
 
-<br><br>
+</div>
 
-<button onclick="openOrder(${index})">
-👁 Άνοιγμα
+
+<div class="orderActions">
+
+<button
+type="button"
+class="openOrderButton"
+onclick="openOrder(${index})">
+
+✏️
+
 </button>
 
-<button onclick="deleteOrder(${index})">
+
+<button
+type="button"
+class="moreOrderButton"
+onclick="toggleOrderMenu(this)">
+
+⋮
+
+</button>
+
+</div>
+
+
+<div class="orderMenu">
+
+<button
+onclick="finalizeOrder(${index})">
+
+✅ Οριστικοποίηση
+
+</button>
+
+
+<button
+onclick="lockOrder(${index})">
+
+🔒 Κλείδωμα
+
+</button>
+
+
+<button
+onclick="unlockOrder(${index})">
+
+🔓 Ξεκλείδωμα
+
+</button>
+
+
+<button
+onclick="downloadPDFFromIndex(${index})">
+
+📄 Δημιουργία PDF
+
+</button>
+
+
+<button
+onclick="deleteOrder(${index})">
+
 🗑 Διαγραφή
+
 </button>
+
+</div>
 
 `;
 
 
-                completedBox.appendChild(item);
+            draftBox.appendChild(item);
 
 
-            }
+        });
+
+    }
 
 
-        }
-    );
+    // ==================================
+    // ΟΛΟΚΛΗΡΩΜΕΝΕΣ ΠΑΡΑΓΓΕΛΙΕΣ
+    // ==================================
 
+    if (completedOrders.length === 0) {
+
+        completedBox.innerHTML = `
+
+<p class="emptyOrders">
+Δεν υπάρχουν ολοκληρωμένες παραγγελίες.
+</p>
+
+`;
+
+    } else {
+
+        completedOrders.forEach(order => {
+
+
+            let index =
+                orders.indexOf(order);
+
+
+            let item =
+                document.createElement("div");
+
+
+            item.className =
+                "orderRow";
+
+
+            item.innerHTML = `
+
+<div class="orderInfo">
+
+<span class="orderDate">
+${order.date || "-"}
+</span>
+
+<span class="orderCustomer">
+${order.customer || "-"}
+</span>
+
+<span class="orderTotal">
+${order.total || "0.00 €"}
+</span>
+
+</div>
+
+
+<div class="orderActions">
+
+<button
+type="button"
+class="openOrderButton"
+onclick="openOrder(${index})">
+
+👁
+
+</button>
+
+
+<button
+type="button"
+class="deleteOrderButton"
+onclick="deleteOrder(${index})">
+
+🗑
+
+</button>
+
+</div>
+
+`;
+
+
+            completedBox.appendChild(item);
+
+
+        });
+
+    }
+
+
+    // Διατηρούμε ανοιχτή την καρτέλα
+    // που είχε επιλεγεί
+
+    if (currentOrdersTab === "draft") {
+
+        draftBox.style.display =
+            "block";
+
+        completedBox.style.display =
+            "none";
+
+    } else {
+
+        draftBox.style.display =
+            "none";
+
+        completedBox.style.display =
+            "block";
+
+    }
 
 }
+
+
+// Άνοιγμα / κλείσιμο μενού ⋮
+
+function toggleOrderMenu(button) {
+
+
+    let row =
+        button.closest(".orderRow");
+
+
+    if (!row) {
+
+        return;
+
+    }
+
+
+    let menu =
+        row.querySelector(
+            ".orderMenu"
+        );
+
+
+    if (!menu) {
+
+        return;
+
+    }
+
+
+    // Κλείνουμε τα υπόλοιπα μενού
+
+    document
+        .querySelectorAll(
+            ".orderMenu"
+        )
+        .forEach(otherMenu => {
+
+            if (
+                otherMenu !== menu
+            ) {
+
+                otherMenu.style.display =
+                    "none";
+
+            }
+
+        });
+
+
+    // Ανοίγουμε ή κλείνουμε
+    // το μενού της συγκεκριμένης παραγγελίας
+
+    if (
+        menu.style.display ===
+        "block"
+    ) {
+
+        menu.style.display =
+            "none";
+
+    } else {
+
+        menu.style.display =
+            "block";
+
+    }
+
+}
+
+ 
 
 // Άνοιγμα παραγγελίας
 

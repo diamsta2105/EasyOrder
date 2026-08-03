@@ -3,6 +3,56 @@
 
 let editingOrderIndex = null;
 
+let viewOnlyOrder = false;
+
+let todaySeller =
+    localStorage.getItem("todaySeller") || "";
+
+let sellerDate =
+    localStorage.getItem("sellerDate") || "";
+
+
+
+// Κλείδωμα / ξεκλείδωμα φόρμας
+
+function setFormLocked(state) {
+
+
+    let fields =
+    document.querySelectorAll(
+        "#date, #area, #customer, #notes, #products input"
+    );
+
+
+
+    fields.forEach(field => {
+
+        field.readOnly = state;
+
+    });
+
+
+
+    // Κλείδωμα κουμπιού προσθήκης προϊόντος
+
+    let addButton =
+    document.querySelector(
+        'button[onclick="addProduct()"]'
+    );
+
+
+
+    if (addButton) {
+
+        addButton.disabled = state;
+
+    }
+
+
+}
+
+
+
 
 
 
@@ -13,7 +63,92 @@ function saveDraft() {
 
 
     let customer =
-        document.getElementById("customer").value;
+    document.getElementById("customer").value.trim();
+
+// Αποθήκευση νέου πελάτη
+
+let customerCode =
+    document.getElementById("customerCode").value.trim();
+
+
+let customerArea =
+    document.getElementById("area").value.trim();
+
+
+if (
+    customerCode !== "" &&
+    customer !== ""
+) {
+
+    let exists =
+        customersDatabase.some(
+            item => item.code === customerCode
+        );
+
+
+    if (!exists) {
+
+        customersDatabase.push({
+
+            code: customerCode,
+
+            name: customer,
+
+            area: customerArea
+
+        });
+
+        console.log(customersDatabase);
+
+
+        localStorage.setItem(
+            "customersDatabase",
+            JSON.stringify(customersDatabase)
+        );
+
+        alert(
+    JSON.stringify(customersDatabase)
+);
+
+    }
+
+}
+
+    let drafts =
+    JSON.parse(
+        localStorage.getItem("draftOrders")
+    ) || [];
+
+
+
+
+
+    if (editingOrderIndex !== null) {
+
+
+        let oldOrder =
+        drafts[editingOrderIndex];
+
+
+
+        if (oldOrder && oldOrder.locked) {
+
+
+            alert(
+                "Η παραγγελία είναι κλειδωμένη και δεν μπορεί να αλλάξει."
+            );
+
+
+         
+
+            return;
+
+        }
+
+
+    }
+
+
 
 
 
@@ -33,15 +168,21 @@ function saveDraft() {
 
 
         area:
-        document.getElementById("area").value,
+        document.getElementById("area").value.trim(),
 
 
         customer:
         customer,
 
+        seller:
+document.getElementById("seller").value,
+        
+        customerCode:
+        document.getElementById("customerCode").value.trim(),
+
         notes:
-document.getElementById("notes").value,
-    
+        document.getElementById("notes").value,
+
 
         total:
         document.getElementById("total").innerText,
@@ -61,105 +202,171 @@ document.getElementById("notes").value,
 
 
 
+
+
     document.querySelectorAll("#products tr")
     .forEach(row => {
 
 
-        order.products.push({
-
-            code:
-            row.querySelector(".code").value,
+        let code =
+        row.querySelector(".code")?.value || "";
 
 
-            description:
-            row.querySelector(".description").value,
+        let description =
+        row.querySelector(".description")?.value || "";
 
 
-            quantity:
-            row.querySelector(".quantity").value,
+
+        if (
+            code.trim() !== "" ||
+            description.trim() !== ""
+        ) {
 
 
-            price:
-            row.querySelector(".price").value,
+            order.products.push({
+
+                code:
+                code,
 
 
-            discount:
-            row.querySelector(".discount").value,
+                description:
+                description,
 
 
-            finalPrice:
-            row.querySelector(".finalPrice").value
+                quantity:
+                row.querySelector(".quantity")?.value || "0",
 
-        });
+
+                price:
+                row.querySelector(".price")?.value || "0",
+
+
+                discount:
+                row.querySelector(".discount")?.value || "",
+
+
+                finalPrice:
+                row.querySelector(".finalPrice")?.value || "0"
+
+            });
+
+            saveProductIfNew({
+
+    code: code,
+
+    description: description,
+
+    price: row.querySelector(".price")?.value || "0"
+
+});
+
+
+        }
 
 
     });
 
 
 
-    let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
-
 
 
     if (editingOrderIndex !== null) {
 
 
+        let oldOrder =
+        drafts[editingOrderIndex];
+
+
+
+        if (!oldOrder) {
+
+
+            alert(
+                "Δεν βρέθηκε η παραγγελία."
+            );
+
+
+            editingOrderIndex = null;
+
+
+            return;
+
+        }
+
+
+
         order.number =
-            drafts[editingOrderIndex].number;
+        oldOrder.number;
+
 
 
         order.id =
-            drafts[editingOrderIndex].id;
+        oldOrder.id;
+
 
 
         order.status =
-            drafts[editingOrderIndex].status;
+        oldOrder.status;
+
 
 
         order.locked =
-            drafts[editingOrderIndex].locked;
+        oldOrder.locked;
+
 
 
         drafts[editingOrderIndex] =
-            order;
-
-
-        alert(
-            "Οι αλλαγές αποθηκεύτηκαν"
-        );
-
-
-    } else {
-
-
-        order.number =
-            currentOrderNumber++;
-
-
-        drafts.push(order);
+        order;
 
 
 
         localStorage.setItem(
-            "currentOrderNumber",
-            currentOrderNumber
+            "draftOrders",
+            JSON.stringify(drafts)
         );
+
 
 
         alert(
-            "Η πρόχειρη παραγγελία αποθηκεύτηκε"
+            "Οι αλλαγές αποθηκεύτηκαν."
         );
 
+
+
+        return;
+
+
     }
+
+
+
+
+
+    order.number =
+    currentOrderNumber++;
+
+
+
+    drafts.push(order);
+
+
+
+    localStorage.setItem(
+        "currentOrderNumber",
+        currentOrderNumber
+    );
 
 
 
     localStorage.setItem(
         "draftOrders",
         JSON.stringify(drafts)
+    );
+
+
+
+    alert(
+        "Η πρόχειρη παραγγελία αποθηκεύτηκε."
     );
 
 
@@ -170,113 +377,484 @@ document.getElementById("notes").value,
 
 
 
+// ==========================================
+// Εμφάνιση πρόχειρων και ολοκληρωμένων
+// ==========================================
 
-// Εμφάνιση παραγγελιών
+let currentOrdersTab = "draft";
+
+
+// Εμφάνιση της επιλεγμένης κατηγορίας
+
+function showOrders(type) {
+
+    currentOrdersTab = type;
+
+
+    let draftBox =
+        document.getElementById("draftList");
+
+
+    let completedBox =
+        document.getElementById("completedList");
+
+
+    if (!draftBox || !completedBox) {
+
+        return;
+
+    }
+
+
+    // Εμφανίζουμε μόνο τη λίστα που επιλέχθηκε
+
+    if (type === "draft") {
+
+        draftBox.style.display = "block";
+
+        completedBox.style.display = "none";
+
+    } else {
+
+        draftBox.style.display = "none";
+
+        completedBox.style.display = "block";
+
+    }
+
+
+    // Αλλάζουμε την εμφάνιση των δύο κουμπιών
+
+    document
+        .querySelectorAll(".orderTab")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+        });
+
+
+    let activeButton =
+        document.querySelector(
+            `.orderTab[onclick="showOrders('${type}')"]`
+        );
+
+
+    if (activeButton) {
+
+        activeButton.classList.add("active");
+
+    }
+
+
+    showDrafts();
+
+}
+
+
+// Δημιουργία των λιστών
 
 function showDrafts() {
 
 
-    let box =
+    let draftBox =
         document.getElementById("draftList");
 
 
-    let drafts =
+    let completedBox =
+        document.getElementById("completedList");
+
+
+    if (!draftBox || !completedBox) {
+
+        return;
+
+    }
+
+
+    let orders =
         JSON.parse(
             localStorage.getItem("draftOrders")
         ) || [];
 
 
+    // Καθαρισμός λιστών
 
-    box.innerHTML = "";
+    draftBox.innerHTML = "";
 
-
-
-    drafts.forEach((order, index) => {
-
-
-        let item =
-            document.createElement("div");
+    completedBox.innerHTML = "";
 
 
+    // Χωρισμός παραγγελιών
 
-        item.style.border = "1px solid #ccc";
-        item.style.padding = "10px";
-        item.style.marginTop = "10px";
-        item.style.borderRadius = "8px";
-
-
-
-        let lockText =
-            order.locked
-            ? "🔒 Κλειδωμένη"
-            : "🔓 Ξεκλείδωτη";
+    let draftOrders =
+        orders.filter(
+            order =>
+                order.status !==
+                "Οριστικοποιημένη"
+        );
 
 
-
-        item.innerHTML = `
-
-<b>${order.id}</b><br>
-
-Πελάτης:
-${order.customer}<br>
-
-Σύνολο:
-${order.total}<br>
-
-Κατάσταση:
-${order.status}<br>
-
-${lockText}
-
-<br><br>
+    let completedOrders =
+        orders.filter(
+            order =>
+                order.status ===
+                "Οριστικοποιημένη"
+        );
 
 
-<button onclick="openOrder(${index})">
-✏️ Άνοιγμα
+    // Νεότερη ημερομηνία πρώτη
+
+    draftOrders.sort(
+        (a, b) =>
+            new Date(b.date) -
+            new Date(a.date)
+    );
+
+
+    completedOrders.sort(
+        (a, b) =>
+            new Date(b.date) -
+            new Date(a.date)
+    );
+
+
+    // Ενημέρωση αριθμών
+
+    let draftCount =
+        document.getElementById(
+            "draftCount"
+        );
+
+
+    let completedCount =
+        document.getElementById(
+            "completedCount"
+        );
+
+
+    if (draftCount) {
+
+        draftCount.innerText =
+            draftOrders.length;
+
+    }
+
+
+    if (completedCount) {
+
+        completedCount.innerText =
+            completedOrders.length;
+
+    }
+
+
+    // ==================================
+    // ΠΡΟΧΕΙΡΕΣ ΠΑΡΑΓΓΕΛΙΕΣ
+    // ==================================
+
+    if (draftOrders.length === 0) {
+
+        draftBox.innerHTML = `
+        
+<p class="emptyOrders">
+Δεν υπάρχουν πρόχειρες παραγγελίες.
+</p>
+
+`;
+
+    } else {
+
+        draftOrders.forEach(order => {
+
+
+            let index =
+                orders.indexOf(order);
+
+
+            let item =
+                document.createElement("div");
+
+
+            item.className =
+                "orderRow";
+
+
+            item.innerHTML = `
+
+<div class="orderInfo">
+
+<span class="orderDate">
+${order.date || "-"}
+</span>
+
+<span class="orderCustomer">
+${order.customer || "-"}
+</span>
+
+<span class="orderTotal">
+${order.total || "0.00 €"}
+</span>
+
+</div>
+
+
+<div class="orderActions">
+
+<button
+type="button"
+class="openOrderButton"
+onclick="openOrder(${index})">
+
+✏️
+
 </button>
 
 
-<button onclick="finalizeOrder(${index})">
+<button
+type="button"
+class="moreOrderButton"
+onclick="toggleOrderMenu(this)">
+
+⋮
+
+</button>
+
+</div>
+
+
+<div class="orderMenu">
+
+<button
+onclick="finalizeOrder(${index})">
+
 ✅ Οριστικοποίηση
+
 </button>
 
 
-<button onclick="lockOrder(${index})">
+<button
+onclick="lockOrder(${index})">
+
 🔒 Κλείδωμα
+
 </button>
 
 
-<button onclick="unlockOrder(${index})">
+<button
+onclick="unlockOrder(${index})">
+
 🔓 Ξεκλείδωμα
+
 </button>
 
 
-<button onclick="downloadPDFFromIndex(${index})">
+<button
+onclick="downloadPDFFromIndex(${index})">
+
 📄 Δημιουργία PDF
+
 </button>
 
 
-<button onclick="deleteOrder(${index})">
+<button
+onclick="deleteOrder(${index})">
+
 🗑 Διαγραφή
+
 </button>
+
+</div>
 
 `;
 
 
+            draftBox.appendChild(item);
 
-        box.appendChild(item);
+
+        });
+
+    }
 
 
-    });
+    // ==================================
+    // ΟΛΟΚΛΗΡΩΜΕΝΕΣ ΠΑΡΑΓΓΕΛΙΕΣ
+    // ==================================
 
+    if (completedOrders.length === 0) {
+
+        completedBox.innerHTML = `
+
+<p class="emptyOrders">
+Δεν υπάρχουν ολοκληρωμένες παραγγελίες.
+</p>
+
+`;
+
+    } else {
+
+        completedOrders.forEach(order => {
+
+
+            let index =
+                orders.indexOf(order);
+
+
+            let item =
+                document.createElement("div");
+
+
+            item.className =
+                "orderRow";
+
+
+            item.innerHTML = `
+
+<div class="orderInfo">
+
+<span class="orderDate">
+${order.date || "-"}
+</span>
+
+<span class="orderCustomer">
+${order.customer || "-"}
+</span>
+
+<span class="orderTotal">
+${order.total || "0.00 €"}
+</span>
+
+</div>
+
+
+<div class="orderActions">
+
+<button
+type="button"
+class="openOrderButton"
+onclick="openOrder(${index})">
+
+👁
+
+</button>
+
+
+<button
+type="button"
+class="deleteOrderButton"
+onclick="deleteOrder(${index})">
+
+🗑
+
+</button>
+
+</div>
+
+`;
+
+
+            completedBox.appendChild(item);
+
+
+        });
+
+    }
+
+
+    // Διατηρούμε ανοιχτή την καρτέλα
+    // που είχε επιλεγεί
+
+    if (currentOrdersTab === "draft") {
+
+        draftBox.style.display =
+            "block";
+
+        completedBox.style.display =
+            "none";
+
+    } else {
+
+        draftBox.style.display =
+            "none";
+
+        completedBox.style.display =
+            "block";
+
+    }
 
 }
 
 
+// Άνοιγμα / κλείσιμο μενού ⋮
+
+function toggleOrderMenu(button) {
 
 
+    let row =
+        button.closest(".orderRow");
 
 
+    if (!row) {
+
+        return;
+
+    }
+
+
+    let menu =
+        row.querySelector(
+            ".orderMenu"
+        );
+
+
+    if (!menu) {
+
+        return;
+
+    }
+
+
+    // Κλείνουμε τα υπόλοιπα μενού
+
+    document
+        .querySelectorAll(
+            ".orderMenu"
+        )
+        .forEach(otherMenu => {
+
+            if (
+                otherMenu !== menu
+            ) {
+
+                otherMenu.style.display =
+                    "none";
+
+            }
+
+        });
+
+
+    // Ανοίγουμε ή κλείνουμε
+    // το μενού της συγκεκριμένης παραγγελίας
+
+    if (
+        menu.style.display ===
+        "block"
+    ) {
+
+        menu.style.display =
+            "none";
+
+    } else {
+
+        menu.style.display =
+            "block";
+
+    }
+
+}
+
+ 
 
 // Άνοιγμα παραγγελίας
 
@@ -284,39 +862,56 @@ function openOrder(index) {
 
 
     let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
+    JSON.parse(
+        localStorage.getItem("draftOrders")
+    ) || [];
 
 
 
     let order =
-        drafts[index];
+    drafts[index];
 
 
 
     if (!order) {
+
         return;
+
     }
 
 
 
-    editingOrderIndex = index;
+    editingOrderIndex =
+    index;
+
+
+
+    // Πρώτα ξεκλειδώνουμε τη φόρμα
+    // ώστε να μην μείνει από προηγούμενη παραγγελία
+
+    setFormLocked(false);
+
+
+
+    viewOnlyOrder =
+    order.locked || false;
 
 
 
     document.getElementById("date").value =
-        order.date;
+    order.date || "";
 
 
 
     document.getElementById("area").value =
-        order.area;
+    order.area || "";
 
 
 
     document.getElementById("customer").value =
-        order.customer;
+    order.customer || "";
+
+
 
     document.getElementById("notes").value =
     order.notes || "";
@@ -324,29 +919,35 @@ function openOrder(index) {
 
 
     let table =
-        document.getElementById("products");
+    document.getElementById("products");
+
 
 
     table.innerHTML = "";
 
 
 
-    order.products.forEach(product => {
+    if (order.products) {
 
 
-        let row =
+        order.products.forEach(product => {
+
+
+            let row =
             table.insertRow();
 
 
 
-        row.innerHTML = `
+            row.innerHTML = `
 
 <td>
+
 <input 
 type="text"
 class="code"
-value="${product.code}"
+value="${product.code || ""}"
 onblur="findProduct(this)">
+
 </td>
 
 
@@ -355,7 +956,7 @@ onblur="findProduct(this)">
 <input
 type="text"
 class="description"
-value="${product.description}"
+value="${product.description || ""}"
 oninput="searchDescription(this)">
 
 <div class="suggestions"></div>
@@ -368,7 +969,7 @@ oninput="searchDescription(this)">
 <input
 type="number"
 class="quantity"
-value="${product.quantity}"
+value="${product.quantity || 1}"
 oninput="calculateRow(this.closest('tr'))">
 
 </td>
@@ -379,7 +980,7 @@ oninput="calculateRow(this.closest('tr'))">
 <input
 type="number"
 class="price"
-value="${product.price}"
+value="${product.price || ""}"
 oninput="calculateRow(this.closest('tr'))">
 
 </td>
@@ -390,7 +991,7 @@ oninput="calculateRow(this.closest('tr'))">
 <input
 type="number"
 class="discount"
-value="${product.discount}"
+value="${product.discount ?? ""}"
 oninput="calculateRow(this.closest('tr'))">
 
 </td>
@@ -401,8 +1002,19 @@ oninput="calculateRow(this.closest('tr'))">
 <input
 type="number"
 class="finalPrice"
-value="${product.finalPrice}"
+value="${product.finalPrice || "0"}"
 readonly>
+
+</td>
+
+<td>
+
+<button
+type="button"
+class="removeProduct"
+onclick="removeProduct(this)">
+
+✕</button>
 
 </td>
 
@@ -410,11 +1022,32 @@ readonly>
 
 
 
-    });
+        });
+
+
+    }
 
 
 
     calculateTotal();
+
+
+
+    // Εφαρμογή τελικού κλειδώματος αν χρειάζεται
+
+    setFormLocked(viewOnlyOrder);
+
+
+
+    if (viewOnlyOrder) {
+
+
+        alert(
+            "Η παραγγελία είναι κλειδωμένη. Προβολή μόνο."
+        );
+
+
+    }
 
 
 }
@@ -425,30 +1058,204 @@ readonly>
 
 
 
+// Δημιουργία PDF από αποθηκευμένη παραγγελία
+
+function downloadPDFFromIndex(index) {
+
+
+    let drafts =
+    JSON.parse(
+        localStorage.getItem("draftOrders")
+    ) || [];
+
+
+
+    let order =
+    drafts[index];
+
+
+
+    if (!order) {
+
+
+        alert(
+            "Δεν βρέθηκε η παραγγελία."
+        );
+
+
+        return;
+
+    }
+
+
+
+    downloadPDF(order);
+
+
+}
+
+
+
+
+
+
+
+// ==========================================
 // Διαγραφή παραγγελίας
+// ==========================================
 
 function deleteOrder(index) {
 
 
-    let drafts =
-        JSON.parse(
-            localStorage.getItem("draftOrders")
-        ) || [];
+    let orders =
+    JSON.parse(
+        localStorage.getItem("draftOrders")
+    ) || [];
 
 
+    let order =
+    orders[index];
 
-    drafts.splice(index, 1);
 
+    if (!order) {
+
+        alert(
+            "Η παραγγελία δεν βρέθηκε."
+        );
+
+        return;
+
+    }
+
+
+    let confirmed =
+    confirm(
+        "Θέλετε σίγουρα να διαγράψετε την παραγγελία;\n\n" +
+        "Πελάτης: " +
+        (order.customer || "-") +
+        "\n" +
+        "Ημερομηνία: " +
+        (order.date || "-")
+    );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    orders.splice(
+        index,
+        1
+    );
 
 
     localStorage.setItem(
         "draftOrders",
-        JSON.stringify(drafts)
+        JSON.stringify(orders)
     );
-
 
 
     showDrafts();
 
+
+    alert(
+        "Η παραγγελία διαγράφηκε."
+    );
+
+
+}
+
+// Δημιουργία νέας παραγγελίας
+
+function newOrder() {
+
+    // Βγαίνουμε από την επεξεργασία
+    // της προηγούμενης παραγγελίας
+
+    editingOrderIndex = null;
+
+    viewOnlyOrder = false;
+
+
+    // Ξεκλειδώνουμε τη φόρμα
+
+    setFormLocked(false);
+
+
+    // Βάζουμε τη σημερινή ημερομηνία
+
+    document.getElementById("date").value =
+        getTodayDate();
+
+
+    // Καθαρίζουμε τα στοιχεία πελάτη
+
+    document.getElementById("area").value = "";
+
+    document.getElementById("customer").value = "";
+
+    document.getElementById("customerCode").value = "";
+    
+    // Καθαρίζουμε τις παρατηρήσεις
+
+    document.getElementById("notes").value = "";
+
+
+    // Αφαιρούμε όλες τις γραμμές προϊόντων
+
+    let table =
+        document.getElementById("products");
+
+    table.innerHTML = "";
+
+
+    // Δημιουργούμε μία νέα κενή γραμμή
+
+    addProduct();
+
+
+    // Μηδενίζουμε το σύνολο
+
+    document.getElementById("total").innerText =
+        "0.00 €";
+
+}
+
+function saveProductIfNew(product) {
+
+    let savedProducts =
+        JSON.parse(
+            localStorage.getItem("savedProducts")
+        ) || [];
+
+
+    let exists =
+        savedProducts.some(item =>
+            item.code === product.code
+        );
+
+
+    if (!exists) {
+
+        savedProducts.push({
+
+            code: product.code,
+
+            description: product.description,
+
+            price: Number(product.price) || 0
+
+        });
+
+
+        localStorage.setItem(
+            "savedProducts",
+            JSON.stringify(savedProducts)
+        );
+
+    }
 
 }

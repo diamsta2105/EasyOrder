@@ -142,6 +142,8 @@ function downloadPDF(order) {
         doc.text("Πελάτης:  " + (order.customer || "-"), 105, y);
         doc.text("Περιοχή:  " + (order.area || "-"), 105, y + 6);
 
+        doc.text("Κωδ. Πωλητή:  " + (order.seller || "-"), 15, y + 12);
+
         y += 18;
 
         // =====================

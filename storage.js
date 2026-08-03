@@ -642,6 +642,12 @@ function showDrafts() {
 
 <div class="orderInfo">
 
+<input
+type="checkbox"
+class="orderSelectCheckbox"
+data-order-index="${index}"
+onchange="updateSelectedOrders()">
+
 <span class="orderDate">
 ${order.date || "-"}
 </span>
@@ -1300,6 +1306,61 @@ function saveProductIfNew(product) {
             "savedProducts",
             JSON.stringify(savedProducts)
         );
+
+    }
+
+}
+
+// Ενημέρωση επιλεγμένων παραγγελιών
+
+function updateSelectedOrders() {
+
+    const selectedCheckboxes =
+        document.querySelectorAll(
+            ".orderSelectCheckbox:checked"
+        );
+
+
+    const count =
+        selectedCheckboxes.length;
+
+
+    const countElement =
+        document.getElementById(
+            "selectedOrdersCount"
+        );
+
+
+    const previewButton =
+        document.getElementById(
+            "previewSelectedOrdersButton"
+        );
+
+
+    if (countElement) {
+
+        countElement.innerText =
+            count;
+
+    }
+
+
+    if (previewButton) {
+
+        // Το κουμπί εμφανίζεται όταν έχουν
+        // επιλεγεί τουλάχιστον 2 παραγγελίες
+
+        if (count >= 2) {
+
+            previewButton.style.display =
+                "block";
+
+        } else {
+
+            previewButton.style.display =
+                "none";
+
+        }
 
     }
 

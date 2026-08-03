@@ -464,26 +464,16 @@ function addSelectedOrdersPreviewStyles() {
 
     background: white;
 
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
-
 }
 
 
 .selectedPreviewOrder {
 
-    flex: 1;
+    border-bottom: 1px solid #bbb;
 
-    border: 1px solid #999;
+    padding: 8px 0 14px 0;
 
-    padding: 10px;
-
-    box-sizing: border-box;
-
-    overflow: hidden;
+    margin-bottom: 18px;
 
     color: #111;
 

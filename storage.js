@@ -833,70 +833,70 @@ function downloadPDFFromIndex(index) {
 
 
 
+// ==========================================
 // Διαγραφή παραγγελίας
+// ==========================================
 
 function deleteOrder(index) {
 
 
-    let drafts =
+    let orders =
     JSON.parse(
         localStorage.getItem("draftOrders")
     ) || [];
 
 
-
     let order =
-    drafts[index];
-
+    orders[index];
 
 
     if (!order) {
 
-        return;
-
-    }
-
-
-
-    if (order.locked) {
-
-
         alert(
-            "Η παραγγελία είναι κλειδωμένη και δεν μπορεί να διαγραφεί."
+            "Η παραγγελία δεν βρέθηκε."
         );
 
+        return;
+
+    }
+
+
+    let confirmed =
+    confirm(
+        "Θέλετε σίγουρα να διαγράψετε την παραγγελία;\n\n" +
+        "Πελάτης: " +
+        (order.customer || "-") +
+        "\n" +
+        "Ημερομηνία: " +
+        (order.date || "-")
+    );
+
+
+    if (!confirmed) {
 
         return;
 
     }
 
 
-
-    if (
-        !confirm(
-            "Θέλετε σίγουρα να διαγράψετε την παραγγελία;"
-        )
-    ) {
-
-
-        return;
-
-    }
-
-
-
-    drafts.splice(index, 1);
-
+    orders.splice(
+        index,
+        1
+    );
 
 
     localStorage.setItem(
         "draftOrders",
-        JSON.stringify(drafts)
+        JSON.stringify(orders)
     );
 
 
-
     showDrafts();
+
+
+    alert(
+        "Η παραγγελία διαγράφηκε."
+    );
 
 
 }

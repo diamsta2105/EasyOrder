@@ -378,11 +378,485 @@ function closeSelectedOrdersPreview() {
     }
 
 
+
     document.body.style.overflow =
         "";
 
 }
 
+// ==========================================
+// Δημιουργία PDF από την προεπισκόπηση
+// ==========================================
+
+async function createSelectedOrdersPDF() {
+
+    const previewPage =
+        document.querySelector(
+            ".selectedOrdersPreviewPage"
+        );
+
+
+    if (!previewPage) {
+
+        alert(
+            "Δεν βρέθηκε η προεπισκόπηση."
+        );
+
+        return;
+
+    }
+
+
+    if (typeof html2canvas !== "function") {
+
+        alert(
+            "Δεν έχει φορτωθεί η βιβλιοθήκη html2canvas."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !window.jspdf ||
+        !window.jspdf.jsPDF
+    ) {
+
+        alert(
+            "Δεν έχει φορτωθεί η βιβλιοθήκη jsPDF."
+        );
+
+        return;
+
+    }
+
+
+    const createButton =
+        document.querySelector(
+            ".createSelectedPdfButton"
+        );
+
+
+    const originalButtonText =
+        createButton
+            ? createButton.innerHTML
+            : "";
+
+
+    try {
+
+        if (createButton) {
+
+            createButton.disabled =
+                true;
+
+            createButton.innerHTML =
+                "Δημιουργία PDF...";
+
+        }
+
+
+        /*
+         * Δημιουργούμε αντίγραφο της σελίδας
+         * εκτός οθόνης, ώστε το PDF να μην
+         * επηρεάζεται από το μικρό πλάτος
+         * της οθόνης του κινητού.
+         */
+
+        const printContainer =
+            document.createElement("div");
+
+
+        printContainer.style.position =
+            "fixed";
+
+        printContainer.style.left =
+            "-10000px";
+
+        printContainer.style.top =
+            "0";
+
+        printContainer.style.width =
+            "794px";
+
+        printContainer.style.background =
+            "white";
+
+        printContainer.style.zIndex =
+            "-1";
+
+
+        const printPage =
+            previewPage.cloneNode(true);
+
+
+        printPage.style.width =
+            "794px";
+
+        printPage.style.minHeight =
+            "1123px";
+
+        printPage.style.height =
+            "auto";
+
+        printPage.style.margin =
+            "0";
+
+        printPage.style.padding =
+            "24px";
+
+        printPage.style.boxSizing =
+            "border-box";
+
+        printPage.style.aspectRatio =
+            "auto";
+
+
+        /*
+         * Επαναφέρουμε τις κανονικές
+         * διαστάσεις εκτύπωσης, ώστε να
+         * μην εφαρμοστούν τα πολύ μικρά
+         * γράμματα του mobile CSS.
+         */
+
+        printPage
+            .querySelectorAll(
+                ".selectedPreviewOrder"
+            )
+            .forEach(order => {
+
+                order.style.padding =
+                    "8px 0 14px 0";
+
+                order.style.marginBottom =
+                    "36px";
+
+            });
+
+
+        printPage
+            .querySelectorAll(
+                ".selectedPreviewHeader"
+            )
+            .forEach(element => {
+
+                element.style.fontSize =
+                    "16px";
+
+            });
+
+
+        printPage
+            .querySelectorAll(
+                ".selectedPreviewTitle"
+            )
+            .forEach(element => {
+
+                element.style.fontSize =
+                    "14px";
+
+                element.style.padding =
+                    "4px 0";
+
+                element.style.marginBottom =
+                    "5px";
+
+            });
+
+
+        printPage
+            .querySelectorAll(
+                ".selectedPreviewInfo"
+            )
+            .forEach(element => {
+
+                element.style.fontSize =
+                    "10px";
+
+                element.style.gap =
+                    "3px 12px";
+
+                element.style.marginBottom =
+                    "6px";
+
+            });
+
+
+        printPage
+            .querySelectorAll(
+                ".selectedPreviewProducts"
+            )
+            .forEach(element => {
+
+                element.style.fontSize =
+                    "8px";
+
+            });
+
+
+        printPage
+            .querySelectorAll(
+                ".selectedPreviewProducts th"
+            )
+            .forEach(element => {
+
+                element.style.padding =
+                    "4px 2px";
+
+            });
+
+
+        printPage
+            .querySelectorAll(
+                ".selectedPreviewProducts td"
+            )
+            .forEach(element => {
+
+                element.style.padding =
+                    "3px 2px";
+
+            });
+
+
+        printPage
+            .querySelectorAll(
+                ".selectedPreviewFooter"
+            )
+            .forEach(element => {
+
+                element.style.fontSize =
+                    "9px";
+
+                element.style.marginTop =
+                    "6px";
+
+            });
+
+
+        printContainer.appendChild(
+            printPage
+        );
+
+
+        document.body.appendChild(
+            printContainer
+        );
+
+
+        await new Promise(resolve =>
+            requestAnimationFrame(resolve)
+        );
+
+
+        const canvas =
+            await html2canvas(
+                printPage,
+                {
+
+                    scale: 2,
+
+                    backgroundColor:
+                        "#ffffff",
+
+                    useCORS: true,
+
+                    logging: false,
+
+                    windowWidth: 1200
+
+                }
+            );
+
+
+        printContainer.remove();
+
+
+        const { jsPDF } =
+            window.jspdf;
+
+
+        const pdf =
+            new jsPDF({
+
+                orientation:
+                    "portrait",
+
+                unit:
+                    "mm",
+
+                format:
+                    "a4"
+
+            });
+
+
+        const pdfWidth =
+            pdf.internal.pageSize.getWidth();
+
+
+        const pdfHeight =
+            pdf.internal.pageSize.getHeight();
+
+
+        const imageData =
+            canvas.toDataURL(
+                "image/jpeg",
+                0.95
+            );
+
+
+        /*
+         * Υπολογίζουμε το ύψος της εικόνας
+         * χωρίς να παραμορφώνεται.
+         */
+
+        const imageHeight =
+            canvas.height *
+            pdfWidth /
+            canvas.width;
+
+
+        /*
+         * Αν όλο το περιεχόμενο χωράει
+         * σε μία Α4, το τοποθετούμε κανονικά.
+         */
+
+        if (imageHeight <= pdfHeight) {
+
+            pdf.addImage(
+                imageData,
+                "JPEG",
+                0,
+                0,
+                pdfWidth,
+                imageHeight
+            );
+
+        } else {
+
+            /*
+             * Αν το περιεχόμενο είναι ψηλότερο
+             * από μία Α4, το συνεχίζουμε σε
+             * επόμενες σελίδες.
+             */
+
+            let remainingHeight =
+                imageHeight;
+
+
+            let position =
+                0;
+
+
+            pdf.addImage(
+                imageData,
+                "JPEG",
+                0,
+                position,
+                pdfWidth,
+                imageHeight
+            );
+
+
+            remainingHeight -=
+                pdfHeight;
+
+
+            while (remainingHeight > 0) {
+
+                position =
+                    remainingHeight -
+                    imageHeight;
+
+
+                pdf.addPage();
+
+
+                pdf.addImage(
+                    imageData,
+                    "JPEG",
+                    0,
+                    position,
+                    pdfWidth,
+                    imageHeight
+                );
+
+
+                remainingHeight -=
+                    pdfHeight;
+
+            }
+
+        }
+
+
+        const selectedOrders =
+            getSelectedOrdersForPreview();
+
+
+        const orderDate =
+            selectedOrders[0]?.date ||
+            (
+                typeof getTodayDate ===
+                "function"
+
+                    ? getTodayDate()
+
+                    : new Date()
+                        .toISOString()
+                        .slice(0, 10)
+            );
+
+
+        pdf.save(
+            "Παραγγελίες-" +
+            orderDate +
+            ".pdf"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Σφάλμα δημιουργίας PDF:",
+            error
+        );
+
+
+        alert(
+            "Δεν δημιουργήθηκε το PDF: " +
+            error.message
+        );
+
+
+        const printContainer =
+            document.querySelector(
+                'div[style*="-10000px"]'
+            );
+
+
+        if (printContainer) {
+
+            printContainer.remove();
+
+        }
+
+    } finally {
+
+        if (createButton) {
+
+            createButton.disabled =
+                false;
+
+            createButton.innerHTML =
+                originalButtonText;
+
+        }
+
+    }
+
+            }
 
 // Μορφοποίηση αριθμών
 function formatPreviewNumber(value) {

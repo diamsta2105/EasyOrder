@@ -10,6 +10,7 @@ function generatePDF() {
         const customerVal = document.getElementById("customer")?.value || "";
         const areaVal = document.getElementById("area")?.value || "";
         const notesVal = document.getElementById("notes")?.value || "";
+        const sellerVal = document.getElementById("seller")?.value || "";
         const totalVal = document.getElementById("total")?.innerText || "0,00 €";
 
         // Συλλογή προϊόντων από τον πίνακα
@@ -44,6 +45,7 @@ function generatePDF() {
     date: dateVal,
     customer: customerVal,
             area: areaVal,
+            seller: sellerVal,
             products: productsList,
             total: totalVal,
             notes: notesVal

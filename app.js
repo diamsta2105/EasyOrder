@@ -40,5 +40,53 @@ window.addEventListener(
 
         setTodayDate();
 
+
+        const today =
+            getTodayDate();
+
+
+        const savedDate =
+            localStorage.getItem("sellerDate");
+
+
+        const seller =
+            localStorage.getItem("todaySeller") || "";
+
+
+        const sellerSelect =
+            document.getElementById("seller");
+
+
+        if (savedDate === today && sellerSelect) {
+
+            sellerSelect.value = seller;
+
+        } else {
+
+            localStorage.removeItem("todaySeller");
+            localStorage.setItem(
+                "sellerDate",
+                today
+            );
+
+        }
+
+
+        if (sellerSelect) {
+
+            sellerSelect.addEventListener(
+                "change",
+                function () {
+
+                    localStorage.setItem(
+                        "todaySeller",
+                        this.value
+                    );
+
+                }
+            );
+
+        }
+
     }
 );

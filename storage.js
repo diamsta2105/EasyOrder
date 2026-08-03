@@ -391,7 +391,62 @@ let currentOrdersTab = "draft";
 
 function showOrders(type) {
 
-    currentOrdersTab = type;
+    // Αν πατήσουμε ξανά την ίδια καρτέλα,
+// κλείνουμε και τις δύο λίστες
+
+if (currentOrdersTab === type) {
+
+    let draftBox =
+        document.getElementById(
+            "draftList"
+        );
+
+    let completedBox =
+        document.getElementById(
+            "completedList"
+        );
+
+
+    if (draftBox) {
+
+        draftBox.style.display =
+            "none";
+
+    }
+
+
+    if (completedBox) {
+
+        completedBox.style.display =
+            "none";
+
+    }
+
+
+    currentOrdersTab = "";
+
+
+    document
+        .querySelectorAll(
+            ".orderTab"
+        )
+        .forEach(button => {
+
+            button.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    return;
+
+}
+
+
+// Επιλέγουμε την καρτέλα
+
+currentOrdersTab = type;
 
 
     let draftBox =

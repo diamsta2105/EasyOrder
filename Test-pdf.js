@@ -136,15 +136,15 @@ function downloadPDF(order) {
         // ΣТОΙΧΕΙΑ ΠΑΡΑΓΓΕΛΙΑΣ
         // =====================
         doc.setFontSize(10);
-        doc.text("Αριθμός Παραγ.:  " + (order.number || "-"), 15, y);
-        doc.text("Ημερομηνία:         " + (order.date || "-"), 15, y + 6);
 
-        doc.text("Πελάτης:  " + (order.customer || "-"), 105, y);
-        doc.text("Περιοχή:  " + (order.area || "-"), 105, y + 6);
+doc.text("Ημερομηνία:  " + (order.date || "-"), 15, y);
 
-        doc.text("Κωδ. Πωλητή:  " + (order.seller || "-"), 15, y + 12);
+doc.text("Πελάτης:  " + (order.customer || "-"), 105, y);
+doc.text("Περιοχή:  " + (order.area || "-"), 105, y + 6);
 
-        y += 24;
+doc.text("Κωδ. Πωλητή:  " + (order.seller || "-"), 15, y + 6);
+
+y += 18;
 
         // =====================
         // ΠΙΝΑΚΑΣ ΠΡΟΪΟΝΤΩΝ

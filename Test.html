@@ -273,22 +273,44 @@ rows="3">
 
 
 
-<button onclick="showDrafts()">
+<div class="ordersTabs">
 
-📂 Προβολή παραγγελιών
+    <button
+        type="button"
+        class="orderTab active"
+        onclick="showOrders('draft')">
 
-</button>
+        📂 Πρόχειρες
+        <span id="draftCount">0</span>
+
+    </button>
+
+
+    <button
+        type="button"
+        class="orderTab"
+        onclick="showOrders('completed')">
+
+        ✅ Ολοκληρωμένες
+        <span id="completedCount">0</span>
+
+    </button>
+
+</div>
+
+
+<div id="draftList"></div>
+
+
+<div
+    id="completedList"
+    style="display: none;">
+</div>
+
 
 <button onclick="generatePDF()">
     📄 Δημιουργία PDF
 </button>
-  
-
-<div id="draftList"></div>
-
-  <h2>✅ Ολοκληρωμένες παραγγελίες</h2>
-
-<div id="completedList"></div>
 
 
 </section>

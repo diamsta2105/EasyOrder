@@ -233,38 +233,55 @@ function createPreviewOrderHTML(
 
 
     <div class="selectedPreviewInfo">
-        <div>
-            <strong>Ημερομηνία:</strong>
-            ${escapePreviewText(
-                order.date || "-"
-            )}
-        </div>
 
+    ${
+        showMainHeader
+            ? `
 
-        <div>
-            <strong>Πελάτης:</strong>
-            ${escapePreviewText(
-                order.customer || "-"
-            )}
-        </div>
-
-
-        <div>
-            <strong>Κωδ. Πωλητή:</strong>
-            ${escapePreviewText(
-                order.seller || "-"
-            )}
-        </div>
-
-
-        <div>
-            <strong>Περιοχή:</strong>
-            ${escapePreviewText(
-                order.area || "-"
-            )}
-        </div>
-
+    <div>
+        <strong>Ημερομηνία:</strong>
+        ${escapePreviewText(
+            order.date || "-"
+        )}
     </div>
+
+
+    <div>
+        <strong>Κωδ. Πωλητή:</strong>
+        ${escapePreviewText(
+            order.seller || "-"
+        )}
+    </div>
+
+`
+            : ""
+    }
+
+
+    <div>
+        <strong>Κωδικός πελάτη:</strong>
+        ${escapePreviewText(
+            order.customerCode || "-"
+        )}
+    </div>
+
+
+    <div>
+        <strong>Επωνυμία:</strong>
+        ${escapePreviewText(
+            order.customer || "-"
+        )}
+    </div>
+
+
+    <div>
+        <strong>Περιοχή:</strong>
+        ${escapePreviewText(
+            order.area || "-"
+        )}
+    </div>
+
+</div>
 
 
     <table class="selectedPreviewProducts">

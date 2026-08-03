@@ -378,109 +378,140 @@ document.getElementById("seller").value,
 
 
 
-// Εμφάνιση παραγγελιών
+// ==========================================
+// Εμφάνιση πρόχειρων και ολοκληρωμένων
+// ==========================================
 
 function showDrafts() {
 
 
-    let box =
-    document.getElementById("draftList");
+    let draftBox =
+        document.getElementById("draftList");
 
 
+    let completedBox =
+        document.getElementById("completedList");
 
-    if (!box) {
+
+    if (!draftBox || !completedBox) {
 
         return;
 
     }
 
 
-
-    let drafts =
-    JSON.parse(
-        localStorage.getItem("draftOrders")
-    ) || [];
-
+    let orders =
+        JSON.parse(
+            localStorage.getItem("draftOrders")
+        ) || [];
 
 
-    box.innerHTML = "";
+    // Καθαρισμός των δύο λιστών
+
+    draftBox.innerHTML = "";
+
+    completedBox.innerHTML = "";
 
 
+    // Νεότερη ημερομηνία πρώτη
 
-    drafts.forEach((order, index) => {
+    let sortedOrders =
+        [...orders].sort(
+            function (a, b) {
 
+                return new Date(b.date) -
+                    new Date(a.date);
 
-        let item =
-        document.createElement("div");
-
-
-
-        item.style.border =
-        "1px solid #ccc";
-
-
-        item.style.padding =
-        "10px";
+            }
+        );
 
 
-        item.style.marginTop =
-        "10px";
+    sortedOrders.forEach(
+        function (order) {
 
 
-        item.style.borderRadius =
-        "8px";
+            // Βρίσκουμε τη θέση της παραγγελίας
+            // μέσα στην αρχική λίστα
+
+            let index =
+                orders.indexOf(order);
 
 
+            // ==================================
+            // ΠΡΟΧΕΙΡΕΣ ΠΑΡΑΓΓΕΛΙΕΣ
+            // ==================================
 
-        let lockText =
-        order.locked
-        ? "🔒 Κλειδωμένη"
-        : "🔓 Ξεκλείδωτη";
+            if (
+                order.status !==
+                "Οριστικοποιημένη"
+            ) {
 
 
+                let item =
+                    document.createElement("div");
 
-        item.innerHTML = `
+
+                item.style.border =
+                    "1px solid #ccc";
+
+
+                item.style.padding =
+                    "10px";
+
+
+                item.style.marginTop =
+                    "10px";
+
+
+                item.style.borderRadius =
+                    "8px";
+
+
+                let lockText =
+                    order.locked
+                    ? "🔒 Κλειδωμένη"
+                    : "🔓 Ξεκλείδωτη";
+
+
+                item.innerHTML = `
 
 <b>${order.id}</b><br>
 
+Ημερομηνία:
+${order.date || "-"}<br>
+
 Πελάτης:
-${order.customer}<br>
+${order.customer || "-"}<br>
 
 Σύνολο:
-${order.total}<br>
+${order.total || "0.00 €"}<br>
 
 Κατάσταση:
-${order.status}<br>
+${order.status || "Πρόχειρη"}<br>
 
 ${lockText}
 
 <br><br>
 
-
 <button onclick="openOrder(${index})">
 ✏️ Άνοιγμα
 </button>
-
 
 <button onclick="finalizeOrder(${index})">
 ✅ Οριστικοποίηση
 </button>
 
-
 <button onclick="lockOrder(${index})">
 🔒 Κλείδωμα
 </button>
-
 
 <button onclick="unlockOrder(${index})">
 🔓 Ξεκλείδωμα
 </button>
 
-
 <button onclick="downloadPDFFromIndex(${index})">
 📄 Δημιουργία PDF
 </button>
-
 
 <button onclick="deleteOrder(${index})">
 🗑 Διαγραφή
@@ -489,11 +520,71 @@ ${lockText}
 `;
 
 
+                draftBox.appendChild(item);
 
-        box.appendChild(item);
+
+            }
 
 
-    });
+            // ==================================
+            // ΟΛΟΚΛΗΡΩΜΕΝΕΣ ΠΑΡΑΓΓΕΛΙΕΣ
+            // ==================================
+
+            else {
+
+
+                let item =
+                    document.createElement("div");
+
+
+                item.style.border =
+                    "1px solid #ccc";
+
+
+                item.style.padding =
+                    "10px";
+
+
+                item.style.marginTop =
+                    "10px";
+
+
+                item.style.borderRadius =
+                    "8px";
+
+
+                item.innerHTML = `
+
+<b>Ημερομηνία:</b>
+${order.date || "-"}<br>
+
+<b>Πελάτης:</b>
+${order.customer || "-"}<br>
+
+<b>Καθαρή αξία:</b>
+${order.total || "0.00 €"}
+
+<br><br>
+
+<button onclick="openOrder(${index})">
+👁 Άνοιγμα
+</button>
+
+<button onclick="deleteOrder(${index})">
+🗑 Διαγραφή
+</button>
+
+`;
+
+
+                completedBox.appendChild(item);
+
+
+            }
+
+
+        }
+    );
 
 
 }

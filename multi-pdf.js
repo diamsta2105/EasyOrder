@@ -590,7 +590,7 @@ async function createSelectedOrdersPDF() {
             .forEach(element => {
 
                 element.style.fontSize =
-                    "8px";
+                    "9px";
 
             });
 
@@ -1017,7 +1017,7 @@ function addSelectedOrdersPreviewStyles() {
 
     margin: 0;
 
-    font-size: 8px;
+    font-size: 9px;
 
 }
 

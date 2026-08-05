@@ -620,18 +620,21 @@ async function createSelectedOrdersPDF() {
 
 
         printPage
-            .querySelectorAll(
-                ".selectedPreviewFooter"
-            )
-            .forEach(element => {
+    .querySelectorAll(
+        ".selectedPreviewFooter"
+    )
+    .forEach(element => {
 
-                element.style.fontSize =
-                    "9px";
+        element.style.fontSize =
+            "11px";
 
-                element.style.marginTop =
-    "16px";
+        element.style.fontWeight =
+            "bold";
 
-            });
+        element.style.marginTop =
+            "16px";
+
+    });
 
 
         printContainer.appendChild(
@@ -1061,7 +1064,9 @@ function addSelectedOrdersPreviewStyles() {
 
     margin-top: 16px;
 
-    font-size: 9px;
+    font-size: 11px;
+
+    font-weight: bold;
 
 }
 

@@ -629,7 +629,7 @@ async function createSelectedOrdersPDF() {
                     "9px";
 
                 element.style.marginTop =
-                    "6px";
+    "16px";
 
             });
 
@@ -1059,7 +1059,7 @@ function addSelectedOrdersPreviewStyles() {
 
     gap: 10px;
 
-    margin-top: 6px;
+    margin-top: 16px;
 
     font-size: 9px;
 

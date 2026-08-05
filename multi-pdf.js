@@ -530,7 +530,7 @@ async function createSelectedOrdersPDF() {
                     "8px 0 14px 0";
 
                 order.style.marginBottom =
-                    "36px";
+                    "50px";
 
             });
 
@@ -958,7 +958,7 @@ function addSelectedOrdersPreviewStyles() {
 
     padding: 8px 0 14px 0;
 
-    margin-bottom: 36px;
+    margin-bottom: 50px;
 
     color: #111;
 

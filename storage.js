@@ -139,13 +139,34 @@ if (
 
         customersDatabase.push({
 
-            code: customerCode,
+    code: customerCode,
 
-            name: customer,
+    name: customer,
 
-            area: customerArea
+    area: customerArea,
 
-        });
+    profession:
+        document.getElementById("profession")?.value.trim() || "",
+
+    address:
+        document.getElementById("address")?.value.trim() || "",
+
+    phone:
+        document.getElementById("phone")?.value.trim() || "",
+
+    mobile:
+        document.getElementById("mobile")?.value.trim() || "",
+
+    vatNumber:
+        document.getElementById("vatNumber")?.value.trim() || "",
+
+    taxOffice:
+        document.getElementById("taxOffice")?.value.trim() || "",
+
+    email:
+        document.getElementById("email")?.value.trim() || ""
+
+});
 
         
 

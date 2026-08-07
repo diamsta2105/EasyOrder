@@ -39,6 +39,16 @@ if (sellerSelect) {
 
 }
 
+    let removeButtons =
+    document.querySelectorAll(
+        ".removeProduct"
+    );
+
+removeButtons.forEach(button => {
+
+    button.disabled = state;
+
+});
 
     // Κλείδωμα κουμπιού προσθήκης προϊόντος
 

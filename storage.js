@@ -169,15 +169,9 @@ if (
     let order = {
 
 
-        id:
-createOrderId(
-    customer,
-    currentOrderNumber
-),
+        id: "",
 
-
-number:
-currentOrderNumber,
+number: null,
 
 
         date:
@@ -360,11 +354,18 @@ document.getElementById("seller").value,
 
 
     order.number =
-    currentOrderNumber++;
+    currentOrderNumber;
+
+order.id =
+    createOrderId(
+        customer,
+        currentOrderNumber
+    );
+
+currentOrderNumber++;
 
 
-
-    drafts.push(order);
+drafts.push(order);
 
 
 

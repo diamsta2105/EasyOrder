@@ -105,17 +105,14 @@ if (
 
         });
 
-        console.log(customersDatabase);
-
+        
 
         localStorage.setItem(
             "customersDatabase",
             JSON.stringify(customersDatabase)
         );
 
-        alert(
-    JSON.stringify(customersDatabase)
-);
+        
 
     }
 

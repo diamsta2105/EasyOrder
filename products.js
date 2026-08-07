@@ -315,3 +315,42 @@ function removeProduct(button) {
     calculateTotal();
 
 }
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key !== "Enter") {
+            return;
+        }
+
+        const input = event.target;
+
+        if (
+            !input.classList ||
+            !input.classList.contains("discount")
+        ) {
+            return;
+        }
+
+        const row =
+            input.closest("tr");
+
+        const rows =
+            document.querySelectorAll(
+                "#products tr"
+            );
+
+        const lastRow =
+            rows[rows.length - 1];
+
+        if (row !== lastRow) {
+            return;
+        }
+
+        event.preventDefault();
+
+        addProduct();
+
+    }
+);

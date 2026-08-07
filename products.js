@@ -112,6 +112,8 @@ function searchDescription(element) {
 
             calculateRow(row);
 
+            row.querySelector(".quantity").focus();
+
         };
 
 

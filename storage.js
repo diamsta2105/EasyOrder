@@ -130,15 +130,13 @@ if (
     customer !== ""
 ) {
 
-    let exists =
-        customersDatabase.some(
-            item => item.code === customerCode
-        );
+    let existingCustomer =
+    customersDatabase.find(
+        item => item.code === customerCode
+    );
 
 
-    if (!exists) {
-
-        customersDatabase.push({
+let customerData = {
 
     code: customerCode,
 
@@ -167,18 +165,29 @@ if (
     email:
         document.getElementById("email")?.value.trim() || ""
 
-});
+};
 
-        
 
-        localStorage.setItem(
-            "customersDatabase",
-            JSON.stringify(customersDatabase)
-        );
+if (existingCustomer) {
 
-        
+    Object.assign(
+        existingCustomer,
+        customerData
+    );
 
-    }
+} else {
+
+    customersDatabase.push(
+        customerData
+    );
+
+}
+
+
+localStorage.setItem(
+    "customersDatabase",
+    JSON.stringify(customersDatabase)
+);
 
 }
 

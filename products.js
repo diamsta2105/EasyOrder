@@ -243,7 +243,7 @@ oninput="searchDescription(this)">
 <input 
 type="number"
 class="quantity"
-value="1"
+
 oninput="calculateRow(this.closest('tr'))">
 
 </td>

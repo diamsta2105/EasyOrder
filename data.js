@@ -32,9 +32,32 @@ function getAllProducts() {
         ) || [];
 
 
-    return [
+    let allProducts = [
         ...productsDatabase,
         ...savedProducts
     ];
+
+
+    let uniqueProducts = [];
+
+
+    allProducts.forEach(product => {
+
+        let exists =
+            uniqueProducts.some(item =>
+                item.code === product.code
+            );
+
+
+        if (!exists) {
+
+            uniqueProducts.push(product);
+
+        }
+
+    });
+
+
+    return uniqueProducts;
 
 }

@@ -103,3 +103,33 @@ function searchCustomer(element) {
     });
 
 }
+
+// Εμφάνιση / απόκρυψη στοιχείων νέου πελάτη
+
+function toggleNewCustomerFields() {
+
+    const checkbox =
+        document.getElementById("newCustomer");
+
+    const fields =
+        document.getElementById("newCustomerFields");
+
+
+    if (!checkbox || !fields) {
+
+        return;
+
+    }
+
+
+    if (checkbox.checked) {
+
+        fields.style.display = "block";
+
+    } else {
+
+        fields.style.display = "none";
+
+    }
+
+}

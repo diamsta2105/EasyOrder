@@ -1329,6 +1329,27 @@ function newOrder() {
     document.getElementById("customer").value = "";
 
     document.getElementById("customerCode").value = "";
+
+const newCustomerCheckbox =
+    document.getElementById("newCustomer");
+
+if (newCustomerCheckbox) {
+
+    newCustomerCheckbox.checked = false;
+
+}
+
+
+document.getElementById("profession").value = "";
+document.getElementById("address").value = "";
+document.getElementById("phone").value = "";
+document.getElementById("mobile").value = "";
+document.getElementById("vatNumber").value = "";
+document.getElementById("taxOffice").value = "";
+document.getElementById("email").value = "";
+
+
+toggleNewCustomerFields();
     
     // Καθαρίζουμε τις παρατηρήσεις
 

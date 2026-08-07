@@ -87,6 +87,29 @@ function saveDraft() {
 let customerCode =
     document.getElementById("customerCode").value.trim();
 
+    newCustomer:
+document.getElementById("newCustomer")?.checked || false,
+
+profession:
+document.getElementById("profession")?.value.trim() || "",
+
+address:
+document.getElementById("address")?.value.trim() || "",
+
+phone:
+document.getElementById("phone")?.value.trim() || "",
+
+mobile:
+document.getElementById("mobile")?.value.trim() || "",
+
+vatNumber:
+document.getElementById("vatNumber")?.value.trim() || "",
+
+taxOffice:
+document.getElementById("taxOffice")?.value.trim() || "",
+
+email:
+document.getElementById("email")?.value.trim() || "",
 
 let customerArea =
     document.getElementById("area").value.trim();

@@ -293,6 +293,8 @@ onclick="removeProduct(this)">
 
 `;
 
+row.querySelector(".code").focus();
+    
 }
 
 // Αφαίρεση γραμμής προϊόντος

@@ -20,7 +20,7 @@ function setFormLocked(state) {
 
     let fields =
 document.querySelectorAll(
-    "#date, #area, #customer, #customerCode, #notes, #products input"
+    "#date, #area, #customer, #customerCode, #profession, #address, #phone, #mobile, #vatNumber, #taxOffice, #email, #notes, #products input"
 );
 
 
@@ -29,6 +29,15 @@ document.querySelectorAll(
         field.readOnly = state;
 
     });
+
+let newCustomerCheckbox =
+    document.getElementById("newCustomer");
+
+if (newCustomerCheckbox) {
+
+    newCustomerCheckbox.disabled = state;
+
+}
     
 let sellerSelect =
     document.getElementById("seller");

@@ -1009,6 +1009,40 @@ function openOrder(index) {
 document.getElementById("seller").value =
     order.seller || "";
 
+    const newCustomerCheckbox =
+    document.getElementById("newCustomer");
+
+if (newCustomerCheckbox) {
+
+    newCustomerCheckbox.checked =
+        order.newCustomer || false;
+
+}
+
+
+document.getElementById("profession").value =
+    order.profession || "";
+
+document.getElementById("address").value =
+    order.address || "";
+
+document.getElementById("phone").value =
+    order.phone || "";
+
+document.getElementById("mobile").value =
+    order.mobile || "";
+
+document.getElementById("vatNumber").value =
+    order.vatNumber || "";
+
+document.getElementById("taxOffice").value =
+    order.taxOffice || "";
+
+document.getElementById("email").value =
+    order.email || "";
+
+
+toggleNewCustomerFields();
 
     document.getElementById("notes").value =
     order.notes || "";

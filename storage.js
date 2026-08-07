@@ -19,10 +19,9 @@ function setFormLocked(state) {
 
 
     let fields =
-    document.querySelectorAll(
-        "#date, #area, #customer, #notes, #products input"
-    );
-
+document.querySelectorAll(
+    "#date, #area, #customer, #customerCode, #notes, #products input"
+);
 
 
     fields.forEach(field => {
@@ -30,7 +29,15 @@ function setFormLocked(state) {
         field.readOnly = state;
 
     });
+    
+let sellerSelect =
+    document.getElementById("seller");
 
+if (sellerSelect) {
+
+    sellerSelect.disabled = state;
+
+}
 
 
     // Κλείδωμα κουμπιού προσθήκης προϊόντος

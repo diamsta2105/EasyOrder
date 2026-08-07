@@ -125,6 +125,7 @@ let customerArea =
 
 
 if (
+    document.getElementById("newCustomer")?.checked &&
     customerCode !== "" &&
     customer !== ""
 ) {

@@ -72,7 +72,71 @@ oninput="searchCustomer(this)">
   
 <div class="customerSuggestions"></div>
 
-  
+  <label class="newCustomerOption">
+
+    <input
+        type="checkbox"
+        id="newCustomer"
+        onchange="toggleNewCustomerFields()">
+
+    Νέος πελάτης
+
+</label>
+
+
+<div
+    id="newCustomerFields"
+    style="display: none;">
+
+    <label>Επάγγελμα</label>
+    <input
+        type="text"
+        id="profession"
+        placeholder="Επάγγελμα">
+
+
+    <label>Διεύθυνση</label>
+    <input
+        type="text"
+        id="address"
+        placeholder="Διεύθυνση">
+
+
+    <label>Τηλέφωνο</label>
+    <input
+        type="tel"
+        id="phone"
+        placeholder="Τηλέφωνο">
+
+
+    <label>Κινητό τηλέφωνο</label>
+    <input
+        type="tel"
+        id="mobile"
+        placeholder="Κινητό τηλέφωνο">
+
+
+    <label>ΑΦΜ</label>
+    <input
+        type="text"
+        id="vatNumber"
+        placeholder="ΑΦΜ">
+
+
+    <label>ΔΟΥ</label>
+    <input
+        type="text"
+        id="taxOffice"
+        placeholder="ΔΟΥ">
+
+
+    <label>E-mail</label>
+    <input
+        type="email"
+        id="email"
+        placeholder="E-mail">
+
+</div>
 
 </section>
 

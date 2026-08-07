@@ -1299,6 +1299,17 @@ function newOrder() {
 
 function saveProductIfNew(product) {
 
+if (
+    !product.code ||
+    product.code.trim() === "" ||
+    !product.description ||
+    product.description.trim() === ""
+) {
+
+    return;
+
+}
+    
     let savedProducts =
         JSON.parse(
             localStorage.getItem("savedProducts")

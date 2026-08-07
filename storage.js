@@ -962,6 +962,11 @@ function openOrder(index) {
     document.getElementById("customer").value =
     order.customer || "";
 
+    document.getElementById("customerCode").value =
+    order.customerCode || "";
+
+document.getElementById("seller").value =
+    order.seller || "";
 
 
     document.getElementById("notes").value =

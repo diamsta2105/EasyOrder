@@ -160,11 +160,14 @@ if (
 
 
         id:
-        createOrderId(customer),
+createOrderId(
+    customer,
+    currentOrderNumber
+),
 
 
-        number:
-        currentOrderNumber,
+number:
+currentOrderNumber,
 
 
         date:

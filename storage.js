@@ -1549,3 +1549,33 @@ function convertSavedProductDescriptionsToUppercase() {
 
 
 convertSavedProductDescriptionsToUppercase();
+
+function cleanInvalidSavedProducts() {
+
+    let savedProducts =
+        JSON.parse(
+            localStorage.getItem("savedProducts")
+        ) || [];
+
+
+    savedProducts =
+        savedProducts.filter(product =>
+
+            product.code &&
+            product.code.trim() !== "" &&
+
+            product.description &&
+            product.description.trim() !== ""
+
+        );
+
+
+    localStorage.setItem(
+        "savedProducts",
+        JSON.stringify(savedProducts)
+    );
+
+}
+
+
+cleanInvalidSavedProducts();

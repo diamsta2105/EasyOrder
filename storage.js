@@ -1510,15 +1510,18 @@ function updateSelectedOrders() {
         // Το κουμπί εμφανίζεται όταν έχουν
         // επιλεγεί τουλάχιστον 2 παραγγελίες
 
-        if (count >= 2) {
+        if (
+    count >= 2 &&
+    count <= 5
+) {
 
-            previewButton.style.display =
-                "block";
+    previewButton.style.display =
+        "block";
 
-        } else {
+} else {
 
-            previewButton.style.display =
-                "none";
+    previewButton.style.display =
+        "none";
 
         }
 

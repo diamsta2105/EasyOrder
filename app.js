@@ -87,6 +87,8 @@ window.addEventListener(
             );
 
         }
-
+        if (typeof showDrafts === "function") {
+            showDrafts();
+        }
     }
 );

@@ -7,6 +7,8 @@ function generatePDF() {
     try {
         // Συλλογή βασικών στοιχείων παραγγελίας
         const dateVal = document.getElementById("date")?.value || "";
+        const customerCodeVal =
+    document.getElementById("customerCode")?.value || "";
         const customerVal = document.getElementById("customer")?.value || "";
         const areaVal = document.getElementById("area")?.value || "";
         const notesVal = document.getElementById("notes")?.value || "";
@@ -43,6 +45,7 @@ function generatePDF() {
     number:
         document.getElementById("orderNumber")?.value || "-",
     date: dateVal,
+            customerCode: customerCodeVal,
     customer: customerVal,
             area: areaVal,
             seller: sellerVal,
@@ -137,14 +140,42 @@ function downloadPDF(order) {
         // =====================
         doc.setFontSize(10);
 
-doc.text("Ημερομηνία:  " + (order.date || "-"), 15, y);
+doc.text(
+    "ΗΜΕΡΟΜΗΝΙΑ:  " +
+    (order.date || "-"),
+    15,
+    y
+);
 
-doc.text("Πελάτης:  " + (order.customer || "-"), 105, y);
-doc.text("Περιοχή:  " + (order.area || "-"), 105, y + 6);
+doc.text(
+    "ΚΩΔΙΚΟΣ ΠΕΛΑΤΗ:  " +
+    (order.customerCode || "-"),
+    105,
+    y
+);
 
-doc.text("Κωδ. Πωλητή:  " + (order.seller || "-"), 15, y + 6);
+doc.text(
+    "ΚΩΔ. ΠΩΛΗΤΗ:  " +
+    (order.seller || "-"),
+    15,
+    y + 6
+);
 
-y += 18;
+doc.text(
+    "ΕΠΩΝΥΜΙΑ:  " +
+    (order.customer || "-"),
+    105,
+    y + 6
+);
+
+doc.text(
+    "ΠΕΡΙΟΧΗ:  " +
+    (order.area || "-"),
+    105,
+    y + 12
+);
+
+y += 24;
 
         // =====================
         // ΠΙΝΑΚΑΣ ΠΡΟΪΟΝΤΩΝ

@@ -252,7 +252,7 @@ function createPreviewOrderHTML(
             ? `
 
     <div>
-        <strong>Ημερομηνία:</strong>
+        <strong>ΗΜΕΡΟΜΗΝΙΑ:</strong>
         ${escapePreviewText(
             order.date || "-"
         )}
@@ -260,7 +260,7 @@ function createPreviewOrderHTML(
 
 
     <div>
-        <strong>Κωδ. Πωλητή:</strong>
+        <strong>ΚΩΔ. ΠΩΛΗΤΗ:</strong>
         ${escapePreviewText(
             order.seller || "-"
         )}
@@ -272,7 +272,7 @@ function createPreviewOrderHTML(
 
 
     <div>
-        <strong>Κωδικός πελάτη:</strong>
+        <strong>ΚΩΔΙΚΟΣ ΠΕΛΑΤΗ:</strong>
         ${escapePreviewText(
             order.customerCode || "-"
         )}
@@ -280,7 +280,7 @@ function createPreviewOrderHTML(
 
 
     <div>
-        <strong>Επωνυμία:</strong>
+        <strong>ΕΠΩΝΥΜΙΑ:</strong>
         ${escapePreviewText(
             order.customer || "-"
         )}
@@ -288,7 +288,7 @@ function createPreviewOrderHTML(
 
 
     <div>
-        <strong>Περιοχή:</strong>
+        <strong>ΠΕΡΙΟΧΗ:</strong>
         ${escapePreviewText(
             order.area || "-"
         )}

@@ -1447,7 +1447,7 @@ if (
 
             code: product.code,
 
-            description: product.description,
+            description: product.description.trim().toUpperCase(),
 
             price: Number(product.price) || 0
 
@@ -1517,3 +1517,35 @@ function updateSelectedOrders() {
     }
 
 }
+
+function convertSavedProductDescriptionsToUppercase() {
+
+    let savedProducts =
+        JSON.parse(
+            localStorage.getItem("savedProducts")
+        ) || [];
+
+
+    savedProducts.forEach(product => {
+
+        if (product.description) {
+
+            product.description =
+                product.description
+                .trim()
+                .toUpperCase();
+
+        }
+
+    });
+
+
+    localStorage.setItem(
+        "savedProducts",
+        JSON.stringify(savedProducts)
+    );
+
+}
+
+
+convertSavedProductDescriptionsToUppercase();

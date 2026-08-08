@@ -454,7 +454,8 @@ drafts.push(order);
 
     editingOrderIndex =
     drafts.length - 1;
-
+    
+showDrafts();
 
 }
 

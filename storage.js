@@ -1362,7 +1362,12 @@ function newOrder() {
 
     document.getElementById("date").value =
         getTodayDate();
+    
+const savedSeller =
+    localStorage.getItem("todaySeller") || "";
 
+document.getElementById("seller").value =
+    savedSeller;
 
     // Καθαρίζουμε τα στοιχεία πελάτη
 

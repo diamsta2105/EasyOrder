@@ -7,6 +7,10 @@ function findProduct(element) {
 
     let code = element.value.trim();
 
+    if (code === "") {
+    return;
+    }
+
     let product = getAllProducts().find(
         item => item.code === code
     );

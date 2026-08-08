@@ -51,15 +51,15 @@ function previewSelectedOrders() {
 
 
     if (
-        selectedOrders.length < 2 ||
-        selectedOrders.length > 3
-    ) {
+    selectedOrders.length < 2 ||
+    selectedOrders.length > 5
+) {
 
-        alert(
-            "Επίλεξε 2 ή 3 παραγγελίες."
-        );
+    alert(
+        "Επίλεξε από 2 έως 5 παραγγελίες."
+    );
 
-        return;
+    return;
 
     }
 

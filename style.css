@@ -194,3 +194,50 @@ textarea {
     line-height: 36px;
     text-align: center;
 }
+
+/* Πλάτος στηλών προϊόντων */
+
+.productsTable {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.productsTable .productCodeColumn {
+    width: 16%;
+}
+
+.productsTable .productDescriptionColumn {
+    width: 33%;
+}
+
+.productsTable .productQuantityColumn {
+    width: 8%;
+}
+
+.productsTable .productPriceColumn {
+    width: 12%;
+}
+
+.productsTable .productDiscountColumn {
+    width: 10%;
+}
+
+.productsTable .productFinalColumn {
+    width: 13%;
+}
+
+.productsTable .productRemoveColumn {
+    width: 8%;
+}
+
+.productsTable th,
+.productsTable td {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.productsTable td input {
+    width: 100%;
+    padding-left: 4px;
+    padding-right: 4px;
+}

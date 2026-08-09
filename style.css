@@ -162,3 +162,35 @@ textarea {
 .orderMenu {
     display: none;
 }
+
+/* Μικρά κουμπιά στις ολοκληρωμένες παραγγελίες */
+
+#completedList .orderRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+#completedList .orderInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+#completedList .orderActions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+#completedList .orderActions button {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    margin: 0;
+    padding: 0;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 36px;
+    text-align: center;
+}

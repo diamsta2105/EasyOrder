@@ -92,3 +92,78 @@ window.addEventListener(
         }
     }
 );
+
+// ==========================================
+// Ενημέρωση ημερήσιας σύνοψης
+// ==========================================
+
+function updateDailySummary() {
+
+    const orders =
+        JSON.parse(
+            localStorage.getItem("draftOrders")
+        ) || [];
+
+
+    const today =
+        getTodayDate();
+
+
+    const todayDraftOrders =
+        orders.filter(order =>
+
+            order.date === today &&
+
+            order.status !==
+                "Οριστικοποιημένη"
+
+        );
+
+
+    let liveTurnover = 0;
+
+
+    todayDraftOrders.forEach(order => {
+
+        const orderTotal =
+            parseFloat(
+                String(order.total || "0")
+                    .replace("€", "")
+                    .replace(",", ".")
+                    .trim()
+            ) || 0;
+
+
+        liveTurnover += orderTotal;
+
+    });
+
+
+    const ordersElement =
+        document.getElementById(
+            "todayDraftOrders"
+        );
+
+
+    const turnoverElement =
+        document.getElementById(
+            "todayLiveTurnover"
+        );
+
+
+    if (ordersElement) {
+
+        ordersElement.innerText =
+            todayDraftOrders.length;
+
+    }
+
+
+    if (turnoverElement) {
+
+        turnoverElement.innerText =
+            liveTurnover.toFixed(2) + " €";
+
+    }
+
+}

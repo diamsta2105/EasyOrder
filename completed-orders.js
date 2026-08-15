@@ -374,7 +374,11 @@ function renderCompletedOrdersArchive() {
     }
 
 
-        visibleCompletedOrders.forEach(order => {
+            visibleCompletedOrders.forEach(order => {
+
+        const orderIndex =
+            allOrders.indexOf(order);
+
 
         const row =
             document.createElement("div");
@@ -432,9 +436,125 @@ function renderCompletedOrdersArchive() {
             (order.seller || "-");
 
 
+                const actions =
+            document.createElement("div");
+
+
+        actions.className =
+            "archiveOrderActions";
+
+
+        const viewButton =
+            document.createElement("button");
+
+
+        viewButton.type =
+            "button";
+
+
+        viewButton.className =
+            "archiveViewButton";
+
+
+        viewButton.textContent =
+            "👁";
+
+
+        viewButton.title =
+            "Προβολή παραγγελίας";
+
+
+        viewButton.addEventListener(
+            "click",
+            function () {
+
+                localStorage.setItem(
+                    "orderToOpenIndex",
+                    String(orderIndex)
+                );
+
+
+                window.location.href =
+                    "Test.html";
+
+            }
+        );
+
+
+        const deleteButton =
+            document.createElement("button");
+
+
+        deleteButton.type =
+            "button";
+
+
+        deleteButton.className =
+            "archiveDeleteButton";
+
+
+        deleteButton.textContent =
+            "🗑";
+
+
+        deleteButton.title =
+            "Διαγραφή παραγγελίας";
+
+
+        deleteButton.addEventListener(
+            "click",
+            function () {
+
+                const confirmed =
+                    confirm(
+                        "Θέλετε σίγουρα να διαγράψετε την παραγγελία;\n\n" +
+                        "Πελάτης: " +
+                        (order.customer || "-") +
+                        "\nΗμερομηνία: " +
+                        (order.date || "-")
+                    );
+
+
+                if (!confirmed) {
+
+                    return;
+
+                }
+
+
+                allOrders.splice(
+                    orderIndex,
+                    1
+                );
+
+
+                localStorage.setItem(
+                    "draftOrders",
+                    JSON.stringify(allOrders)
+                );
+
+
+                renderCompletedOrdersArchive();
+
+            }
+        );
+
+
+        actions.appendChild(
+            viewButton
+        );
+
+
+        actions.appendChild(
+            deleteButton
+        );
+
+
         row.appendChild(mainInfo);
 
         row.appendChild(extraInfo);
+
+        row.appendChild(actions);
 
         archive.appendChild(row);
 

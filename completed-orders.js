@@ -502,14 +502,27 @@ window.addEventListener(
 
             if (field) {
 
-                field.addEventListener(
+                                field.addEventListener(
                     "input",
-                    renderCompletedOrdersArchive
+                    function () {
+
+                        currentCompletedPage = 1;
+
+                        renderCompletedOrdersArchive();
+
+                    }
                 );
+
 
                 field.addEventListener(
                     "change",
-                    renderCompletedOrdersArchive
+                    function () {
+
+                        currentCompletedPage = 1;
+
+                        renderCompletedOrdersArchive();
+
+                    }
                 );
 
             }
@@ -532,6 +545,64 @@ window.addEventListener(
 
         }
 
+                const previousButton =
+            document.getElementById(
+                "previousCompletedPage"
+            );
+
+
+        const nextButton =
+            document.getElementById(
+                "nextCompletedPage"
+            );
+
+
+        if (previousButton) {
+
+            previousButton.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        currentCompletedPage > 1
+                    ) {
+
+                        currentCompletedPage--;
+
+                        renderCompletedOrdersArchive();
+
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        if (nextButton) {
+
+            nextButton.addEventListener(
+                "click",
+                function () {
+
+                    currentCompletedPage++;
+
+                    renderCompletedOrdersArchive();
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+                }
+            );
+
+        }
 
         renderCompletedOrdersArchive();
 

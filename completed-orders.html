@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Ολοκληρωμένες Παραγγελίες</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>FÖRCH</h1>
+
+<p>Easy Order</p>
+
+</header>
+
+
+<section>
+
+<a
+href="index.html"
+class="backToOrdersButton">
+
+← Επιστροφή στις παραγγελίες
+
+</a>
+
+<h2>Ολοκληρωμένες Παραγγελίες</h2>
+
+</section>
+
+
+<section id="completedFiltersSection">
+
+<h2>Αναζήτηση και φίλτρα</h2>
+
+
+<label>Από ημερομηνία</label>
+
+<input
+type="date"
+id="completedDateFrom">
+
+
+<label>Έως ημερομηνία</label>
+
+<input
+type="date"
+id="completedDateTo">
+
+
+<label>Πελάτης ή κωδικός πελάτη</label>
+
+<input
+type="text"
+id="completedCustomerSearch"
+placeholder="Αναζήτηση πελάτη">
+
+
+<label>Περιοχή</label>
+
+<input
+type="text"
+id="completedAreaSearch"
+placeholder="Αναζήτηση περιοχής">
+
+
+<label>Πωλητής</label>
+
+<select id="completedSellerFilter">
+
+<option value="">Όλοι οι πωλητές</option>
+<option value="Σταύρος">Σταύρος</option>
+<option value="Γρηγόρης">Γρηγόρης</option>
+
+</select>
+
+
+<button
+type="button"
+id="clearCompletedFilters">
+
+Καθαρισμός φίλτρων
+
+</button>
+
+</section>
+
+
+<section class="completedSummary">
+
+<h2>Σύνολο αποτελεσμάτων</h2>
+
+<div class="completedSummaryValues">
+
+    <div>
+
+        <span>Παραγγελίες</span>
+
+        <strong id="filteredCompletedCount">
+            0
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>Ολοκληρωμένος τζίρος</span>
+
+        <strong id="filteredCompletedTurnover">
+            0,00 €
+        </strong>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>Αρχείο παραγγελιών</h2>
+
+<div id="completedOrdersArchive">
+
+<p class="emptyOrders">
+Δεν υπάρχουν ολοκληρωμένες παραγγελίες.
+</p>
+
+</div>
+
+</section>
+
+
+<script src="completed-orders.js"></script>
+
+
+</body>
+
+</html>

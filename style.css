@@ -195,3 +195,54 @@ textarea {
     text-align: center;
 }
 
+/* ==========================================
+   Ημερήσια Σύνοψη
+========================================== */
+
+.dailySummaryGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.summaryCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 85px;
+    padding: 12px;
+    box-sizing: border-box;
+    background: #f5f7fa;
+    border: 1px solid #d7dee5;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.summaryCard span {
+    font-size: 14px;
+    color: #444;
+}
+
+.summaryCard strong {
+    display: block;
+    margin-top: 7px;
+    color: #003b70;
+    font-size: 24px;
+}
+
+.liveTurnoverCard {
+    grid-column: 1 / -1;
+    background: #003b70;
+    border-color: #003b70;
+}
+
+.liveTurnoverCard span {
+    color: white;
+    font-size: 16px;
+}
+
+.liveTurnoverCard strong {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+}

@@ -350,3 +350,34 @@ textarea {
     font-size: 12px;
     overflow-wrap: anywhere;
 }
+
+/* Σελιδοποίηση ολοκληρωμένων παραγγελιών */
+
+.completedPagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.completedPagination button {
+    width: auto;
+    flex: 1;
+    margin: 0;
+    padding: 10px 6px;
+    font-size: 14px;
+}
+
+.completedPagination span {
+    flex-shrink: 0;
+    color: #003b70;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.completedPagination button:disabled {
+    background: #aaa;
+    opacity: 0.65;
+}

@@ -1,0 +1,434 @@
+// ==========================================
+// Easy Order - Αρχείο ολοκληρωμένων
+// ==========================================
+
+
+// Μετατροπή αποθηκευμένου συνόλου σε αριθμό
+
+function parseCompletedTotal(value) {
+
+    let text =
+        String(value || "0")
+        .replace("€", "")
+        .replace(/\s/g, "")
+        .replace(",", ".");
+
+
+    return Number(text) || 0;
+
+}
+
+
+// Ασφαλής εμφάνιση κειμένου
+
+function createOrderTextElement(
+    className,
+    value
+) {
+
+    const element =
+        document.createElement("span");
+
+
+    element.className =
+        className;
+
+
+    element.textContent =
+        value || "-";
+
+
+    return element;
+
+}
+
+
+// Εμφάνιση ολοκληρωμένων παραγγελιών
+
+function renderCompletedOrdersArchive() {
+
+    const archive =
+        document.getElementById(
+            "completedOrdersArchive"
+        );
+
+
+    if (!archive) {
+
+        return;
+
+    }
+
+
+    const allOrders =
+        JSON.parse(
+            localStorage.getItem("draftOrders")
+        ) || [];
+
+
+    let completedOrders =
+        allOrders.filter(order =>
+
+            order.status ===
+                "Οριστικοποιημένη"
+
+        );
+
+
+    const dateFrom =
+        document.getElementById(
+            "completedDateFrom"
+        )?.value || "";
+
+
+    const dateTo =
+        document.getElementById(
+            "completedDateTo"
+        )?.value || "";
+
+
+    const customerSearch =
+        document.getElementById(
+            "completedCustomerSearch"
+        )?.value
+        .trim()
+        .toLocaleLowerCase("el") || "";
+
+
+    const areaSearch =
+        document.getElementById(
+            "completedAreaSearch"
+        )?.value
+        .trim()
+        .toLocaleLowerCase("el") || "";
+
+
+    const sellerFilter =
+        document.getElementById(
+            "completedSellerFilter"
+        )?.value || "";
+
+
+    completedOrders =
+        completedOrders.filter(order => {
+
+            const orderDate =
+                order.date || "";
+
+
+            const customerText =
+                (
+                    (order.customer || "") +
+                    " " +
+                    (order.customerCode || "")
+                )
+                .toLocaleLowerCase("el");
+
+
+            const areaText =
+                String(order.area || "")
+                .toLocaleLowerCase("el");
+
+
+            if (
+                dateFrom &&
+                orderDate < dateFrom
+            ) {
+
+                return false;
+
+            }
+
+
+            if (
+                dateTo &&
+                orderDate > dateTo
+            ) {
+
+                return false;
+
+            }
+
+
+            if (
+                customerSearch &&
+                !customerText.includes(
+                    customerSearch
+                )
+            ) {
+
+                return false;
+
+            }
+
+
+            if (
+                areaSearch &&
+                !areaText.includes(
+                    areaSearch
+                )
+            ) {
+
+                return false;
+
+            }
+
+
+            if (
+                sellerFilter &&
+                order.seller !== sellerFilter
+            ) {
+
+                return false;
+
+            }
+
+
+            return true;
+
+        });
+
+
+    completedOrders.sort(
+        (a, b) =>
+
+            String(b.date || "")
+            .localeCompare(
+                String(a.date || "")
+            )
+
+    );
+
+
+    let totalTurnover = 0;
+
+
+    completedOrders.forEach(order => {
+
+        totalTurnover +=
+            parseCompletedTotal(
+                order.total
+            );
+
+    });
+
+
+    const countElement =
+        document.getElementById(
+            "filteredCompletedCount"
+        );
+
+
+    const turnoverElement =
+        document.getElementById(
+            "filteredCompletedTurnover"
+        );
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            completedOrders.length;
+
+    }
+
+
+    if (turnoverElement) {
+
+        turnoverElement.textContent =
+            totalTurnover.toFixed(2) +
+            " €";
+
+    }
+
+
+    archive.innerHTML = "";
+
+
+    if (completedOrders.length === 0) {
+
+        const emptyMessage =
+            document.createElement("p");
+
+
+        emptyMessage.className =
+            "emptyOrders";
+
+
+        emptyMessage.textContent =
+            "Δεν υπάρχουν ολοκληρωμένες παραγγελίες.";
+
+
+        archive.appendChild(
+            emptyMessage
+        );
+
+
+        return;
+
+    }
+
+
+    completedOrders.forEach(order => {
+
+        const row =
+            document.createElement("div");
+
+
+        row.className =
+            "archiveOrderRow";
+
+
+        const mainInfo =
+            document.createElement("div");
+
+
+        mainInfo.className =
+            "archiveOrderMain";
+
+
+        mainInfo.appendChild(
+            createOrderTextElement(
+                "archiveOrderDate",
+                order.date
+            )
+        );
+
+
+        mainInfo.appendChild(
+            createOrderTextElement(
+                "archiveOrderCustomer",
+                order.customer
+            )
+        );
+
+
+        mainInfo.appendChild(
+            createOrderTextElement(
+                "archiveOrderTotal",
+                order.total || "0,00 €"
+            )
+        );
+
+
+        const extraInfo =
+            document.createElement("div");
+
+
+        extraInfo.className =
+            "archiveOrderExtra";
+
+
+        extraInfo.textContent =
+            (order.customerCode || "-") +
+            " • " +
+            (order.area || "-") +
+            " • " +
+            (order.seller || "-");
+
+
+        row.appendChild(mainInfo);
+
+        row.appendChild(extraInfo);
+
+        archive.appendChild(row);
+
+    });
+
+}
+
+
+// Καθαρισμός όλων των φίλτρων
+
+function clearCompletedOrdersFilters() {
+
+    document.getElementById(
+        "completedDateFrom"
+    ).value = "";
+
+
+    document.getElementById(
+        "completedDateTo"
+    ).value = "";
+
+
+    document.getElementById(
+        "completedCustomerSearch"
+    ).value = "";
+
+
+    document.getElementById(
+        "completedAreaSearch"
+    ).value = "";
+
+
+    document.getElementById(
+        "completedSellerFilter"
+    ).value = "";
+
+
+    renderCompletedOrdersArchive();
+
+}
+
+
+// Εκκίνηση σελίδας
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const filterIds = [
+
+            "completedDateFrom",
+            "completedDateTo",
+            "completedCustomerSearch",
+            "completedAreaSearch",
+            "completedSellerFilter"
+
+        ];
+
+
+        filterIds.forEach(id => {
+
+            const field =
+                document.getElementById(id);
+
+
+            if (field) {
+
+                field.addEventListener(
+                    "input",
+                    renderCompletedOrdersArchive
+                );
+
+                field.addEventListener(
+                    "change",
+                    renderCompletedOrdersArchive
+                );
+
+            }
+
+        });
+
+
+        const clearButton =
+            document.getElementById(
+                "clearCompletedFilters"
+            );
+
+
+        if (clearButton) {
+
+            clearButton.addEventListener(
+                "click",
+                clearCompletedOrdersFilters
+            );
+
+        }
+
+
+        renderCompletedOrdersArchive();
+
+    }
+);

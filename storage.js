@@ -906,13 +906,23 @@ onclick="deleteOrder(${index})">
         completedBox.style.display =
             "none";
 
-    } else {
+        } else {
 
         draftBox.style.display =
             "none";
 
         completedBox.style.display =
             "block";
+
+    }
+
+
+    if (
+        typeof updateDailySummary ===
+        "function"
+    ) {
+
+        updateDailySummary();
 
     }
 

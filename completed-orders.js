@@ -2,6 +2,10 @@
 // Easy Order - Αρχείο ολοκληρωμένων
 // ==========================================
 
+const COMPLETED_ORDERS_PER_PAGE = 50;
+
+let currentCompletedPage = 1;
+
 
 // Μετατροπή αποθηκευμένου συνόλου σε αριθμό
 
@@ -189,7 +193,7 @@ function renderCompletedOrdersArchive() {
         });
 
 
-    completedOrders.sort(
+        completedOrders.sort(
         (a, b) =>
 
             String(b.date || "")
@@ -198,6 +202,107 @@ function renderCompletedOrdersArchive() {
             )
 
     );
+
+
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(
+                completedOrders.length /
+                COMPLETED_ORDERS_PER_PAGE
+            )
+        );
+
+
+    if (
+        currentCompletedPage >
+        totalPages
+    ) {
+
+        currentCompletedPage =
+            totalPages;
+
+    }
+
+
+    const firstOrderIndex =
+        (
+            currentCompletedPage - 1
+        ) *
+        COMPLETED_ORDERS_PER_PAGE;
+
+
+    const visibleCompletedOrders =
+        completedOrders.slice(
+            firstOrderIndex,
+            firstOrderIndex +
+            COMPLETED_ORDERS_PER_PAGE
+        );
+
+
+    const pagination =
+        document.getElementById(
+            "completedPagination"
+        );
+
+
+    const pageInformation =
+        document.getElementById(
+            "completedPageInformation"
+        );
+
+
+    const previousButton =
+        document.getElementById(
+            "previousCompletedPage"
+        );
+
+
+    const nextButton =
+        document.getElementById(
+            "nextCompletedPage"
+        );
+
+
+    if (pagination) {
+
+        pagination.style.display =
+            completedOrders.length >
+            COMPLETED_ORDERS_PER_PAGE
+
+                ? "flex"
+
+                : "none";
+
+    }
+
+
+    if (pageInformation) {
+
+        pageInformation.textContent =
+            "Σελίδα " +
+            currentCompletedPage +
+            " από " +
+            totalPages;
+
+    }
+
+
+    if (previousButton) {
+
+        previousButton.disabled =
+            currentCompletedPage === 1;
+
+    }
+
+
+    if (nextButton) {
+
+        nextButton.disabled =
+            currentCompletedPage ===
+            totalPages;
+
+    }
 
 
     let totalTurnover = 0;
@@ -269,7 +374,7 @@ function renderCompletedOrdersArchive() {
     }
 
 
-    completedOrders.forEach(order => {
+        visibleCompletedOrders.forEach(order => {
 
         const row =
             document.createElement("div");

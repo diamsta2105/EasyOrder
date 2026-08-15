@@ -898,7 +898,7 @@ onclick="deleteOrder(${index})">
     // Διατηρούμε ανοιχτή την καρτέλα
     // που είχε επιλεγεί
 
-    if (currentOrdersTab === "draft") {
+        if (currentOrdersTab === "draft") {
 
         draftBox.style.display =
             "block";
@@ -906,15 +906,15 @@ onclick="deleteOrder(${index})">
         completedBox.style.display =
             "none";
 
-        } else {
+    } else {
 
         draftBox.style.display =
             "none";
 
         completedBox.style.display =
-            "block";
+            "none";
 
-    }
+        }
 
 
     if (

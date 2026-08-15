@@ -87,9 +87,52 @@ window.addEventListener(
             );
 
         }
-        if (typeof showDrafts === "function") {
+                if (
+            typeof showDrafts ===
+            "function"
+        ) {
+
             showDrafts();
+
         }
+
+
+        const orderToOpenIndex =
+            localStorage.getItem(
+                "orderToOpenIndex"
+            );
+
+
+        if (
+            orderToOpenIndex !== null
+        ) {
+
+            localStorage.removeItem(
+                "orderToOpenIndex"
+            );
+
+
+            const orderIndex =
+                Number(orderToOpenIndex);
+
+
+            if (
+                Number.isInteger(orderIndex) &&
+                typeof openOrder ===
+                    "function"
+            ) {
+
+                openOrder(orderIndex);
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+
+        }
+
     }
 );
 

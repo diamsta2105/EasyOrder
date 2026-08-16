@@ -164,6 +164,8 @@ function addDailyVisitRow(data = {}) {
     const row =
         document.createElement("tr");
 
+        row.dataset.orderId =
+        data.orderId || "";
 
     row.innerHTML = `
 
@@ -437,7 +439,10 @@ function loadOrdersIntoDailyReport() {
                 );
 
 
-            addDailyVisitRow({
+                        addDailyVisitRow({
+
+                orderId:
+                    order.id || "",
 
                 customerCode:
                     order.customerCode || "",

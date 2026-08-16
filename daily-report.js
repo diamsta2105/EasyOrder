@@ -1225,6 +1225,21 @@ window.addEventListener(
             }
 
         });
+
+        const saveDailyButton =
+            document.getElementById(
+                "saveDailyReportButton"
+            );
+
+
+        if (saveDailyButton) {
+
+            saveDailyButton.addEventListener(
+                "click",
+                saveDailyReport
+            );
+
+        }
         
                 loadOrdersIntoDailyReport();
 

@@ -466,6 +466,258 @@ function loadOrdersIntoDailyReport() {
 
 }
 
+// Υπολογισμός συνόλων ημερήσιας
+
+function calculateDailyTotals() {
+
+    let visits = 0;
+    let orders = 0;
+    let products = 0;
+    let sales = 0;
+    let collections = 0;
+    let newCustomers = 0;
+
+
+    document
+        .querySelectorAll(
+            "#dailyVisitsTableBody tr"
+        )
+        .forEach(row => {
+
+            const customerCode =
+                row.querySelector(
+                    ".dailyCustomerCode"
+                )?.value.trim() || "";
+
+
+            const customerName =
+                row.querySelector(
+                    ".dailyCustomerName"
+                )?.value.trim() || "";
+
+
+            const note =
+                row.querySelector(
+                    ".dailyVisitNote"
+                )?.value.trim() || "";
+
+
+            const orderCount =
+                Number(
+                    row.querySelector(
+                        ".dailyOrderCount"
+                    )?.value
+                ) || 0;
+
+
+            const productCount =
+                Number(
+                    row.querySelector(
+                        ".dailyProductCount"
+                    )?.value
+                ) || 0;
+
+
+            const salesValue =
+                Number(
+                    row.querySelector(
+                        ".dailySalesValue"
+                    )?.value
+                ) || 0;
+
+
+            const collectionValue =
+                Number(
+                    row.querySelector(
+                        ".dailyCollectionValue"
+                    )?.value
+                ) || 0;
+
+
+            const isNewCustomer =
+                row.querySelector(
+                    ".dailyNewCustomer"
+                )?.checked || false;
+
+
+            const hasVisit =
+                customerCode !== "" ||
+                customerName !== "" ||
+                note !== "" ||
+                orderCount > 0 ||
+                productCount > 0 ||
+                salesValue > 0 ||
+                collectionValue > 0 ||
+                isNewCustomer;
+
+
+            if (hasVisit) {
+
+                visits++;
+
+            }
+
+
+            orders += orderCount;
+            products += productCount;
+            sales += salesValue;
+            collections += collectionValue;
+
+
+            if (isNewCustomer) {
+
+                newCustomers++;
+
+            }
+
+        });
+
+
+    const carriedVisits =
+        Number(
+            document.getElementById(
+                "carriedVisits"
+            )?.value
+        ) || 0;
+
+
+    const carriedOrders =
+        Number(
+            document.getElementById(
+                "carriedOrders"
+            )?.value
+        ) || 0;
+
+
+    const carriedProducts =
+        Number(
+            document.getElementById(
+                "carriedProducts"
+            )?.value
+        ) || 0;
+
+
+    const carriedSales =
+        Number(
+            document.getElementById(
+                "carriedSales"
+            )?.value
+        ) || 0;
+
+
+    const carriedCollections =
+        Number(
+            document.getElementById(
+                "carriedCollections"
+            )?.value
+        ) || 0;
+
+
+    const carriedNewCustomers =
+        Number(
+            document.getElementById(
+                "carriedNewCustomers"
+            )?.value
+        ) || 0;
+
+
+    function setTotalText(
+        id,
+        value,
+        isMoney = false
+    ) {
+
+        const element =
+            document.getElementById(id);
+
+
+        if (!element) {
+
+            return;
+
+        }
+
+
+        element.textContent =
+            isMoney
+
+                ? value
+                    .toFixed(2)
+                    .replace(".", ",")
+
+                : value;
+
+    }
+
+
+    setTotalText(
+        "dailyTotalVisits",
+        visits
+    );
+
+    setTotalText(
+        "dailyTotalOrders",
+        orders
+    );
+
+    setTotalText(
+        "dailyTotalProducts",
+        products
+    );
+
+    setTotalText(
+        "dailyTotalSales",
+        sales,
+        true
+    );
+
+    setTotalText(
+        "dailyTotalCollections",
+        collections,
+        true
+    );
+
+    setTotalText(
+        "dailyTotalNewCustomers",
+        newCustomers
+    );
+
+
+    setTotalText(
+        "generalTotalVisits",
+        visits + carriedVisits
+    );
+
+    setTotalText(
+        "generalTotalOrders",
+        orders + carriedOrders
+    );
+
+    setTotalText(
+        "generalTotalProducts",
+        products + carriedProducts
+    );
+
+    setTotalText(
+        "generalTotalSales",
+        sales + carriedSales,
+        true
+    );
+
+    setTotalText(
+        "generalTotalCollections",
+        collections + carriedCollections,
+        true
+    );
+
+    setTotalText(
+        "generalTotalNewCustomers",
+        newCustomers +
+        carriedNewCustomers
+    );
+
+}
+
 // Εκκίνηση σελίδας ημερήσιας
 
 window.addEventListener(

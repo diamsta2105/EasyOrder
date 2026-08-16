@@ -727,6 +727,106 @@ function calculateDailyTotals() {
 
 }
 
+// Υπολογισμός χιλιομέτρων και εξόδων
+
+function calculateDailyTravelAndExpenses() {
+
+    const kilometersFrom =
+        Number(
+            document.getElementById(
+                "dailyKilometersFrom"
+            )?.value
+        ) || 0;
+
+
+    const kilometersTo =
+        Number(
+            document.getElementById(
+                "dailyKilometersTo"
+            )?.value
+        ) || 0;
+
+
+    const totalKilometers =
+        kilometersTo >= kilometersFrom
+
+            ? kilometersTo -
+              kilometersFrom
+
+            : 0;
+
+
+    const totalKilometersElement =
+        document.getElementById(
+            "dailyTotalKilometers"
+        );
+
+
+    if (totalKilometersElement) {
+
+        totalKilometersElement.textContent =
+            totalKilometers;
+
+    }
+
+
+    const fuel =
+        Number(
+            document.getElementById(
+                "dailyFuelExpense"
+            )?.value
+        ) || 0;
+
+
+    const tolls =
+        Number(
+            document.getElementById(
+                "dailyTollsExpense"
+            )?.value
+        ) || 0;
+
+
+    const food =
+        Number(
+            document.getElementById(
+                "dailyFoodExpense"
+            )?.value
+        ) || 0;
+
+
+    const hotel =
+        Number(
+            document.getElementById(
+                "dailyHotelExpense"
+            )?.value
+        ) || 0;
+
+
+    const totalExpenses =
+        fuel +
+        tolls +
+        food +
+        hotel;
+
+
+    const totalExpensesElement =
+        document.getElementById(
+            "dailyTotalExpenses"
+        );
+
+
+    if (totalExpensesElement) {
+
+        totalExpensesElement.textContent =
+            totalExpenses
+            .toFixed(2)
+            .replace(".", ",") +
+            " €";
+
+    }
+
+}
+
 // Εκκίνηση σελίδας ημερήσιας
 
 window.addEventListener(

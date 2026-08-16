@@ -182,6 +182,7 @@ function addDailyVisitRow(data = {}) {
     <input
     type="text"
     class="dailyCustomerName"
+    list="dailyCustomersDataList"
     placeholder="Πελάτης">
 </td>
 

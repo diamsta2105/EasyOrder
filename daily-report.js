@@ -1655,7 +1655,7 @@ window.addEventListener(
             );
 
 
-        if (visitsTableBody) {
+                if (visitsTableBody) {
 
             visitsTableBody.addEventListener(
                 "input",
@@ -1668,7 +1668,53 @@ window.addEventListener(
                 calculateDailyTotals
             );
 
-        }
+
+            visitsTableBody.addEventListener(
+                "focusout",
+                function (event) {
+
+                    if (
+                        event.target.classList
+                        .contains(
+                            "dailyCustomerCode"
+                        )
+                    ) {
+
+                        fillDailyCustomerByCode(
+                            event.target
+                        );
+
+                        calculateDailyTotals();
+
+                    }
+
+                }
+            );
+
+
+            visitsTableBody.addEventListener(
+                "change",
+                function (event) {
+
+                    if (
+                        event.target.classList
+                        .contains(
+                            "dailyCustomerName"
+                        )
+                    ) {
+
+                        fillDailyCustomerByName(
+                            event.target
+                        );
+
+                        calculateDailyTotals();
+
+                    }
+
+                }
+            );
+
+                }
 
 
         const carriedFieldIds = [
@@ -1743,7 +1789,9 @@ window.addEventListener(
             );
 
         }
-        
+
+
+                populateDailyCustomersList();
                         loadSavedDailyReport();
 
         updateDailyDayName();

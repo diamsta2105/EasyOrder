@@ -490,22 +490,34 @@ window.addEventListener(
                 getDailyTodayDate();
 
 
-            dateInput.addEventListener(
+                        dateInput.addEventListener(
                 "change",
-                updateDailyDayName
+                function () {
+
+                    updateDailyDayName();
+
+                    loadOrdersIntoDailyReport();
+
+                }
             );
 
         }
 
 
-        if (sellerInput) {
+                if (sellerInput) {
 
             sellerInput.value =
                 localStorage.getItem(
                     "todaySeller"
                 ) || "";
 
-        }
+
+            sellerInput.addEventListener(
+                "change",
+                loadOrdersIntoDailyReport
+            );
+
+                }
 
                 const addVisitButton =
             document.getElementById(
@@ -523,7 +535,7 @@ window.addEventListener(
         }
 
 
-        addDailyVisitRow();
+        loadOrdersIntoDailyReport();
 
         updateDailyDayName();
 

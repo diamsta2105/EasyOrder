@@ -1061,6 +1061,32 @@ function addDailyPreviewStyles() {
     width: auto;
 }
 
+.dailyPrintVisitsHeading th {
+    padding: 2px;
+    background: white;
+    border: none;
+    text-align: center;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.dailyPrintVisitsHeading th:nth-child(2) {
+    border: 1px solid #777;
+    background: #f3f3f3;
+}
+
+.dailyPrintTotals tbody th {
+    padding: 4px 2px;
+    font-size: 7.5px;
+    white-space: nowrap;
+}
+
+.dailyPrintTotals tbody td {
+    padding: 4px 2px;
+    font-size: 9px;
+    text-align: center;
+}
+
 .dailyPrintTravel th,
 .dailyPrintExpenses th {
     width: 18%;

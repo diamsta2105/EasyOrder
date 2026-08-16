@@ -418,3 +418,74 @@ textarea {
 .archiveDeleteButton {
     background: #c62828;
 }
+
+/* Συμπαγής εμφάνιση αρχείου παραγγελιών */
+
+.archiveOrderRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        "main actions"
+        "extra extra";
+    align-items: center;
+    gap: 5px 6px;
+    min-height: auto;
+    padding: 11px 0;
+}
+
+.archiveOrderMain {
+    grid-area: main;
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr) auto;
+    grid-template-areas: none;
+    align-items: center;
+    gap: 5px;
+}
+
+.archiveOrderDate {
+    grid-area: auto;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.archiveOrderCustomer {
+    grid-area: auto;
+    min-width: 0;
+    font-size: 13px;
+    line-height: 1.2;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
+.archiveOrderTotal {
+    grid-area: auto;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.archiveOrderExtra {
+    grid-area: extra;
+    margin: 0;
+    padding: 0 0 0 59px;
+    font-size: 10px;
+    line-height: 1.2;
+}
+
+.archiveOrderActions {
+    grid-area: actions;
+    position: static;
+    display: flex;
+    gap: 3px;
+    transform: none;
+}
+
+.archiveOrderActions button {
+    width: 27px;
+    min-width: 27px;
+    height: 27px;
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+    font-size: 12px;
+    line-height: 27px;
+}

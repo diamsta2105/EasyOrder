@@ -305,6 +305,167 @@ function addDailyVisitRow(data = {}) {
 
 }
 
+// Μετατροπή συνόλου παραγγελίας σε αριθμό
+
+function parseDailyOrderTotal(value) {
+
+    const number =
+        parseFloat(
+            String(value || "0")
+            .replace("€", "")
+            .replace(",", ".")
+            .trim()
+        );
+
+
+    return number || 0;
+
+}
+
+
+// Μεταφορά παραγγελιών στην ημερήσια
+
+function loadOrdersIntoDailyReport() {
+
+    const tableBody =
+        document.getElementById(
+            "dailyVisitsTableBody"
+        );
+
+
+    const date =
+        document.getElementById(
+            "dailyDate"
+        )?.value || "";
+
+
+    const seller =
+        document.getElementById(
+            "dailySeller"
+        )?.value || "";
+
+
+    if (!tableBody) {
+
+        return;
+
+    }
+
+
+    const allOrders =
+        JSON.parse(
+            localStorage.getItem(
+                "draftOrders"
+            )
+        ) || [];
+
+
+    const selectedOrders =
+        allOrders.filter(order => {
+
+            if (order.date !== date) {
+
+                return false;
+
+            }
+
+
+            if (
+                seller &&
+                order.seller !== seller
+            ) {
+
+                return false;
+
+            }
+
+
+            return true;
+
+        });
+
+
+    tableBody.innerHTML = "";
+
+
+    if (selectedOrders.length > 22) {
+
+        alert(
+            "Βρέθηκαν περισσότερες από 22 παραγγελίες. " +
+            "Θα εμφανιστούν οι πρώτες 22."
+        );
+
+    }
+
+
+    selectedOrders
+        .slice(0, 22)
+        .forEach(order => {
+
+            const products =
+                Array.isArray(order.products)
+                    ? order.products
+                    : [];
+
+
+            const productCount =
+                products.filter(product =>
+
+                    String(
+                        product.code || ""
+                    ).trim() !== "" ||
+
+                    String(
+                        product.description || ""
+                    ).trim() !== ""
+
+                ).length;
+
+
+            const salesValue =
+                parseDailyOrderTotal(
+                    order.total
+                );
+
+
+            addDailyVisitRow({
+
+                customerCode:
+                    order.customerCode || "",
+
+                customerName:
+                    order.customer || "",
+
+                orderCount: 1,
+
+                productCount:
+                    productCount || "",
+
+                salesValue:
+                    salesValue > 0
+                        ? salesValue.toFixed(2)
+                        : "",
+
+                collectionValue: "",
+
+                newCustomer:
+                    order.newCustomer || false,
+
+                note: ""
+
+            });
+
+        });
+
+
+    if (selectedOrders.length === 0) {
+
+        addDailyVisitRow();
+
+    }
+
+}
+
 // Εκκίνηση σελίδας ημερήσιας
 
 window.addEventListener(

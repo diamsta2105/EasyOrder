@@ -732,3 +732,630 @@ function closeDailyReportPreview() {
         "";
 
 }
+
+// Προσθήκη εμφάνισης προεπισκόπησης
+
+function addDailyPreviewStyles() {
+
+    if (
+        document.getElementById(
+            "dailyPreviewStyles"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const style =
+        document.createElement("style");
+
+
+    style.id =
+        "dailyPreviewStyles";
+
+
+    style.textContent = `
+
+#dailyReportPreviewOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    padding: 15px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.78);
+    overflow: auto;
+}
+
+.dailyReportPreviewWindow {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+}
+
+.dailyPrintPage {
+    width: 794px;
+    min-height: 1123px;
+    margin: auto;
+    padding: 18px;
+    box-sizing: border-box;
+    background: white;
+    color: #111;
+    font-family: Arial, sans-serif;
+}
+
+.dailyPrintTitle {
+    padding: 5px 0 9px;
+    text-align: center;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.dailyPrintHeaderFields {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr 1.4fr;
+    gap: 7px;
+    margin-bottom: 8px;
+}
+
+.dailyPrintHeaderFields > div {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    border: 1px solid #777;
+    font-size: 10px;
+}
+
+.dailyPrintHeaderFields strong {
+    padding: 5px;
+    background: #003b70;
+    color: white;
+}
+
+.dailyPrintHeaderFields span {
+    padding: 5px;
+    text-align: center;
+}
+
+.dailyPrintPage table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.dailyPrintVisits {
+    font-size: 8.5px;
+}
+
+.dailyPrintVisits th {
+    height: 25px;
+    padding: 3px 2px;
+    background: #003b70;
+    color: white;
+    border: 1px solid #555;
+    white-space: nowrap;
+}
+
+.dailyPrintVisits td {
+    height: 27px;
+    padding: 2px 3px;
+    border: 1px solid #888;
+    box-sizing: border-box;
+    text-align: center;
+    overflow: hidden;
+}
+
+.dailyPrintVisits th:nth-child(1),
+.dailyPrintVisits td:nth-child(1) {
+    width: 5%;
+}
+
+.dailyPrintVisits th:nth-child(2),
+.dailyPrintVisits td:nth-child(2) {
+    width: 11%;
+}
+
+.dailyPrintVisits th:nth-child(3),
+.dailyPrintVisits td:nth-child(3) {
+    width: 22%;
+}
+
+.dailyPrintVisits th:nth-child(4),
+.dailyPrintVisits td:nth-child(4) {
+    width: 6%;
+}
+
+.dailyPrintVisits th:nth-child(5),
+.dailyPrintVisits td:nth-child(5) {
+    width: 8%;
+}
+
+.dailyPrintVisits th:nth-child(6),
+.dailyPrintVisits td:nth-child(6) {
+    width: 10%;
+}
+
+.dailyPrintVisits th:nth-child(7),
+.dailyPrintVisits td:nth-child(7) {
+    width: 11%;
+}
+
+.dailyPrintVisits th:nth-child(8),
+.dailyPrintVisits td:nth-child(8) {
+    width: 6%;
+}
+
+.dailyPrintVisits th:nth-child(9),
+.dailyPrintVisits td:nth-child(9) {
+    width: 21%;
+}
+
+.dailyPrintCustomer,
+.dailyPrintNote {
+    text-align: left !important;
+}
+
+.dailyPrintTotals,
+.dailyPrintTravel,
+.dailyPrintExpenses {
+    margin-top: 8px !important;
+    font-size: 9px;
+}
+
+.dailyPrintTotals th,
+.dailyPrintTravel th,
+.dailyPrintExpenses th {
+    padding: 5px;
+    background: #f3f3f3;
+    color: #111;
+    border: 1px solid #777;
+    text-align: left;
+}
+
+.dailyPrintTotals td,
+.dailyPrintTravel td,
+.dailyPrintExpenses td {
+    padding: 5px;
+    border: 1px solid #777;
+    text-align: center;
+}
+
+.dailyPrintTotals th {
+    width: 36%;
+}
+
+.dailyPrintTravel th,
+.dailyPrintExpenses th {
+    width: 18%;
+}
+
+.dailyPrintExpenses tr:last-child th,
+.dailyPrintExpenses tr:last-child td {
+    font-weight: bold;
+}
+
+.dailyReportPreviewButtons {
+    display: flex;
+    gap: 10px;
+    max-width: 794px;
+    margin: 15px auto;
+}
+
+.dailyReportPreviewButtons button {
+    flex: 1;
+}
+
+.closeDailyPreviewButton {
+    background: #666;
+}
+
+@media (max-width: 850px) {
+
+    .dailyPrintPage {
+        width: 100%;
+        min-height: auto;
+        padding: 7px;
+    }
+
+    .dailyPrintTitle {
+        padding: 2px 0 4px;
+        font-size: 9px;
+    }
+
+    .dailyPrintHeaderFields {
+        gap: 2px;
+        margin-bottom: 3px;
+    }
+
+    .dailyPrintHeaderFields > div {
+        font-size: 4.5px;
+    }
+
+    .dailyPrintHeaderFields strong,
+    .dailyPrintHeaderFields span {
+        padding: 2px;
+    }
+
+    .dailyPrintVisits {
+        font-size: 4px;
+    }
+
+    .dailyPrintVisits th {
+        height: 12px;
+        padding: 1px;
+    }
+
+    .dailyPrintVisits td {
+        height: 13px;
+        padding: 1px;
+    }
+
+    .dailyPrintTotals,
+    .dailyPrintTravel,
+    .dailyPrintExpenses {
+        margin-top: 3px !important;
+        font-size: 4.5px;
+    }
+
+    .dailyPrintTotals th,
+    .dailyPrintTotals td,
+    .dailyPrintTravel th,
+    .dailyPrintTravel td,
+    .dailyPrintExpenses th,
+    .dailyPrintExpenses td {
+        padding: 2px;
+    }
+
+}
+
+`;
+
+
+    document.head.appendChild(style);
+
+}
+
+// Δημιουργία PDF ημερήσιας
+
+async function createDailyReportPDF() {
+
+    if (
+        typeof html2canvas !==
+        "function"
+    ) {
+
+        alert(
+            "Δεν έχει φορτωθεί το html2canvas."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !window.jspdf ||
+        !window.jspdf.jsPDF
+    ) {
+
+        alert(
+            "Δεν έχει φορτωθεί το jsPDF."
+        );
+
+        return;
+
+    }
+
+
+    let previewPage =
+        document.querySelector(
+            ".dailyPrintPage"
+        );
+
+
+    if (!previewPage) {
+
+        previewDailyReport();
+
+
+        await new Promise(resolve =>
+            requestAnimationFrame(resolve)
+        );
+
+
+        previewPage =
+            document.querySelector(
+                ".dailyPrintPage"
+            );
+
+    }
+
+
+    if (!previewPage) {
+
+        alert(
+            "Δεν βρέθηκε η προεπισκόπηση."
+        );
+
+        return;
+
+    }
+
+
+    const pdfButtons =
+        document.querySelectorAll(
+            "#createDailyPdfButton, " +
+            ".dailyReportPreviewButtons button:first-child"
+        );
+
+
+    pdfButtons.forEach(button => {
+
+        button.disabled = true;
+
+    });
+
+
+    let printContainer = null;
+
+
+    try {
+
+        printContainer =
+            document.createElement("div");
+
+
+        printContainer.style.position =
+            "fixed";
+
+        printContainer.style.left =
+            "-10000px";
+
+        printContainer.style.top =
+            "0";
+
+        printContainer.style.width =
+            "794px";
+
+        printContainer.style.background =
+            "white";
+
+        printContainer.style.zIndex =
+            "-1";
+
+
+        const printPage =
+            previewPage.cloneNode(true);
+
+
+        printPage.style.width =
+            "794px";
+
+        printPage.style.minHeight =
+            "1123px";
+
+        printPage.style.margin =
+            "0";
+
+        printPage.style.padding =
+            "18px";
+
+        printPage.style.boxSizing =
+            "border-box";
+
+
+        printContainer.appendChild(
+            printPage
+        );
+
+
+        document.body.appendChild(
+            printContainer
+        );
+
+
+        await new Promise(resolve =>
+            requestAnimationFrame(resolve)
+        );
+
+
+        const canvas =
+            await html2canvas(
+                printPage,
+                {
+
+                    scale: 2,
+
+                    backgroundColor:
+                        "#ffffff",
+
+                    useCORS: true,
+
+                    logging: false,
+
+                    windowWidth: 1200
+
+                }
+            );
+
+
+        const { jsPDF } =
+            window.jspdf;
+
+
+        const pdf =
+            new jsPDF({
+
+                orientation: "portrait",
+
+                unit: "mm",
+
+                format: "a4"
+
+            });
+
+
+        const pdfWidth =
+            pdf.internal
+            .pageSize
+            .getWidth();
+
+
+        const pdfHeight =
+            pdf.internal
+            .pageSize
+            .getHeight();
+
+
+        const imageData =
+            canvas.toDataURL(
+                "image/jpeg",
+                0.96
+            );
+
+
+        let imageWidth =
+            pdfWidth;
+
+
+        let imageHeight =
+            canvas.height *
+            imageWidth /
+            canvas.width;
+
+
+        if (imageHeight > pdfHeight) {
+
+            imageHeight =
+                pdfHeight;
+
+
+            imageWidth =
+                canvas.width *
+                imageHeight /
+                canvas.height;
+
+        }
+
+
+        const imageX =
+            (
+                pdfWidth -
+                imageWidth
+            ) / 2;
+
+
+        pdf.addImage(
+            imageData,
+            "JPEG",
+            imageX,
+            0,
+            imageWidth,
+            imageHeight
+        );
+
+
+        const date =
+            document.getElementById(
+                "dailyDate"
+            )?.value ||
+            getDailyTodayDate();
+
+
+        const seller =
+            document.getElementById(
+                "dailySeller"
+            )?.value ||
+            "Πωλητής";
+
+
+        const safeSeller =
+            seller.replace(
+                /[^A-Za-zΑ-Ωα-ωΆ-ώ0-9_-]/g,
+                "-"
+            );
+
+
+        pdf.save(
+            "Ημερήσια-" +
+            date +
+            "-" +
+            safeSeller +
+            ".pdf"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Σφάλμα ημερήσιου PDF:",
+            error
+        );
+
+
+        alert(
+            "Δεν δημιουργήθηκε το PDF: " +
+            error.message
+        );
+
+
+    } finally {
+
+        if (printContainer) {
+
+            printContainer.remove();
+
+        }
+
+
+        pdfButtons.forEach(button => {
+
+            button.disabled = false;
+
+        });
+
+    }
+
+}
+
+
+// Σύνδεση κουμπιών
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const previewButton =
+            document.getElementById(
+                "previewDailyReportButton"
+            );
+
+
+        const pdfButton =
+            document.getElementById(
+                "createDailyPdfButton"
+            );
+
+
+        if (previewButton) {
+
+            previewButton.addEventListener(
+                "click",
+                previewDailyReport
+            );
+
+        }
+
+
+        if (pdfButton) {
+
+            pdfButton.addEventListener(
+                "click",
+                createDailyReportPDF
+            );
+
+        }
+
+    }
+);

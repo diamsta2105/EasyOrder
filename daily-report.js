@@ -832,6 +832,252 @@ function calculateDailyTravelAndExpenses() {
 
 }
 
+// Συλλογή και αποθήκευση ημερήσιας
+
+function saveDailyReport() {
+
+    const date =
+        document.getElementById(
+            "dailyDate"
+        )?.value || "";
+
+
+    const seller =
+        document.getElementById(
+            "dailySeller"
+        )?.value || "";
+
+
+    if (!date) {
+
+        alert(
+            "Επίλεξε ημερομηνία."
+        );
+
+        return;
+
+    }
+
+
+    if (!seller) {
+
+        alert(
+            "Επίλεξε πωλητή."
+        );
+
+        return;
+
+    }
+
+
+    const visits = [];
+
+
+    document
+        .querySelectorAll(
+            "#dailyVisitsTableBody tr"
+        )
+        .forEach(row => {
+
+            const visit = {
+
+                orderId:
+                    row.dataset.orderId || "",
+
+                customerCode:
+                    row.querySelector(
+                        ".dailyCustomerCode"
+                    )?.value.trim() || "",
+
+                customerName:
+                    row.querySelector(
+                        ".dailyCustomerName"
+                    )?.value.trim() || "",
+
+                orderCount:
+                    row.querySelector(
+                        ".dailyOrderCount"
+                    )?.value || "",
+
+                productCount:
+                    row.querySelector(
+                        ".dailyProductCount"
+                    )?.value || "",
+
+                salesValue:
+                    row.querySelector(
+                        ".dailySalesValue"
+                    )?.value || "",
+
+                collectionValue:
+                    row.querySelector(
+                        ".dailyCollectionValue"
+                    )?.value || "",
+
+                newCustomer:
+                    row.querySelector(
+                        ".dailyNewCustomer"
+                    )?.checked || false,
+
+                note:
+                    row.querySelector(
+                        ".dailyVisitNote"
+                    )?.value.trim() || ""
+
+            };
+
+
+            const hasData =
+                visit.customerCode !== "" ||
+                visit.customerName !== "" ||
+                visit.orderCount !== "" ||
+                visit.productCount !== "" ||
+                visit.salesValue !== "" ||
+                visit.collectionValue !== "" ||
+                visit.newCustomer ||
+                visit.note !== "";
+
+
+            if (hasData) {
+
+                visits.push(visit);
+
+            }
+
+        });
+
+
+    const report = {
+
+        date: date,
+
+        day:
+            document.getElementById(
+                "dailyDayName"
+            )?.value || "",
+
+        seller: seller,
+
+        areaNumber:
+            document.getElementById(
+                "dailyAreaNumber"
+            )?.value || "",
+
+        areaName:
+            document.getElementById(
+                "dailyAreaName"
+            )?.value.trim() || "",
+
+        visits: visits,
+
+        carried: {
+
+            visits:
+                document.getElementById(
+                    "carriedVisits"
+                )?.value || "",
+
+            orders:
+                document.getElementById(
+                    "carriedOrders"
+                )?.value || "",
+
+            products:
+                document.getElementById(
+                    "carriedProducts"
+                )?.value || "",
+
+            sales:
+                document.getElementById(
+                    "carriedSales"
+                )?.value || "",
+
+            collections:
+                document.getElementById(
+                    "carriedCollections"
+                )?.value || "",
+
+            newCustomers:
+                document.getElementById(
+                    "carriedNewCustomers"
+                )?.value || ""
+
+        },
+
+        startTime:
+            document.getElementById(
+                "dailyStartTime"
+            )?.value || "",
+
+        endTime:
+            document.getElementById(
+                "dailyEndTime"
+            )?.value || "",
+
+        kilometersFrom:
+            document.getElementById(
+                "dailyKilometersFrom"
+            )?.value || "",
+
+        kilometersTo:
+            document.getElementById(
+                "dailyKilometersTo"
+            )?.value || "",
+
+        fuelExpense:
+            document.getElementById(
+                "dailyFuelExpense"
+            )?.value || "",
+
+        tollsExpense:
+            document.getElementById(
+                "dailyTollsExpense"
+            )?.value || "",
+
+        foodExpense:
+            document.getElementById(
+                "dailyFoodExpense"
+            )?.value || "",
+
+        hotelExpense:
+            document.getElementById(
+                "dailyHotelExpense"
+            )?.value || "",
+
+        savedAt:
+            new Date().toISOString()
+
+    };
+
+
+    const dailyReports =
+        JSON.parse(
+            localStorage.getItem(
+                "dailyReports"
+            )
+        ) || {};
+
+
+    const reportKey =
+        date + "|" + seller;
+
+
+    dailyReports[reportKey] =
+        report;
+
+
+    localStorage.setItem(
+        "dailyReports",
+        JSON.stringify(dailyReports)
+    );
+
+
+    alert(
+        "Η ημερήσια αποθηκεύτηκε."
+    );
+
+}
+
 // Εκκίνηση σελίδας ημερήσιας
 
 window.addEventListener(

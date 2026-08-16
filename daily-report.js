@@ -122,7 +122,7 @@ function renumberDailyVisits() {
 
 // Προσθήκη γραμμής επίσκεψης
 
-function addDailyVisitRow() {
+function addDailyVisitRow(data = {}) {
 
     const tableBody =
         document.getElementById(
@@ -234,6 +234,52 @@ function addDailyVisitRow() {
 
 `;
 
+        row.querySelector(
+        ".dailyCustomerCode"
+    ).value =
+        data.customerCode || "";
+
+
+    row.querySelector(
+        ".dailyCustomerName"
+    ).value =
+        data.customerName || "";
+
+
+    row.querySelector(
+        ".dailyOrderCount"
+    ).value =
+        data.orderCount || "";
+
+
+    row.querySelector(
+        ".dailyProductCount"
+    ).value =
+        data.productCount || "";
+
+
+    row.querySelector(
+        ".dailySalesValue"
+    ).value =
+        data.salesValue || "";
+
+
+    row.querySelector(
+        ".dailyCollectionValue"
+    ).value =
+        data.collectionValue || "";
+
+
+    row.querySelector(
+        ".dailyNewCustomer"
+    ).checked =
+        data.newCustomer || false;
+
+
+    row.querySelector(
+        ".dailyVisitNote"
+    ).value =
+        data.note || "";
 
     const removeButton =
         row.querySelector(

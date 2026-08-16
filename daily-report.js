@@ -795,6 +795,56 @@ window.addEventListener(
 
         }
 
+                const visitsTableBody =
+            document.getElementById(
+                "dailyVisitsTableBody"
+            );
+
+
+        if (visitsTableBody) {
+
+            visitsTableBody.addEventListener(
+                "input",
+                calculateDailyTotals
+            );
+
+
+            visitsTableBody.addEventListener(
+                "change",
+                calculateDailyTotals
+            );
+
+        }
+
+
+        const carriedFieldIds = [
+
+            "carriedVisits",
+            "carriedOrders",
+            "carriedProducts",
+            "carriedSales",
+            "carriedCollections",
+            "carriedNewCustomers"
+
+        ];
+
+
+        carriedFieldIds.forEach(id => {
+
+            const field =
+                document.getElementById(id);
+
+
+            if (field) {
+
+                field.addEventListener(
+                    "input",
+                    calculateDailyTotals
+                );
+
+            }
+
+        });
 
         loadOrdersIntoDailyReport();
 

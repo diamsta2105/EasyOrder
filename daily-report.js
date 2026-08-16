@@ -1407,6 +1407,172 @@ function loadSavedDailyReport() {
 
 }
 
+// Δημιουργία λίστας πελατών στην ημερήσια
+
+function populateDailyCustomersList() {
+
+    const list =
+        document.getElementById(
+            "dailyCustomersDataList"
+        );
+
+
+    if (
+        !list ||
+        !Array.isArray(
+            customersDatabase
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    customersDatabase
+        .slice()
+        .sort((a, b) =>
+
+            String(a.name || "")
+            .localeCompare(
+                String(b.name || ""),
+                "el"
+            )
+
+        )
+        .forEach(customer => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                customer.name || "";
+
+
+            option.label =
+                (customer.code || "-") +
+                " • " +
+                (customer.area || "-");
+
+
+            list.appendChild(option);
+
+        });
+
+}
+
+
+// Συμπλήρωση πελάτη από κωδικό
+
+function fillDailyCustomerByCode(input) {
+
+    if (
+        !Array.isArray(
+            customersDatabase
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const code =
+        input.value.trim();
+
+
+    const customer =
+        customersDatabase.find(item =>
+
+            String(item.code || "") ===
+            code
+
+        );
+
+
+    if (!customer) {
+
+        return;
+
+    }
+
+
+    const row =
+        input.closest("tr");
+
+
+    if (row) {
+
+        row.querySelector(
+            ".dailyCustomerName"
+        ).value =
+            customer.name || "";
+
+    }
+
+}
+
+
+// Συμπλήρωση κωδικού από όνομα
+
+function fillDailyCustomerByName(input) {
+
+    if (
+        !Array.isArray(
+            customersDatabase
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const name =
+        input.value
+        .trim()
+        .toLocaleLowerCase("el");
+
+
+    const customer =
+        customersDatabase.find(item =>
+
+            String(item.name || "")
+            .trim()
+            .toLocaleLowerCase("el") ===
+            name
+
+        );
+
+
+    if (!customer) {
+
+        return;
+
+    }
+
+
+    const row =
+        input.closest("tr");
+
+
+    if (row) {
+
+        row.querySelector(
+            ".dailyCustomerCode"
+        ).value =
+            customer.code || "";
+
+    }
+
+}
+
 // Εκκίνηση σελίδας ημερήσιας
 
 window.addEventListener(

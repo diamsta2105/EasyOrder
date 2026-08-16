@@ -904,7 +904,7 @@ function addDailyPreviewStyles() {
 .dailyPrintTitle {
     padding: 5px 0 9px;
     text-align: center;
-    font-size: 19px;
+    font-size: 21px;
     font-weight: bold;
 }
 
@@ -919,7 +919,7 @@ function addDailyPreviewStyles() {
     display: grid;
     grid-template-columns: auto 1fr;
     border: 1px solid #777;
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .dailyPrintHeaderFields strong {
@@ -941,12 +941,12 @@ function addDailyPreviewStyles() {
 }
 
 .dailyPrintVisits {
-    font-size: 8.5px;
+    font-size: 9.5px;
 }
 
 .dailyPrintVisits th {
-    height: 25px;
-    padding: 3px 2px;
+    height: 28px;
+    padding: 4px 2px;
     background: #003b70;
     color: white;
     border: 1px solid #555;
@@ -954,8 +954,8 @@ function addDailyPreviewStyles() {
 }
 
 .dailyPrintVisits td {
-    height: 27px;
-    padding: 2px 3px;
+    height: 31px;
+    padding: 3px;
     border: 1px solid #888;
     box-sizing: border-box;
     text-align: center;
@@ -1015,14 +1015,14 @@ function addDailyPreviewStyles() {
 .dailyPrintTotals,
 .dailyPrintTravel,
 .dailyPrintExpenses {
-    margin-top: 8px !important;
-    font-size: 9px;
+    margin-top: 9px !important;
+    font-size: 10px;
 }
 
 .dailyPrintTotals th,
 .dailyPrintTravel th,
 .dailyPrintExpenses th {
-    padding: 5px;
+    padding: 6px;
     background: #f3f3f3;
     color: #111;
     border: 1px solid #777;
@@ -1032,13 +1032,13 @@ function addDailyPreviewStyles() {
 .dailyPrintTotals td,
 .dailyPrintTravel td,
 .dailyPrintExpenses td {
-    padding: 5px;
+    padding: 6px;
     border: 1px solid #777;
     text-align: center;
 }
 
 .dailyPrintTotals th {
-    width: 36%;
+    width: auto;
 }
 
 .dailyPrintTravel th,

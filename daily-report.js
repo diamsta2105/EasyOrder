@@ -1242,13 +1242,147 @@ function loadSavedDailyReport() {
         tableBody.innerHTML = "";
 
 
-        const visits =
+                const savedVisits =
             Array.isArray(report.visits)
-                ? report.visits
+
+                ? [...report.visits]
+
                 : [];
 
 
-        visits
+        const savedOrderIds =
+            new Set(
+                savedVisits
+                    .map(visit =>
+                        visit.orderId || ""
+                    )
+                    .filter(orderId =>
+                        orderId !== ""
+                    )
+            );
+
+
+        const allOrders =
+            JSON.parse(
+                localStorage.getItem(
+                    "draftOrders"
+                )
+            ) || [];
+
+
+        const newOrders =
+            allOrders.filter(order => {
+
+                if (order.date !== date) {
+
+                    return false;
+
+                }
+
+
+                if (
+                    seller &&
+                    order.seller !== seller
+                ) {
+
+                    return false;
+
+                }
+
+
+                if (
+                    order.id &&
+                    savedOrderIds.has(
+                        order.id
+                    )
+                ) {
+
+                    return false;
+
+                }
+
+
+                return true;
+
+            });
+
+
+        newOrders.forEach(order => {
+
+            const products =
+                Array.isArray(order.products)
+
+                    ? order.products
+
+                    : [];
+
+
+            const productCount =
+                products.filter(product =>
+
+                    String(
+                        product.code || ""
+                    ).trim() !== "" ||
+
+                    String(
+                        product.description || ""
+                    ).trim() !== ""
+
+                ).length;
+
+
+            const salesValue =
+                parseDailyOrderTotal(
+                    order.total
+                );
+
+
+            savedVisits.push({
+
+                orderId:
+                    order.id || "",
+
+                customerCode:
+                    order.customerCode || "",
+
+                customerName:
+                    order.customer || "",
+
+                orderCount: 1,
+
+                productCount:
+                    productCount || "",
+
+                salesValue:
+                    salesValue > 0
+
+                        ? salesValue.toFixed(2)
+
+                        : "",
+
+                collectionValue: "",
+
+                newCustomer:
+                    order.newCustomer || false,
+
+                note: ""
+
+            });
+
+        });
+
+
+        if (savedVisits.length > 22) {
+
+            alert(
+                "Οι επισκέψεις ξεπερνούν τις 22. " +
+                "Θα εμφανιστούν οι πρώτες 22."
+            );
+
+        }
+
+
+        savedVisits
             .slice(0, 22)
             .forEach(visit => {
 
@@ -1257,7 +1391,7 @@ function loadSavedDailyReport() {
             });
 
 
-        if (visits.length === 0) {
+        if (savedVisits.length === 0) {
 
             addDailyVisitRow();
 

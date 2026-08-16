@@ -946,9 +946,41 @@ window.addEventListener(
 
         });
 
-        loadOrdersIntoDailyReport();
+        const travelAndExpenseFieldIds = [
+
+            "dailyKilometersFrom",
+            "dailyKilometersTo",
+            "dailyFuelExpense",
+            "dailyTollsExpense",
+            "dailyFoodExpense",
+            "dailyHotelExpense"
+
+        ];
+
+
+        travelAndExpenseFieldIds.forEach(id => {
+
+            const field =
+                document.getElementById(id);
+
+
+            if (field) {
+
+                field.addEventListener(
+                    "input",
+                    calculateDailyTravelAndExpenses
+                );
+
+            }
+
+        });
+        
+                loadOrdersIntoDailyReport();
 
         updateDailyDayName();
 
+        calculateDailyTravelAndExpenses();
+
     }
 );
+

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Ημερήσια Κατάσταση</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>FÖRCH</h1>
+
+<p>Easy Order</p>
+
+</header>
+
+
+<section>
+
+<a
+href="Test.html"
+class="backToOrdersButton">
+
+← Επιστροφή στις παραγγελίες
+
+</a>
+
+
+<h2>Ημερήσια Κατάσταση Πωλητή</h2>
+
+</section>
+
+
+<section id="dailyBasicInformation">
+
+<h2>Βασικά στοιχεία</h2>
+
+
+<label>Ημέρα</label>
+
+<input
+type="text"
+id="dailyDayName"
+readonly>
+
+
+<label>Ημερομηνία</label>
+
+<input
+type="date"
+id="dailyDate">
+
+
+<label>Πωλητής</label>
+
+<select id="dailySeller">
+
+<option value="">
+Επιλογή πωλητή
+</option>
+
+<option value="Σταύρος">
+Σταύρος
+</option>
+
+<option value="Γρηγόρης">
+Γρηγόρης
+</option>
+
+</select>
+
+
+<label>Αριθμός περιοχής</label>
+
+<input
+type="number"
+id="dailyAreaNumber"
+min="1"
+placeholder="π.χ. 1">
+
+
+<label>Περιοχή</label>
+
+<input
+type="text"
+id="dailyAreaName"
+placeholder="π.χ. Ιωάννινα">
+
+</section>
+
+
+<section>
+
+<h2>Επισκέψεις ημέρας</h2>
+
+<p>
+Οι επισκέψεις και οι παραγγελίες της ημέρας
+θα εμφανίζονται εδώ.
+</p>
+
+<div id="dailyVisitsList"></div>
+
+</section>
+
+
+<section>
+
+<button
+type="button"
+id="saveDailyReportButton">
+
+💾 Αποθήκευση ημερήσιας
+
+</button>
+
+
+<button
+type="button"
+id="createDailyPdfButton">
+
+📄 Δημιουργία PDF
+
+</button>
+
+</section>
+
+
+<script src="data.js"></script>
+<script src="daily-report.js"></script>
+
+
+</body>
+
+</html>

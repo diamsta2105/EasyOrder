@@ -117,6 +117,15 @@ function renumberDailyVisits() {
 
         });
 
+        if (
+        typeof calculateDailyTotals ===
+        "function"
+    ) {
+
+        calculateDailyTotals();
+
+        }
+    
 }
 
 

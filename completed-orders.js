@@ -22,6 +22,31 @@ function parseCompletedTotal(value) {
 
 }
 
+// Μορφοποίηση ημερομηνίας
+
+function formatArchiveDate(value) {
+
+    const parts =
+        String(value || "")
+        .split("-");
+
+
+    if (parts.length !== 3) {
+
+        return value || "-";
+
+    }
+
+
+    return (
+        parts[2] +
+        "/" +
+        parts[1] +
+        "/" +
+        parts[0].slice(-2)
+    );
+
+}
 
 // Ασφαλής εμφάνιση κειμένου
 
@@ -399,7 +424,7 @@ function renderCompletedOrdersArchive() {
         mainInfo.appendChild(
             createOrderTextElement(
                 "archiveOrderDate",
-                order.date
+                formatArchiveDate(order.date)
             )
         );
 

@@ -1302,7 +1302,7 @@ window.addEventListener(
 
                     updateDailyDayName();
 
-                    loadOrdersIntoDailyReport();
+                                        loadSavedDailyReport();
 
                 }
             );
@@ -1318,9 +1318,9 @@ window.addEventListener(
                 ) || "";
 
 
-            sellerInput.addEventListener(
+                        sellerInput.addEventListener(
                 "change",
-                loadOrdersIntoDailyReport
+                loadSavedDailyReport
             );
 
                 }
@@ -1435,7 +1435,7 @@ window.addEventListener(
 
         }
         
-                loadOrdersIntoDailyReport();
+                        loadSavedDailyReport();
 
         updateDailyDayName();
 

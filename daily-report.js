@@ -1292,21 +1292,29 @@ window.addEventListener(
 
         if (dateInput) {
 
-            dateInput.value =
+                        dateInput.value =
+                localStorage.getItem(
+                    "lastDailyDate"
+                ) ||
                 getDailyTodayDate();
 
 
-                        dateInput.addEventListener(
+                                    dateInput.addEventListener(
                 "change",
                 function () {
 
+                    localStorage.setItem(
+                        "lastDailyDate",
+                        this.value
+                    );
+
+
                     updateDailyDayName();
 
-                                        loadSavedDailyReport();
+                    loadSavedDailyReport();
 
                 }
             );
-
         }
 
 

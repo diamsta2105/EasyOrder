@@ -1122,9 +1122,54 @@ function loadSavedDailyReport() {
 
     if (!report) {
 
-        loadOrdersIntoDailyReport();
+    const fieldsToClear = [
 
-        return;
+        "dailyAreaNumber",
+        "dailyAreaName",
+
+        "carriedVisits",
+        "carriedOrders",
+        "carriedProducts",
+        "carriedSales",
+        "carriedCollections",
+        "carriedNewCustomers",
+
+        "dailyStartTime",
+        "dailyEndTime",
+
+        "dailyKilometersFrom",
+        "dailyKilometersTo",
+
+        "dailyFuelExpense",
+        "dailyTollsExpense",
+        "dailyFoodExpense",
+        "dailyHotelExpense"
+
+    ];
+
+
+    fieldsToClear.forEach(id => {
+
+        const field =
+            document.getElementById(id);
+
+
+        if (field) {
+
+            field.value = "";
+
+        }
+
+    });
+
+
+    loadOrdersIntoDailyReport();
+
+    calculateDailyTotals();
+
+    calculateDailyTravelAndExpenses();
+
+    return;
 
     }
 

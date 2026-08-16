@@ -1051,6 +1051,20 @@ function addDailyPreviewStyles() {
     font-weight: bold;
 }
 
+.dailyPrintExpenses {
+    width: 60% !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+.dailyPrintExpenses th {
+    width: 22%;
+}
+
+.dailyPrintExpenses td {
+    width: 28%;
+}
+
 .dailyReportPreviewButtons {
     display: flex;
     gap: 10px;

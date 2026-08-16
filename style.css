@@ -623,3 +623,41 @@ textarea {
     font-size: 12px;
     text-align: center;
 }
+
+/* Ωράριο, χιλιόμετρα και έξοδα ημερήσιας */
+
+.dailyTwoColumnGrid,
+.dailyExpensesGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.dailyTwoColumnGrid label,
+.dailyExpensesGrid label {
+    font-size: 14px;
+}
+
+.dailyCalculatedValue {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 13px;
+    background: #f5f7fa;
+    border: 1px solid #d7dee5;
+    border-radius: 8px;
+}
+
+.dailyCalculatedValue span {
+    color: #444;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.dailyCalculatedValue strong {
+    color: #003b70;
+    font-size: 22px;
+    white-space: nowrap;
+}

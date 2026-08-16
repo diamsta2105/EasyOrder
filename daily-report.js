@@ -1078,6 +1078,200 @@ function saveDailyReport() {
 
 }
 
+// Φόρτωση αποθηκευμένης ημερήσιας
+
+function loadSavedDailyReport() {
+
+    const date =
+        document.getElementById(
+            "dailyDate"
+        )?.value || "";
+
+
+    const seller =
+        document.getElementById(
+            "dailySeller"
+        )?.value || "";
+
+
+    if (!date || !seller) {
+
+        loadOrdersIntoDailyReport();
+
+        return;
+
+    }
+
+
+    const dailyReports =
+        JSON.parse(
+            localStorage.getItem(
+                "dailyReports"
+            )
+        ) || {};
+
+
+    const reportKey =
+        date + "|" + seller;
+
+
+    const report =
+        dailyReports[reportKey];
+
+
+    if (!report) {
+
+        loadOrdersIntoDailyReport();
+
+        return;
+
+    }
+
+
+    function setFieldValue(id, value) {
+
+        const field =
+            document.getElementById(id);
+
+
+        if (field) {
+
+            field.value =
+                value || "";
+
+        }
+
+    }
+
+
+    setFieldValue(
+        "dailyAreaNumber",
+        report.areaNumber
+    );
+
+    setFieldValue(
+        "dailyAreaName",
+        report.areaName
+    );
+
+
+    const carried =
+        report.carried || {};
+
+
+    setFieldValue(
+        "carriedVisits",
+        carried.visits
+    );
+
+    setFieldValue(
+        "carriedOrders",
+        carried.orders
+    );
+
+    setFieldValue(
+        "carriedProducts",
+        carried.products
+    );
+
+    setFieldValue(
+        "carriedSales",
+        carried.sales
+    );
+
+    setFieldValue(
+        "carriedCollections",
+        carried.collections
+    );
+
+    setFieldValue(
+        "carriedNewCustomers",
+        carried.newCustomers
+    );
+
+
+    setFieldValue(
+        "dailyStartTime",
+        report.startTime
+    );
+
+    setFieldValue(
+        "dailyEndTime",
+        report.endTime
+    );
+
+    setFieldValue(
+        "dailyKilometersFrom",
+        report.kilometersFrom
+    );
+
+    setFieldValue(
+        "dailyKilometersTo",
+        report.kilometersTo
+    );
+
+    setFieldValue(
+        "dailyFuelExpense",
+        report.fuelExpense
+    );
+
+    setFieldValue(
+        "dailyTollsExpense",
+        report.tollsExpense
+    );
+
+    setFieldValue(
+        "dailyFoodExpense",
+        report.foodExpense
+    );
+
+    setFieldValue(
+        "dailyHotelExpense",
+        report.hotelExpense
+    );
+
+
+    const tableBody =
+        document.getElementById(
+            "dailyVisitsTableBody"
+        );
+
+
+    if (tableBody) {
+
+        tableBody.innerHTML = "";
+
+
+        const visits =
+            Array.isArray(report.visits)
+                ? report.visits
+                : [];
+
+
+        visits
+            .slice(0, 22)
+            .forEach(visit => {
+
+                addDailyVisitRow(visit);
+
+            });
+
+
+        if (visits.length === 0) {
+
+            addDailyVisitRow();
+
+        }
+
+    }
+
+
+    calculateDailyTotals();
+
+    calculateDailyTravelAndExpenses();
+
+}
+
 // Εκκίνηση σελίδας ημερήσιας
 
 window.addEventListener(

@@ -511,167 +511,187 @@ ${escapeDailyPdfText(
     </table>
 
 
-    <table class="dailyPrintTotals">
-<table class="dailyPrintTotals">
+      <table class="dailyPrintTotals">
 
-    <colgroup>
+        <colgroup>
 
-        <col style="width: 5%;">
-        <col style="width: 11%;">
-        <col style="width: 22%;">
-        <col style="width: 6%;">
-        <col style="width: 8%;">
-        <col style="width: 10%;">
-        <col style="width: 11%;">
-        <col style="width: 6%;">
-        <col style="width: 21%;">
+            <col style="width: 5%;">
+            <col style="width: 11%;">
+            <col style="width: 22%;">
+            <col style="width: 6%;">
+            <col style="width: 8%;">
+            <col style="width: 10%;">
+            <col style="width: 11%;">
+            <col style="width: 6%;">
+            <col style="width: 21%;">
 
-    </colgroup>
-
-
-    <tbody>
-
-        <tr>
-
-            <th colspan="3">
-                ΣΥΝΟΛΑ ΗΜΕΡΑΣ
-                — ΕΠΙΣΚΕΨΕΙΣ:
-                ${escapeDailyPdfText(
-                    data.totals.visits
-                )}
-            </th>
-
-            <td>
-                ${escapeDailyPdfText(
-                    data.totals.orders
-                )}
-            </td>
-
-            <td>
-                ${escapeDailyPdfText(
-                    data.totals.products
-                )}
-            </td>
-
-            <td>
-                ${escapeDailyPdfText(
-                    data.totals.sales
-                )}
-            </td>
-
-            <td>
-                ${escapeDailyPdfText(
-                    data.totals.collections
-                )}
-            </td>
-
-            <td>
-                ${escapeDailyPdfText(
-                    data.totals.newCustomers
-                )}
-            </td>
-
-            <td></td>
-
-        </tr>
+        </colgroup>
 
 
-        <tr>
+        <thead>
 
-            <th colspan="3">
-                ΣΥΝΟΛΑ ΕΚ ΜΕΤΑΦΟΡΑΣ
-                — ΕΠΙΣΚΕΨΕΙΣ:
-                ${escapeDailyPdfText(
-                    data.carried.visits
-                )}
-            </th>
+            <tr class="dailyPrintVisitsHeading">
 
-            <td>
-                ${escapeDailyPdfText(
-                    data.carried.orders
-                )}
-            </td>
+                <th colspan="2"></th>
 
-            <td>
-                ${escapeDailyPdfText(
-                    data.carried.products
-                )}
-            </td>
+                <th>ΕΠΙΣΚΕΨΕΙΣ</th>
 
-            <td>
-                ${escapeDailyPdfText(
-                    formatOptionalDailyMoney(
-                        data.carried.sales
-                    )
-                )}
-            </td>
+                <th colspan="6"></th>
 
-            <td>
-                ${escapeDailyPdfText(
-                    formatOptionalDailyMoney(
-                        data.carried.collections
-                    )
-                )}
-            </td>
+            </tr>
 
-            <td>
-                ${escapeDailyPdfText(
-                    data.carried.newCustomers
-                )}
-            </td>
-
-            <td></td>
-
-        </tr>
+        </thead>
 
 
-        <tr>
+        <tbody>
 
-            <th colspan="3">
-                ΓΕΝΙΚΟ ΣΥΝΟΛΟ
-                — ΕΠΙΣΚΕΨΕΙΣ:
-                ${escapeDailyPdfText(
-                    data.general.visits
-                )}
-            </th>
+            <tr>
 
-            <td>
-                ${escapeDailyPdfText(
-                    data.general.orders
-                )}
-            </td>
+                <th colspan="2">
+                    ΣΥΝΟΛΑ ΗΜΕΡΑΣ
+                </th>
 
-            <td>
-                ${escapeDailyPdfText(
-                    data.general.products
-                )}
-            </td>
+                <td>
+                    ${escapeDailyPdfText(
+                        data.totals.visits
+                    )}
+                </td>
 
-            <td>
-                ${escapeDailyPdfText(
-                    data.general.sales
-                )}
-            </td>
+                <td>
+                    ${escapeDailyPdfText(
+                        data.totals.orders
+                    )}
+                </td>
 
-            <td>
-                ${escapeDailyPdfText(
-                    data.general.collections
-                )}
-            </td>
+                <td>
+                    ${escapeDailyPdfText(
+                        data.totals.products
+                    )}
+                </td>
 
-            <td>
-                ${escapeDailyPdfText(
-                    data.general.newCustomers
-                )}
-            </td>
+                <td>
+                    ${escapeDailyPdfText(
+                        data.totals.sales
+                    )}
+                </td>
 
-            <td></td>
+                <td>
+                    ${escapeDailyPdfText(
+                        data.totals.collections
+                    )}
+                </td>
 
-        </tr>
+                <td>
+                    ${escapeDailyPdfText(
+                        data.totals.newCustomers
+                    )}
+                </td>
 
-    </tbody>
+                <td></td>
 
-</table>
+            </tr>
+
+
+            <tr>
+
+                <th colspan="2">
+                    ΣΥΝΟΛΑ ΕΚ ΜΕΤΑΦΟΡΑΣ
+                </th>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.carried.visits
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.carried.orders
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.carried.products
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        formatOptionalDailyMoney(
+                            data.carried.sales
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        formatOptionalDailyMoney(
+                            data.carried.collections
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.carried.newCustomers
+                    )}
+                </td>
+
+                <td></td>
+
+            </tr>
+
+
+            <tr>
+
+                <th colspan="2">
+                    ΓΕΝΙΚΟ ΣΥΝΟΛΟ
+                </th>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.general.visits
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.general.orders
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.general.products
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.general.sales
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.general.collections
+                    )}
+                </td>
+
+                <td>
+                    ${escapeDailyPdfText(
+                        data.general.newCustomers
+                    )}
+                </td>
+
+                <td></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
 
 
     <table class="dailyPrintTravel">

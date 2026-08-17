@@ -131,8 +131,10 @@ function renumberDailyVisits() {
 
 // Προσθήκη γραμμής επίσκεψης
 
-function addDailyVisitRow(data = {}) {
-
+function addDailyVisitRow(
+    data = {},
+    insertAfterRow = null
+) {
     const tableBody =
         document.getElementById(
             "dailyVisitsTableBody"
@@ -233,6 +235,17 @@ function addDailyVisitRow(data = {}) {
     placeholder="Προαιρετική σημείωση">
 </td>
 
+<td class="dailyVisitActions">
+
+    <button
+    type="button"
+    class="insertDailyVisitButton"
+    title="Προσθήκη επίσκεψης από κάτω">
+
+    ➕
+
+    </button>
+
 <td>
     <button
     type="button"
@@ -293,6 +306,24 @@ function addDailyVisitRow(data = {}) {
     ).value =
         data.note || "";
 
+const insertButton =
+    row.querySelector(
+        ".insertDailyVisitButton"
+    );
+
+
+insertButton.addEventListener(
+    "click",
+    function () {
+
+        addDailyVisitRow(
+            {},
+            row
+        );
+
+    }
+);
+    
     const removeButton =
         row.querySelector(
             ".removeDailyVisitButton"
@@ -311,9 +342,25 @@ function addDailyVisitRow(data = {}) {
     );
 
 
+    if (
+    insertAfterRow &&
+    insertAfterRow.parentElement ===
+        tableBody
+) {
+
+    tableBody.insertBefore(
+        row,
+        insertAfterRow.nextSibling
+    );
+
+} else {
+
     tableBody.appendChild(row);
 
-    renumberDailyVisits();
+}
+
+
+renumberDailyVisits();
 
 }
 

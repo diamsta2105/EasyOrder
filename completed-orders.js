@@ -1148,6 +1148,73 @@ window.addEventListener(
 
         }
 
+const toggleRankingButton =
+    document.getElementById(
+        "toggleCustomerRankingButton"
+    );
+
+
+const rankingContent =
+    document.getElementById(
+        "customerRankingContent"
+    );
+
+
+if (
+    toggleRankingButton &&
+    rankingContent
+) {
+
+    toggleRankingButton.addEventListener(
+        "click",
+        function () {
+
+            const isHidden =
+                rankingContent.style.display ===
+                "none";
+
+
+            rankingContent.style.display =
+                isHidden
+                    ? "block"
+                    : "none";
+
+
+            toggleRankingButton.textContent =
+                isHidden
+
+                    ? "Απόκρυψη κατάταξης πελατών"
+
+                    : "Εμφάνιση κατάταξης πελατών";
+
+
+            if (isHidden) {
+
+                renderCustomerTurnoverRanking();
+
+            }
+
+        }
+    );
+
+}
+
+
+const turnoverSort =
+    document.getElementById(
+        "customerTurnoverSort"
+    );
+
+
+if (turnoverSort) {
+
+    turnoverSort.addEventListener(
+        "change",
+        renderCustomerTurnoverRanking
+    );
+
+}
+        
                 const previousButton =
             document.getElementById(
                 "previousCompletedPage"

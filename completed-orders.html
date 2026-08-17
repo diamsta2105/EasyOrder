@@ -131,6 +131,64 @@ id="clearCompletedFilters">
 
 </section>
 
+  <section id="customerTurnoverRankingSection">
+
+<h2>🏆 Κατάταξη πελατών</h2>
+
+
+<button
+type="button"
+id="toggleCustomerRankingButton">
+
+Εμφάνιση κατάταξης πελατών
+
+</button>
+
+
+<div
+id="customerRankingContent"
+style="display: none;">
+
+
+    <label>Ταξινόμηση τζίρου</label>
+
+    <select id="customerTurnoverSort">
+
+        <option value="highest">
+            Μεγαλύτερος προς μικρότερο
+        </option>
+
+        <option value="lowest">
+            Μικρότερος προς μεγαλύτερο
+        </option>
+
+    </select>
+
+
+    <div class="customerRankingSummary">
+
+        <span>
+            Πελάτες στην κατάταξη:
+        </span>
+
+        <strong id="rankedCustomerCount">
+            0
+        </strong>
+
+    </div>
+
+
+    <div id="customerTurnoverRanking">
+
+        <p class="emptyOrders">
+            Δεν υπάρχουν στοιχεία πελατών.
+        </p>
+
+    </div>
+
+</div>
+
+  </section>  
 
 <section>
 

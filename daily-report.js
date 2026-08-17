@@ -246,6 +246,25 @@ function addDailyVisitRow(
 
     </button>
 
+        <button
+    type="button"
+    class="moveDailyVisitUpButton"
+    title="Μετακίνηση επάνω">
+
+    ↑
+
+    </button>
+
+
+    <button
+    type="button"
+    class="moveDailyVisitDownButton"
+    title="Μετακίνηση κάτω">
+
+    ↓
+
+    </button>
+
     <button
     type="button"
     class="removeDailyVisitButton"
@@ -319,6 +338,71 @@ insertButton.addEventListener(
             {},
             row
         );
+
+    }
+);
+
+const moveUpButton =
+    row.querySelector(
+        ".moveDailyVisitUpButton"
+    );
+
+
+const moveDownButton =
+    row.querySelector(
+        ".moveDailyVisitDownButton"
+    );
+
+
+moveUpButton.addEventListener(
+    "click",
+    function () {
+
+        const previousRow =
+            row.previousElementSibling;
+
+
+        if (!previousRow) {
+
+            return;
+
+        }
+
+
+        tableBody.insertBefore(
+            row,
+            previousRow
+        );
+
+
+        renumberDailyVisits();
+
+    }
+);
+
+
+moveDownButton.addEventListener(
+    "click",
+    function () {
+
+        const nextRow =
+            row.nextElementSibling;
+
+
+        if (!nextRow) {
+
+            return;
+
+        }
+
+
+        tableBody.insertBefore(
+            nextRow,
+            row
+        );
+
+
+        renumberDailyVisits();
 
     }
 );

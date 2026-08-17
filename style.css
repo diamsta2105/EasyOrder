@@ -687,3 +687,40 @@ textarea {
     margin-left: 15px;
     font-size: 19px;
 }
+
+/* Κουμπιά ενεργειών στις επισκέψεις ημερήσιας */
+
+.dailyVisitActions {
+    min-width: 68px;
+    padding: 2px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.dailyVisitActions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
+
+    margin: 1px;
+    padding: 0;
+
+    border: none;
+    border-radius: 6px;
+
+    color: white;
+    font-size: 13px;
+    line-height: 1;
+}
+
+.insertDailyVisitButton {
+    background: #0b7a3b;
+}
+
+.removeDailyVisitButton {
+    background: #c62828;
+}

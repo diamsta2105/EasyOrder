@@ -246,7 +246,6 @@ function addDailyVisitRow(
 
     </button>
 
-<td>
     <button
     type="button"
     class="removeDailyVisitButton"

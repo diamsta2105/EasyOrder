@@ -71,6 +71,463 @@ function createOrderTextElement(
 
 }
 
+// Κατάταξη πελατών βάσει ολοκληρωμένου τζίρου
+
+function renderCustomerTurnoverRanking() {
+
+    const rankingBox =
+        document.getElementById(
+            "customerTurnoverRanking"
+        );
+
+
+    if (!rankingBox) {
+
+        return;
+
+    }
+
+
+    const allOrders =
+        JSON.parse(
+            localStorage.getItem(
+                "draftOrders"
+            )
+        ) || [];
+
+
+    const dateFrom =
+        document.getElementById(
+            "completedDateFrom"
+        )?.value || "";
+
+
+    const dateTo =
+        document.getElementById(
+            "completedDateTo"
+        )?.value || "";
+
+
+    const customerSearch =
+        document.getElementById(
+            "completedCustomerSearch"
+        )?.value
+        .trim()
+        .toLocaleLowerCase("el") || "";
+
+
+    const areaSearch =
+        document.getElementById(
+            "completedAreaSearch"
+        )?.value
+        .trim()
+        .toLocaleLowerCase("el") || "";
+
+
+    const sellerFilter =
+        document.getElementById(
+            "completedSellerFilter"
+        )?.value || "";
+
+
+    const rankingMap =
+        new Map();
+
+
+    allOrders
+        .filter(order =>
+
+            order.status ===
+                "Οριστικοποιημένη"
+
+        )
+        .filter(order => {
+
+            const orderDate =
+                order.date || "";
+
+
+            const customerText =
+                (
+                    (order.customer || "") +
+                    " " +
+                    (order.customerCode || "")
+                )
+                .toLocaleLowerCase("el");
+
+
+            const areaText =
+                String(order.area || "")
+                .toLocaleLowerCase("el");
+
+
+            if (
+                dateFrom &&
+                orderDate < dateFrom
+            ) {
+
+                return false;
+
+            }
+
+
+            if (
+                dateTo &&
+                orderDate > dateTo
+            ) {
+
+                return false;
+
+            }
+
+
+            if (
+                customerSearch &&
+                !customerText.includes(
+                    customerSearch
+                )
+            ) {
+
+                return false;
+
+            }
+
+
+            if (
+                areaSearch &&
+                !areaText.includes(
+                    areaSearch
+                )
+            ) {
+
+                return false;
+
+            }
+
+
+            if (
+                sellerFilter &&
+                order.seller !== sellerFilter
+            ) {
+
+                return false;
+
+            }
+
+
+            return true;
+
+        })
+        .forEach(order => {
+
+            const customerCode =
+                String(
+                    order.customerCode || ""
+                ).trim();
+
+
+            const customerName =
+                String(
+                    order.customer ||
+                    "Χωρίς όνομα"
+                ).trim();
+
+
+            const customerArea =
+                String(
+                    order.area || "-"
+                ).trim();
+
+
+            const normalizedCode =
+                customerCode
+                .toLocaleLowerCase("el");
+
+
+            const normalizedName =
+                customerName
+                .toLocaleLowerCase("el");
+
+
+            const normalizedArea =
+                customerArea
+                .toLocaleLowerCase("el");
+
+
+            const customerKey =
+                normalizedCode !== ""
+
+                    ? "code|" +
+                      normalizedCode
+
+                    : "name|" +
+                      normalizedName +
+                      "|area|" +
+                      normalizedArea;
+
+
+            if (
+                !rankingMap.has(
+                    customerKey
+                )
+            ) {
+
+                rankingMap.set(
+                    customerKey,
+                    {
+
+                        customerCode:
+                            customerCode,
+
+                        customerName:
+                            customerName,
+
+                        areas:
+                            new Set(),
+
+                        orderCount: 0,
+
+                        turnover: 0
+
+                    }
+                );
+
+            }
+
+
+            const customerData =
+                rankingMap.get(
+                    customerKey
+                );
+
+
+            if (
+                customerArea &&
+                customerArea !== "-"
+            ) {
+
+                customerData.areas.add(
+                    customerArea
+                );
+
+            }
+
+
+            customerData.orderCount++;
+
+
+            customerData.turnover +=
+                parseCompletedTotal(
+                    order.total
+                );
+
+        });
+
+
+    const sortMode =
+        document.getElementById(
+            "customerTurnoverSort"
+        )?.value || "highest";
+
+
+    const rankedCustomers =
+        Array.from(
+            rankingMap.values()
+        );
+
+
+    rankedCustomers.sort((a, b) => {
+
+        if (sortMode === "lowest") {
+
+            return (
+                a.turnover -
+                b.turnover
+            );
+
+        }
+
+
+        return (
+            b.turnover -
+            a.turnover
+        );
+
+    });
+
+
+    const countElement =
+        document.getElementById(
+            "rankedCustomerCount"
+        );
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            rankedCustomers.length;
+
+    }
+
+
+    rankingBox.innerHTML = "";
+
+
+    if (
+        rankedCustomers.length === 0
+    ) {
+
+        const emptyMessage =
+            document.createElement("p");
+
+
+        emptyMessage.className =
+            "emptyOrders";
+
+
+        emptyMessage.textContent =
+            "Δεν υπάρχουν στοιχεία πελατών για τα επιλεγμένα φίλτρα.";
+
+
+        rankingBox.appendChild(
+            emptyMessage
+        );
+
+
+        return;
+
+    }
+
+
+    rankedCustomers.forEach(
+        (customer, index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "customerRankingRow";
+
+
+            const position =
+                document.createElement(
+                    "span"
+                );
+
+
+            position.className =
+                "customerRankingPosition";
+
+
+            position.textContent =
+                index + 1;
+
+
+            const information =
+                document.createElement(
+                    "div"
+                );
+
+
+            information.className =
+                "customerRankingInformation";
+
+
+            const name =
+                document.createElement(
+                    "strong"
+                );
+
+
+            name.textContent =
+                customer.customerName;
+
+
+            const details =
+                document.createElement(
+                    "span"
+                );
+
+
+            const areas =
+                Array.from(
+                    customer.areas
+                ).join(", ") || "-";
+
+
+            details.textContent =
+                (
+                    customer.customerCode ||
+                    "-"
+                ) +
+                " • " +
+                areas +
+                " • " +
+                customer.orderCount +
+                " παραγγ.";
+
+
+            information.appendChild(
+                name
+            );
+
+
+            information.appendChild(
+                details
+            );
+
+
+            const turnover =
+                document.createElement(
+                    "strong"
+                );
+
+
+            turnover.className =
+                "customerRankingTurnover";
+
+
+            turnover.textContent =
+                customer.turnover
+                .toLocaleString(
+                    "el-GR",
+                    {
+
+                        minimumFractionDigits: 2,
+
+                        maximumFractionDigits: 2
+
+                    }
+                ) +
+                " €";
+
+
+            row.appendChild(
+                position
+            );
+
+
+            row.appendChild(
+                information
+            );
+
+
+            row.appendChild(
+                turnover
+            );
+
+
+            rankingBox.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
 
 // Εμφάνιση ολοκληρωμένων παραγγελιών
 

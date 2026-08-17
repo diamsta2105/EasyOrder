@@ -828,6 +828,7 @@ function renderCompletedOrdersArchive() {
 
     }
 
+    renderCustomerTurnoverRanking();
 
     archive.innerHTML = "";
 

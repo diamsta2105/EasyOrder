@@ -729,3 +729,113 @@ textarea {
 .removeDailyVisitButton {
     background: #c62828;
 }
+
+/* Κατάταξη πελατών βάσει ολοκληρωμένου τζίρου */
+
+#customerRankingContent {
+    margin-top: 15px;
+}
+
+.customerRankingSummary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 15px 0;
+    padding: 12px;
+
+    background: #f3f6fa;
+    border: 1px solid #d5dce4;
+    border-radius: 8px;
+}
+
+.customerRankingSummary strong {
+    color: #003b70;
+    font-size: 20px;
+}
+
+.customerRankingRow {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+
+    padding: 13px 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.customerRankingPosition {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    background: #003b70;
+    color: white;
+
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.customerRankingRow:first-child
+.customerRankingPosition {
+    background: #c99500;
+}
+
+.customerRankingInformation {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.customerRankingInformation strong {
+    color: #222;
+    font-size: 16px;
+    line-height: 1.25;
+}
+
+.customerRankingInformation span {
+    margin-top: 4px;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+.customerRankingTurnover {
+    color: #003b70;
+    font-size: 17px;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+
+    .customerRankingRow {
+        grid-template-columns:
+            32px minmax(0, 1fr) auto;
+
+        gap: 7px;
+        padding: 12px 2px;
+    }
+
+    .customerRankingPosition {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .customerRankingInformation strong {
+        font-size: 14px;
+    }
+
+    .customerRankingInformation span {
+        font-size: 11px;
+    }
+
+    .customerRankingTurnover {
+        font-size: 14px;
+    }
+
+}

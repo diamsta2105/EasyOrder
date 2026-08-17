@@ -691,7 +691,7 @@ textarea {
 /* Κουμπιά ενεργειών στις επισκέψεις ημερήσιας */
 
 .dailyVisitActions {
-    min-width: 68px;
+    min-width: 128px;
     padding: 2px;
     text-align: center;
     white-space: nowrap;
@@ -719,6 +719,11 @@ textarea {
 
 .insertDailyVisitButton {
     background: #0b7a3b;
+}
+
+.moveDailyVisitUpButton,
+.moveDailyVisitDownButton {
+    background: #003b70;
 }
 
 .removeDailyVisitButton {

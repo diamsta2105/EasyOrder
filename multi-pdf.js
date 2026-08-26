@@ -608,15 +608,18 @@ async function createSelectedOrdersPDF() {
 
 
         printPage
-            .querySelectorAll(
-                ".selectedPreviewProducts td"
-            )
-            .forEach(element => {
+    .querySelectorAll(
+        ".selectedPreviewProducts td"
+    )
+    .forEach(element => {
 
-                element.style.padding =
-                    "3px 2px";
+        element.style.padding =
+            "3px 2px";
 
-            });
+        element.style.fontWeight =
+            "600";
+
+    });
 
 
         printPage

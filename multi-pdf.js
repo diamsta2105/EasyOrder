@@ -590,7 +590,7 @@ async function createSelectedOrdersPDF() {
             .forEach(element => {
 
                 element.style.fontSize =
-                    "9px";
+                    "11px";
 
             });
 

@@ -703,10 +703,9 @@ async function createSelectedOrdersPDF() {
 
 
         const imageData =
-            canvas.toDataURL(
-                "image/jpeg",
-                0.95
-            );
+    canvas.toDataURL(
+        "image/png"
+    );
 
 
         /*
@@ -729,7 +728,7 @@ async function createSelectedOrdersPDF() {
 
             pdf.addImage(
                 imageData,
-                "JPEG",
+                "PNG",
                 0,
                 0,
                 pdfWidth,
@@ -754,7 +753,7 @@ async function createSelectedOrdersPDF() {
 
             pdf.addImage(
                 imageData,
-                "JPEG",
+                "PNG",
                 0,
                 position,
                 pdfWidth,
@@ -778,7 +777,7 @@ async function createSelectedOrdersPDF() {
 
                 pdf.addImage(
                     imageData,
-                    "JPEG",
+                    "PNG",
                     0,
                     position,
                     pdfWidth,

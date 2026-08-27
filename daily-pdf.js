@@ -961,7 +961,8 @@ function addDailyPreviewStyles() {
 }
 
 .dailyPrintVisits {
-    font-size: 9.5px;
+    font-size: 11px;
+    font-weight: 600;
 }
 
 .dailyPrintVisits th {

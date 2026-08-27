@@ -1079,13 +1079,15 @@ function addDailyPreviewStyles() {
 
 .dailyPrintTotals tbody th {
     padding: 4px 2px;
-    font-size: 7.5px;
+    font-size: 10px;
+    font-weight: 600;
     white-space: nowrap;
 }
 
 .dailyPrintTotals tbody td {
     padding: 4px 2px;
-    font-size: 9px;
+    font-size: 11px;
+    font-weight: 600;
     text-align: center;
 }
 

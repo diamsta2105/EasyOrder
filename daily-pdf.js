@@ -1068,7 +1068,7 @@ function addDailyPreviewStyles() {
     background: white;
     border: none;
     text-align: center;
-    font-size: 9px;
+    font-size: 11px;
     font-weight: bold;
 }
 

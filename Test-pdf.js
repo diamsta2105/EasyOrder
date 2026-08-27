@@ -67,15 +67,26 @@ const emailVal =
         const orderData = {
     number:
         document.getElementById("orderNumber")?.value || "-",
+
     date: dateVal,
-            customerCode: customerCodeVal,
+    customerCode: customerCodeVal,
     customer: customerVal,
-            area: areaVal,
-            seller: sellerVal,
-            products: productsList,
-            total: totalVal,
-            notes: notesVal
-        };
+    area: areaVal,
+    seller: sellerVal,
+
+    newCustomer: newCustomerVal,
+    profession: professionVal,
+    address: addressVal,
+    phone: phoneVal,
+    mobile: mobileVal,
+    vatNumber: vatNumberVal,
+    taxOffice: taxOfficeVal,
+    email: emailVal,
+
+    products: productsList,
+    total: totalVal,
+    notes: notesVal
+};
 
         // Κλήση της συνάρτησης δημιουργίας PDF
         downloadPDF(orderData);

@@ -464,8 +464,8 @@ ${escapeDailyPdfText(
             <strong>ΠΩΛΗΤΗΣ</strong>
             <span>
                 ${escapeDailyPdfText(
-                    data.seller
-                )}
+    (data.seller || "").toUpperCase()
+)}
             </span>
         </div>
 

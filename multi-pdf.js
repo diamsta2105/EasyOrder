@@ -262,8 +262,8 @@ function createPreviewOrderHTML(
     <div>
         <strong>ΚΩΔ. ΠΩΛΗΤΗ:</strong>
         ${escapePreviewText(
-            order.seller || "-"
-        )}
+    (order.seller || "-").toUpperCase()
+)}
     </div>
 
 `

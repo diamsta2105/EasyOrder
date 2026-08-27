@@ -1037,7 +1037,8 @@ function addDailyPreviewStyles() {
 .dailyPrintTravel,
 .dailyPrintExpenses {
     margin-top: 9px !important;
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 600;
 }
 
 .dailyPrintTotals th,

@@ -288,11 +288,68 @@ function createPreviewOrderHTML(
 
 
     <div>
-        <strong>ΠΕΡΙΟΧΗ:</strong>
-        ${escapePreviewText(
-            order.area || "-"
-        )}
-    </div>
+    <strong>ΠΕΡΙΟΧΗ:</strong>
+    ${escapePreviewText(
+        order.area || "-"
+    )}
+</div>
+
+${
+    order.newCustomer
+        ? `
+
+<div>
+    <strong>ΕΠΑΓΓΕΛΜΑ:</strong>
+    ${escapePreviewText(
+        order.profession || "-"
+    )}
+</div>
+
+<div>
+    <strong>ΑΦΜ:</strong>
+    ${escapePreviewText(
+        order.vatNumber || "-"
+    )}
+</div>
+
+<div>
+    <strong>ΔΙΕΥΘΥΝΣΗ:</strong>
+    ${escapePreviewText(
+        order.address || "-"
+    )}
+</div>
+
+<div>
+    <strong>ΤΗΛΕΦΩΝΟ:</strong>
+    ${escapePreviewText(
+        order.phone || "-"
+    )}
+</div>
+
+<div>
+    <strong>ΚΙΝΗΤΟ:</strong>
+    ${escapePreviewText(
+        order.mobile || "-"
+    )}
+</div>
+
+<div>
+    <strong>ΔΟΥ:</strong>
+    ${escapePreviewText(
+        order.taxOffice || "-"
+    )}
+</div>
+
+<div>
+    <strong>EMAIL:</strong>
+    ${escapePreviewText(
+        order.email || "-"
+    )}
+</div>
+
+`
+        : ""
+}
 
 </div>
 

@@ -1386,10 +1386,9 @@ async function createDailyReportPDF() {
 
 
         const imageData =
-            canvas.toDataURL(
-                "image/jpeg",
-                0.96
-            );
+    canvas.toDataURL(
+        "image/png"
+    );
 
 
         let imageWidth =
@@ -1425,7 +1424,7 @@ async function createDailyReportPDF() {
 
         pdf.addImage(
             imageData,
-            "JPEG",
+            "PNG",
             imageX,
             0,
             imageWidth,

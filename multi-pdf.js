@@ -566,21 +566,24 @@ async function createSelectedOrdersPDF() {
 
 
         printPage
-            .querySelectorAll(
-                ".selectedPreviewInfo"
-            )
-            .forEach(element => {
+    .querySelectorAll(
+        ".selectedPreviewInfo"
+    )
+    .forEach(element => {
 
-                element.style.fontSize =
-                    "10px";
+        element.style.fontSize =
+            "11px";
 
-                element.style.gap =
-                    "3px 12px";
+        element.style.fontWeight =
+            "600";
 
-                element.style.marginBottom =
-                    "6px";
+        element.style.gap =
+            "3px 12px";
 
-            });
+        element.style.marginBottom =
+            "6px";
+
+    });
 
 
         printPage

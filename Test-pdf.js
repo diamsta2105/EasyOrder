@@ -14,6 +14,29 @@ function generatePDF() {
         const notesVal = document.getElementById("notes")?.value || "";
         const sellerVal = document.getElementById("seller")?.value || "";
         const totalVal = document.getElementById("total")?.innerText || "0,00 €";
+        const newCustomerVal =
+    document.getElementById("newCustomer")?.checked || false;
+
+const professionVal =
+    document.getElementById("profession")?.value || "";
+
+const addressVal =
+    document.getElementById("address")?.value || "";
+
+const phoneVal =
+    document.getElementById("phone")?.value || "";
+
+const mobileVal =
+    document.getElementById("mobile")?.value || "";
+
+const vatNumberVal =
+    document.getElementById("vatNumber")?.value || "";
+
+const taxOfficeVal =
+    document.getElementById("taxOffice")?.value || "";
+
+const emailVal =
+    document.getElementById("email")?.value || "";
 
         // Συλλογή προϊόντων από τον πίνακα
         const productRows = document.querySelectorAll("#products tr");

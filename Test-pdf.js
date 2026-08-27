@@ -209,7 +209,66 @@ doc.text(
     y + 12
 );
 
-y += 24;
+if (order.newCustomer) {
+
+    doc.setFontSize(9);
+
+    doc.text(
+        "ΕΠΑΓΓΕΛΜΑ:  " +
+        (order.profession || "-"),
+        15,
+        y + 18
+    );
+
+    doc.text(
+        "ΑΦΜ:  " +
+        (order.vatNumber || "-"),
+        105,
+        y + 18
+    );
+
+    doc.text(
+        "ΔΙΕΥΘΥΝΣΗ:  " +
+        (order.address || "-"),
+        15,
+        y + 24
+    );
+
+    doc.text(
+        "ΤΗΛΕΦΩΝΟ:  " +
+        (order.phone || "-"),
+        15,
+        y + 30
+    );
+
+    doc.text(
+        "ΚΙΝΗΤΟ:  " +
+        (order.mobile || "-"),
+        105,
+        y + 30
+    );
+
+    doc.text(
+        "ΔΟΥ:  " +
+        (order.taxOffice || "-"),
+        15,
+        y + 36
+    );
+
+    doc.text(
+        "EMAIL:  " +
+        (order.email || "-"),
+        105,
+        y + 36
+    );
+
+    y += 48;
+
+} else {
+
+    y += 24;
+
+}
 
         // =====================
         // ΠΙΝΑΚΑΣ ΠΡΟΪΟΝΤΩΝ

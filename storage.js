@@ -1005,6 +1005,99 @@ onclick="deleteOrder(${index})">
 
 }
 
+// ==========================================
+// Μετακίνηση πρόχειρης παραγγελίας
+// ==========================================
+
+function moveDraftOrder(
+    index,
+    direction
+) {
+
+    const orders =
+        JSON.parse(
+            localStorage.getItem(
+                "draftOrders"
+            )
+        ) || [];
+
+
+    const currentOrder =
+        orders[index];
+
+
+    if (
+        !currentOrder ||
+        currentOrder.status ===
+            "Οριστικοποιημένη"
+    ) {
+
+        return;
+
+    }
+
+
+    const draftOrders =
+        orders
+        .filter(order =>
+            order.status !==
+                "Οριστικοποιημένη"
+        )
+        .sort(
+            (a, b) =>
+                a.draftPosition -
+                b.draftPosition
+        );
+
+
+    const currentPosition =
+        draftOrders.indexOf(
+            currentOrder
+        );
+
+
+    const targetPosition =
+        currentPosition +
+        direction;
+
+
+    if (
+        currentPosition === -1 ||
+        targetPosition < 0 ||
+        targetPosition >=
+            draftOrders.length
+    ) {
+
+        return;
+
+    }
+
+
+    const targetOrder =
+        draftOrders[targetPosition];
+
+
+    const oldPosition =
+        currentOrder.draftPosition;
+
+
+    currentOrder.draftPosition =
+        targetOrder.draftPosition;
+
+
+    targetOrder.draftPosition =
+        oldPosition;
+
+
+    localStorage.setItem(
+        "draftOrders",
+        JSON.stringify(orders)
+    );
+
+
+    showDrafts();
+
+}
 
 // Άνοιγμα / κλείσιμο μενού ⋮
 

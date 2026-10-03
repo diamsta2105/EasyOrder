@@ -644,7 +644,21 @@ function showDrafts() {
         );
 
 
-    // Νεότερη ημερομηνία πρώτη
+// Αρχική ταξινόμηση των πρόχειρων
+// και δημιουργία αποθηκευμένης θέσης
+
+const needsDraftPositions =
+    draftOrders.some(order =>
+        !Number.isFinite(
+            order.draftPosition
+        )
+    );
+
+
+if (needsDraftPositions) {
+
+    // Την πρώτη φορά διατηρούμε
+    // τη σημερινή σειρά εμφάνισης
 
     draftOrders.sort(
         (a, b) =>
@@ -653,11 +667,42 @@ function showDrafts() {
     );
 
 
-    completedOrders.sort(
-        (a, b) =>
-            new Date(b.date) -
-            new Date(a.date)
+    draftOrders.forEach(
+        (order, position) => {
+
+            order.draftPosition =
+                position;
+
+        }
     );
+
+
+    localStorage.setItem(
+        "draftOrders",
+        JSON.stringify(orders)
+    );
+
+}
+
+
+// Από εδώ και πέρα χρησιμοποιούμε
+// τη χειροκίνητη σειρά
+
+draftOrders.sort(
+    (a, b) =>
+        a.draftPosition -
+        b.draftPosition
+);
+
+
+// Οι ολοκληρωμένες συνεχίζουν
+// να ταξινομούνται με ημερομηνία
+
+completedOrders.sort(
+    (a, b) =>
+        new Date(b.date) -
+        new Date(a.date)
+);
 
 
     // Ενημέρωση αριθμών

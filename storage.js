@@ -388,6 +388,12 @@ email:
         order.locked =
         oldOrder.locked;
 
+        order.draftPosition =
+    Number.isFinite(
+        oldOrder.draftPosition
+    )
+        ? oldOrder.draftPosition
+        : 0;
 
 
         drafts[editingOrderIndex] =
@@ -429,8 +435,34 @@ order.id =
 currentOrderNumber++;
 
 
-drafts.push(order);
+// Βρίσκουμε την τελευταία θέση
+// των πρόχειρων παραγγελιών
 
+const existingDraftPositions =
+    drafts
+    .filter(savedOrder =>
+        savedOrder.status !==
+        "Οριστικοποιημένη"
+    )
+    .map(savedOrder =>
+        savedOrder.draftPosition
+    )
+    .filter(position =>
+        Number.isFinite(position)
+    );
+
+
+order.draftPosition =
+    existingDraftPositions.length > 0
+
+        ? Math.max(
+            ...existingDraftPositions
+        ) + 1
+
+        : 0;
+
+
+drafts.push(order);
 
 
     localStorage.setItem(

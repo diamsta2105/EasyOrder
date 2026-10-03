@@ -827,6 +827,28 @@ ${order.total || "0.00 €"}
 
 <button
 type="button"
+class="moveOrderButton"
+title="Μετακίνηση προς τα πάνω"
+onclick="moveDraftOrder(${index}, -1)">
+
+↑
+
+</button>
+
+
+<button
+type="button"
+class="moveOrderButton"
+title="Μετακίνηση προς τα κάτω"
+onclick="moveDraftOrder(${index}, 1)">
+
+↓
+
+</button>
+
+
+<button
+type="button"
 class="openOrderButton"
 onclick="openOrder(${index})">
 
